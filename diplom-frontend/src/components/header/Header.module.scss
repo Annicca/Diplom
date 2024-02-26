@@ -1,0 +1,31 @@
+.header {
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    &_mobile {
+        padding: 15px 20px;
+        background-color: #FFD700;
+    }
+
+    &__list {
+        width: 100%;
+        max-width: 460px;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__link {
+        font-size: 16px;
+        font-weight: 500;
+        color: #FF6B00;
+
+        &:hover {
+            transition: color 0.3s ease-in-out;
+            color: #FFA15E;
+        }
+    }
+}
+
