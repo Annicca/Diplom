@@ -1,3 +1,5 @@
+@import '../../utils/const.scss';
+
 .header {
     position: relative;
     padding: 20px;
@@ -8,7 +10,7 @@
 
     &_mobile {
         padding: 15px 20px;
-        background-color: #FFD700;
+        background-color: $yellow;
     }
 
     &__list {
@@ -20,11 +22,11 @@
     &__link {
         font-size: 16px;
         font-weight: 500;
-        color: #FF6B00;
+        color: $orange;
 
         &:hover {
             transition: color 0.3s ease-in-out;
-            color: #FFA15E;
+            color: $light-orange;
         }
     }
 }

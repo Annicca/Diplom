@@ -1,4 +1,4 @@
-export interface ImageLink {
+export interface TImageLink {
     src: string,
     alt: string,
     link: string

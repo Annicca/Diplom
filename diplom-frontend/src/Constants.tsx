@@ -1,4 +1,4 @@
-import { ImageLink } from "./types/ImageLink";
+import { TImageLink } from "./types/TImageLink";
 import { TypeLink } from "./types/TypeLink";
 
 export const IS_MOBILE = window.innerWidth <= 780;
@@ -37,7 +37,7 @@ export const footerList: TypeLink[] = [
     }
 ];
 
-export const socials: ImageLink[] = [
+export const socials: TImageLink[] = [
     {
         src: '/icons/youtube.svg',
         alt: 'Youtube',
