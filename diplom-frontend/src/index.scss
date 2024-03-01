@@ -1,8 +1,15 @@
-@import './utils/reset.css';
+@import 'utils/reset.css';
+@import 'utils/const.scss';
 
 :root {
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
+  font-size: 16px;
+  box-sizing: border-box;
+
+  @media (max-width: map-get($breackpoints, laptop)){
+    font-size: 14px;
+  }
 }
 
 a {
@@ -30,4 +37,37 @@ body {
   padding-right: 20px;
   padding-left: 20px;
   margin: 0 auto;
+}
+
+.main-container {
+  padding: 100px 20px 150px;
+
+  @media (max-width: map-get($breackpoints, laptop)){
+    padding: 60px 20px 80px;
+  }
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(3,  calc(100% / 3 - 2%));
+  justify-content: space-between;
+  row-gap: 60px;
+
+  @media (max-width: map-get($breackpoints, desktop)){
+    grid-template-columns: repeat(2,  calc(100% / 2 - 1%));
+    row-gap: 40px;
+  }
+
+  @media (max-width: map-get($breackpoints, tablet)){
+    row-gap: 40px;
+  }
+
+  @media (max-width: map-get($breackpoints, laptop)){
+    grid-template-columns: 1fr;
+  }
+}
+
+.text-orange {
+  font-weight: 500;
+  color: $orange;
 }

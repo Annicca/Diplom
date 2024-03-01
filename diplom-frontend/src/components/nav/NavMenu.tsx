@@ -21,20 +21,20 @@ export const NavMenu: FC = () => {
                         className = {({ isActive }) => !isActive ? styles.nav__link : classNames(styles.nav__link, styles.nav__link_select) }
                     >
                         {IS_MOBILE && <CompetitionIcon key = {'competition'} className={styles.nav__icon} width={30} height={30} fill="#4F4F4F" />}
-                        Конкурсы
+                        <span>Конкурсы</span>
                     </NavLink>
                     <NavLink 
                         to = "groups" 
                         className = {({ isActive })=> !isActive ? styles.nav__link : classNames(styles.nav__link, styles.nav__link_select)} 
                     >
                         {IS_MOBILE && <GroupIcon key = {"group"} className={styles.nav__icon} width={30} height={30} fill="#4F4F4F" />}
-                        Коллективы
+                        <span>Коллективы</span>
                     </NavLink>
                     {IS_MOBILE && <NavLink 
                         to = "account" 
                         className = {({ isActive })=> !isActive ? styles.nav__link : classNames(styles.nav__link, styles.nav__link_select)} >
                         <LkIcon className={styles.nav__icon} width={30} height={30} fill="#4F4F4F" />
-                        кабинет
+                        <span>кабинет</span>
                     </NavLink>}
                 </div>
                 

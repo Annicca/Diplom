@@ -2,7 +2,9 @@ import { FC } from "react";
 import { QueryClient, useQuery } from "react-query";
 import { useLoaderData } from "react-router-dom";
 import { PageLayout } from "src/components/layout/PageLayout";
+import List from "src/components/list/List";
 import { TCompetition } from "src/types/TCompetition";
+import { Competition } from "src/uikit/competition/Competition";
 import { fetchData } from "src/utils/fetch";
 
 const competitionQuery = () => ({
@@ -11,7 +13,7 @@ const competitionQuery = () => ({
     staleTime: 5 * 1000
 })
 
-export const loader = (queryClient: QueryClient) => async() => {
+export const loader = (queryClient: QueryClient) => async(): Promise<TCompetition[]> => {
     const query = competitionQuery();
 
     return queryClient.fetchQuery(query);
@@ -29,7 +31,7 @@ export const Competitions: FC = () => {
 
     if (isSuccess) return(
         <PageLayout>
-            <h1>{competitions[0].nameCompetition}</h1>
+            <List items={competitions} className="list" renderItem={(item: TCompetition) => <Competition key = {item.idCompetition} competition={item}/>} />
         </PageLayout>
     )
 }

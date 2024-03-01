@@ -1,5 +1,8 @@
+import { ReactNode } from "react"
+
 export interface TImageLink {
-    src: string,
-    alt: string,
+    icon?: ReactNode,
+    src?: string,
+    alt?: string,
     link: string
 }
