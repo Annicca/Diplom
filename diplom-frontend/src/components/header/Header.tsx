@@ -1,7 +1,7 @@
 import { FC } from "react"
 import classNames from "classnames";
 import { Link } from 'react-router-dom';
-import List from "../list/List";
+import { List } from "../list/List";
 import { LinkItem } from "../link/LinkItem";
 import { Search } from "../../uikit/search/Search";
 import { IS_MOBILE, header } from "../../Constants";
@@ -14,7 +14,9 @@ export const Header: FC = () => {
     if (!IS_MOBILE) return (
         <header className={classNames('container',styles.header)}>
             <Link to = "/"><Logo /></Link>
-            <List items={header} renderItem={(item) => <LinkItem key = {item.title} item={item} className={styles.header__link} />} className={styles.header__list} />
+            <List 
+            items={header} 
+            renderItem={(item) => <LinkItem key = {item.title} item={item} className={styles.header__link} />} className={styles.header__list} />
         </header>
     )
     else return (

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import classNames from "classnames";
 import {footerList, socials } from "../../Constants";
-import List from "../list/List";
+import { List } from "../list/List";
 import { LinkItem } from "../link/LinkItem";
 import { ImageLinkItem } from "../link/ImageLinkItem";
 
