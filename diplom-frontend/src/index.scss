@@ -1,5 +1,6 @@
 @import 'utils/reset.css';
 @import 'utils/const.scss';
+@import 'react-loading-skeleton/dist/skeleton.css';
 
 :root {
   font-family: "Open Sans", sans-serif;
@@ -20,6 +21,7 @@ a {
 body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
+  background-color: $background;
 }
 
 .wrapper {
@@ -47,27 +49,14 @@ body {
   }
 }
 
-.list {
-  display: grid;
-  grid-template-columns: repeat(3,  calc(100% / 3 - 2%));
-  justify-content: space-between;
-  row-gap: 60px;
-
-  @media (max-width: map-get($breackpoints, desktop)){
-    grid-template-columns: repeat(2,  calc(100% / 2 - 1%));
-    row-gap: 40px;
-  }
-
-  @media (max-width: map-get($breackpoints, tablet)){
-    row-gap: 40px;
-  }
-
-  @media (max-width: map-get($breackpoints, laptop)){
-    grid-template-columns: 1fr;
-  }
-}
-
 .text-orange {
   font-weight: 500;
   color: $orange;
 }
+
+.skeleton {
+  &-competition{
+    height: 200px;
+  }
+}
+

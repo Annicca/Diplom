@@ -48,6 +48,7 @@
         font-size: 18px;
         text-transform: uppercase;
         color: $black;
+        background-color: $background;
 
         @media (max-width: 780px) {
             min-width: auto;

@@ -15,8 +15,11 @@
     "postcss": "^8.4.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-inview": "^4.5.0",
+    "react-loading-skeleton": "^3.4.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.22.0",
+    "react-spinners": "^0.13.8",
     "vite-plugin-svgr": "^4.2.0"
   },
   "devDependencies": {

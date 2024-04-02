@@ -6,6 +6,7 @@
     gap: 5%;
     border: 1px solid $border-gray;
     border-radius: 10px;
+    // background-color: $white;
     
     @media (max-width: map-get($breackpoints, laptop)){
         flex-direction: column;

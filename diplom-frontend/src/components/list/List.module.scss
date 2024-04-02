@@ -1,0 +1,26 @@
+@import 'utils/const.scss';
+
+.list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 60px;
+    &_competitions {
+        display: grid;
+        grid-template-columns: repeat(3,  calc(100% / 3 - 2%));
+        justify-content: space-between;
+        row-gap: 60px;
+      
+        @media (max-width: map-get($breackpoints, desktop)){
+          grid-template-columns: repeat(2,  calc(100% / 2 - 1%));
+          row-gap: 40px;
+        }
+      
+        @media (max-width: map-get($breackpoints, tablet)){
+          row-gap: 40px;
+        }
+      
+        @media (max-width: map-get($breackpoints, laptop)){
+          grid-template-columns: 1fr;
+        }
+    }
+}

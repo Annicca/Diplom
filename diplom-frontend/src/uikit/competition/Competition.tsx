@@ -3,7 +3,7 @@ import { TCompetition } from "src/types/TCompetition";
 import { Contact } from "../contact/Contact";
 import { chooseStatusCompetition } from "src/utils/choose";
 import { transformDate } from "src/utils/transformDate";
-import { IS_MOBILE, URL_IMAGE } from "src/Constants";
+import { IMAGE, IS_MOBILE, URL_IMAGE } from "src/Constants";
 import CalendarIcon from 'assets/icons/calendar.svg?react';
 import PlaceIcon from 'assets/icons/place.svg?react';
 
@@ -21,7 +21,7 @@ export const Competition : FC<CompetitionProps> = ({competition}) => {
     return(
         <div className={style.competition}>
             <div className={style.competition__imgcontainer}> 
-                <img src= {URL_IMAGE + competition.img} alt = {`Фото конкурса ${competition.nameCompetition}`} className = {style.competition__img} />
+                <img src= {competition.img ? URL_IMAGE + competition.img : IMAGE} alt = {`Фото конкурса ${competition.nameCompetition}`} className = {style.competition__img} />
                 {!IS_MOBILE && status}
             </div>
             <div className={style.competition__info}>
