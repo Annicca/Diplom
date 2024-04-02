@@ -1,16 +1,17 @@
-import {ReactNode} from "react";
+import { ReactNode} from "react";
 
-interface ListProps<T>{
-    items: T[];
-    renderItem: (item: T) => ReactNode;
+export interface ListProps<T>{
+    items: T[] | undefined,
+    renderItem: (item: T, index?:number) => ReactNode;
     className?: string
 }
 
-export default function List<T>(props: ListProps<T>){
+export const List = <T,>(props: ListProps<T>) => {
     return(
         <ul className={props.className}>
-            {props.items.map(props.renderItem)}
+            {props.items?.map(props.renderItem)}
         </ul>
     )
-
 }
+
+

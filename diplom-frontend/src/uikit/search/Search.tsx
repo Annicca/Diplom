@@ -1,6 +1,6 @@
 import {FC, useState, Dispatch, SetStateAction} from "react";
 import { Input } from "../input/Input";
-import { SearchIcon } from "../../icons/SearchIcon";
+import SearchIcon from 'assets/icons/search.svg?react'
 import styles from './Search.module.scss'
 
 

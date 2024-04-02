@@ -1,0 +1,62 @@
+@import 'utils/reset.css';
+@import 'utils/const.scss';
+@import 'react-loading-skeleton/dist/skeleton.css';
+
+:root {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  box-sizing: border-box;
+
+  @media (max-width: map-get($breackpoints, laptop)){
+    font-size: 14px;
+  }
+}
+
+a {
+  font-family: inherit;
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  background-color: $background;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: 1690px;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin: 0 auto;
+}
+
+.main-container {
+  padding: 100px 20px 150px;
+
+  @media (max-width: map-get($breackpoints, laptop)){
+    padding: 60px 20px 80px;
+  }
+}
+
+.text-orange {
+  font-weight: 500;
+  color: $orange;
+}
+
+.skeleton {
+  &-competition{
+    height: 200px;
+  }
+}
+

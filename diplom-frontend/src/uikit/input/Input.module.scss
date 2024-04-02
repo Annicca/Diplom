@@ -1,9 +1,11 @@
+@import '../../utils/const.scss';
+
 .input {
     border: none;
     border-radius: 15px;
     padding: 8px 40px;
     width: 100%;
-    color: #888888;
+    color: $light-gray;
     font-family: inherit;
     font-weight: 500;
     font-size: 16px;

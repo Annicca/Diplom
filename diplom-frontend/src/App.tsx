@@ -1,6 +1,9 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import { Layout } from './components/layout/Layout';
+import { Competitions, loader as competitionLoader } from './pages/Competitions';
+import { QueryClientProvider } from 'react-query';
+import { queryClient } from './utils/queryClient';
 
 const router = createBrowserRouter([
   {
@@ -10,7 +13,8 @@ const router = createBrowserRouter([
       {
         path: "",
         index: true,
-        element: <div>Competitions</div>
+        element: <Competitions />,
+        loader: competitionLoader(queryClient)
       },
       {
         path: "groups",
@@ -35,9 +39,9 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-    </>
+    </QueryClientProvider>
   )
 }
 
