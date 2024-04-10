@@ -10,15 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query-devtools": "^4.36.1",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "postcss": "^8.4.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.2",
     "react-hook-inview": "^4.5.0",
     "react-loading-skeleton": "^3.4.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.22.0",
+    "react-select": "^5.8.0",
     "react-spinners": "^0.13.8",
     "vite-plugin-svgr": "^4.2.0"
   },

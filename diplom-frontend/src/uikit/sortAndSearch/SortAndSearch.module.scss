@@ -1,0 +1,24 @@
+@import 'utils/const.scss';
+
+.sortSearch {
+
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 60px;
+
+    @media (max-width: map-get($breackpoints, tablet)){
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    &__sort {
+        input {
+            display: none;
+        }
+
+        svg {
+            transform: rotate(180deg)
+        }
+    }
+}

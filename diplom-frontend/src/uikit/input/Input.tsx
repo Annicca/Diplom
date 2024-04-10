@@ -1,17 +1,13 @@
-import { FC } from "react"
+import { FC, InputHTMLAttributes, LegacyRef } from "react"
 import classNames from "classnames"
 import style from './Input.module.scss'
 
-interface InputProps{
-    type: string,
-    placeholder?: string, 
-    defaultValue?: string, 
-    onChange?: () => void,
-    className?: string
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    inputRef?: LegacyRef<HTMLInputElement>
 }
 
-export const Input: FC<InputProps> =({type, placeholder, defaultValue, onChange, className}) => {
+export const Input: FC<InputProps> =({className, inputRef, ...props}) => {
     return(
-        <input type = {type} placeholder={placeholder} defaultValue = {defaultValue} onChange={onChange} className={classNames(style.input, className)} />
+        <input className={classNames(style.input, className)} {...props} ref={inputRef}/>
     )
 }

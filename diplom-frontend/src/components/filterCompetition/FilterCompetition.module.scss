@@ -1,0 +1,124 @@
+@import 'utils/const.scss';
+
+.filter {
+    width: 20%;
+
+    @media (max-width:  map-get($breackpoints, desktop)) {
+        width: 35%
+    }
+
+    @media (max-width:  map-get($breackpoints, tablet)) {
+        width: auto
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        column-gap: 20px;
+        span {
+            font-size: 30px;
+            font-weight: 600;
+
+            @media (max-width:  map-get($breackpoints, tablet)) {
+                display: none;
+            }
+        }
+
+        @media (max-width:  map-get($breackpoints, tablet)) {
+            justify-content: flex-end
+        }
+       
+    }
+    
+    &__open {
+        display: inline-block;
+        padding: 5px;
+        border-radius: 10px;
+        background-color: $light-orange;
+        border: none;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        z-index: 1;
+        top: 40px;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 10px;
+        background-color: $peach;
+
+        input {
+            margin-top: 10px;
+            padding: 5px 10px 5px 20px;
+        }
+
+        @media (max-width:  map-get($breackpoints, tablet)) {
+            position: fixed;
+            justify-content: center;
+            row-gap: 30px;
+            z-index: 1;
+            width: 100%;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            margin-top: 0;
+            padding: 0 40px;
+            background-color: $white;
+            box-sizing: border-box;
+            border-radius: 0;
+            overflow: hidden;
+
+            label {
+                font-size: 18px;
+            }
+
+            input {
+                padding-bottom: 10px;
+                border-radius: 0;
+                border-bottom: 1px solid $light-gray;
+            }
+        }
+    }
+
+    &__checkbox label{
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+        input {
+            width: fit-content;
+            padding: 0;
+            margin: 0;
+            order: -1;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-between;
+
+        @media (max-width:  map-get($breackpoints, tablet)) {
+            flex-direction: column;
+            row-gap: 20px;
+        }
+    }
+
+    &__submit, &__reset {
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        background-color: $light-orange;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-family: "Open Sans", sans-serif;
+    }
+
+    &__close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: inherit;
+        border: none;
+    }
+}
