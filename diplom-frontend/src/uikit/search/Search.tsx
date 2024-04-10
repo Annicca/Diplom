@@ -1,30 +1,37 @@
-import {FC, useState, Dispatch, SetStateAction} from "react";
+import {FC, useRef} from "react";
 import { Input } from "../input/Input";
-import SearchIcon from 'assets/icons/search.svg?react'
+import SearchIcon from 'assets/icons/search.svg?react';
+import CancelIcon from 'assets/icons/cancel.svg?react';
+import classNames from "classnames";
+
 import styles from './Search.module.scss'
 
-
 interface SearchProps {
-    // searchText?: string,
     placeholder?: string,
-    // setValue?: (s: string) => {}
+    classNameContainer?: string
+    handleSearch: (s: string) => void
 }
 
-export const Search: FC<SearchProps> = ({placeholder}) =>{
+export const Search: FC<SearchProps> = ({handleSearch, placeholder, classNameContainer}) =>{
 
-    const [valueSearch, setValueSearch] = useState<string>('');
+    const cityRef = useRef<HTMLInputElement>(null)
+    
+    const search =(event: React.FormEvent<HTMLFormElement> ) => {
+        event.preventDefault();
+        cityRef.current && handleSearch(cityRef.current.value)
+    }
 
-    const search =(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, setValue: Dispatch<SetStateAction<string>>, valueSearch: string ) => {
-        e.preventDefault();
-        setValue(valueSearch)
+    const onReset = () => {
+        handleSearch('')
     }
 
     return(
-        <form className={styles.search} >
-            <Input type = "text" placeholder={valueSearch ? valueSearch : placeholder} defaultValue = {valueSearch} className={styles.search__input} />
-            <button type = "submit" className={styles.search__button} onClick={(e) => search(e, setValueSearch, valueSearch )} >
+        <form className={classNames(styles.search, classNameContainer)} onSubmit={(e) => search(e)} onReset={onReset} >
+            <Input name = "city" type = "text" placeholder={placeholder} inputRef={cityRef} className={styles.search__input} />
+            <button type = "submit" className={styles.search__button} >
                 <SearchIcon />
             </button>
+            <button type="reset" className={styles.search__reset}><CancelIcon width={20} height={20} /></button>
         </form>
     )
 }

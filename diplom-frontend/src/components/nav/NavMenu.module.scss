@@ -3,7 +3,7 @@
 .nav {
     background-color: $yellow;
 
-    @media (max-width: 780px) {
+    @media (max-width: map-get($breackpoints, tablet)) {
         width: 100%;
         position: fixed;
         z-index: 1;
@@ -21,7 +21,7 @@
         justify-content: space-between;
         padding: 15px 20px;
 
-        @media (max-width: 780px) {
+        @media (max-width: map-get($breackpoints, tablet)) {
             padding: 10px 20px;
         }
     }
@@ -30,7 +30,7 @@
         display: flex;
         gap: 10%;
 
-        @media (max-width: 780px) {
+        @media (max-width: map-get($breackpoints, tablet)) {
             width: 100%;
             max-width: 250px;
             margin: 0 auto;
@@ -50,7 +50,7 @@
         color: $black;
         background-color: $background;
 
-        @media (max-width: 780px) {
+        @media (max-width:map-get($breackpoints, tablet)) {
             min-width: auto;
             display: flex;
             flex-direction: column;
@@ -67,7 +67,7 @@
             transition: background-color 0.3s linear;
             background-color:  $light-yellow;
 
-            @media(max-width: 780px) {
+            @media(max-width: map-get($breackpoints, tablet)) {
                 background-color: inherit;
                 color: $orange;
 

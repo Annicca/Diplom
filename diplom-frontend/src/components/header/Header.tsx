@@ -8,8 +8,11 @@ import { IS_MOBILE, header } from "../../Constants";
 import Logo from "assets/icons/logo.svg?react";
 
 import styles from './Header.module.scss';
+import { useSearchContext } from "src/context/context";
 
 export const Header: FC = () => {
+
+    const {handleChangeValue} = useSearchContext()
 
     if (!IS_MOBILE) return (
         <header className={classNames('container',styles.header)}>
@@ -21,7 +24,7 @@ export const Header: FC = () => {
     )
     else return (
         <header className={classNames('container',styles.header_mobile)}>
-            <Search placeholder="Введите город"/>
+            <Search handleSearch={handleChangeValue} placeholder="Введите город"/>
         </header>
     )
 }

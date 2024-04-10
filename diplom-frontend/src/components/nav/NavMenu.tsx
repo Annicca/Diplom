@@ -6,6 +6,7 @@ import GroupIcon from "assets/icons/scene.svg?react";
 import CompetitionIcon from "assets/icons/competitions.svg?react";
 import LkIcon from "assets/icons/lk.svg?react";
 import UserIcon from "assets/icons/user.svg?react";
+
 import styles from './NavMenu.module.scss'
 
 

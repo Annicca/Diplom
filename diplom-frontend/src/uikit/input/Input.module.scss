@@ -1,9 +1,10 @@
 @import '../../utils/const.scss';
 
 .input {
+    box-sizing: border-box;
     border: none;
     border-radius: 15px;
-    padding: 8px 40px;
+    padding: 10px 40px;
     width: 100%;
     color: $light-gray;
     font-family: inherit;

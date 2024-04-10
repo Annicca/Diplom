@@ -33,7 +33,8 @@ export default defineConfig({
       components: '/src/components',
       hooks: 'src/hooks',
       utils: '/src/utils',
-      assets: '/src/assets'
+      assets: '/src/assets',
+      types: '/src/types'
     }
   }
 })

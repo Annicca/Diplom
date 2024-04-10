@@ -1,20 +1,44 @@
+@import 'utils/const.scss';
+
 .search {
     position: relative;
     display: flex;
     height: 100%;
-    width: 100%;
+    width: 30%;
+
+    @media (max-width: map-get($breackpoints, tablet)){
+        width: 100%;
+    }
 
     &__input {
-        width: 100%
+        width: 100%;
+        padding: 15px 40px;
+        background-color: $peach;
+
+        @media (max-width: map-get($breackpoints, tablet)){
+            background-color: $white;
+        }
     }
 
     &__button {
         position: absolute;
         background: inherit;
-        top: 5px;
+        top: 10px;
         left: 5px;
         width: 10px;
         height: 10px;
         border: none;
+        cursor: pointer;
+    }
+
+    &__reset {
+        position: absolute;
+        background: inherit;
+        top: 10px;
+        right: 25px;
+        width: 10px;
+        height: 10px;
+        border: none;
+        cursor: pointer;
     }
 }

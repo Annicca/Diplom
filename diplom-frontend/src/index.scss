@@ -1,6 +1,5 @@
 @import 'utils/reset.css';
 @import 'utils/const.scss';
-@import 'react-loading-skeleton/dist/skeleton.css';
 
 :root {
   font-family: "Open Sans", sans-serif;
@@ -22,6 +21,10 @@ body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   background-color: $background;
+
+  &.open-model {
+    position: fixed;
+  }
 }
 
 .wrapper {
@@ -44,9 +47,18 @@ body {
 .main-container {
   padding: 100px 20px 150px;
 
+  @media (max-width: map-get($breackpoints, tablet)){
+    padding: 60px 40px 80px;
+  }
+
   @media (max-width: map-get($breackpoints, laptop)){
     padding: 60px 20px 80px;
   }
+}
+
+.competitions-container {
+  display: flex;
+  column-gap: 3%;
 }
 
 .text-orange {
@@ -55,7 +67,11 @@ body {
 }
 
 .skeleton {
+  display: block;
+  width: 100%;
+  line-height: 1;
   &-competition{
+    display: block;
     height: 200px;
   }
 }

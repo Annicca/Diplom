@@ -1,9 +1,12 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
-import { Layout } from './components/layout/Layout';
-import { Competitions, loader as competitionLoader } from './pages/Competitions';
-import { QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './utils/queryClient';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Layout } from './components/layout/Layout';
+import { Competitions} from './pages/Competitions/Competitions';
+import { competitionLoader } from './pages/Competitions/loader';
+import { SearchContextProvider } from './context/context';
 
 const router = createBrowserRouter([
   {
@@ -14,11 +17,16 @@ const router = createBrowserRouter([
         path: "",
         index: true,
         element: <Competitions />,
-        loader: competitionLoader(queryClient)
+        loader: competitionLoader(queryClient),
+      },
+      {
+        path: "competitions/:id",
+        element: <></>,
+        
       },
       {
         path: "groups",
-        element: <div>Groups</div>
+        element: <div>Groups</div>,
       },
       {
         path: 'account',
@@ -39,9 +47,12 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <SearchContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </SearchContextProvider>
   )
 }
 
