@@ -19,6 +19,12 @@
         flex: 1 1 50%;
     }
 
+    &__imgcontainer {
+        @media (max-width: map-get($breackpoints, laptop)){
+            text-align: center;
+        }
+    }
+
     &__img {
         height: 180px;
         width: auto;
@@ -30,6 +36,7 @@
 
         @media (max-width: map-get($breackpoints, laptop)){
             height: auto;
+            max-height: 250px;
         }
     }
 

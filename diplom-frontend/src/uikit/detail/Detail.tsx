@@ -32,7 +32,7 @@ export const Detail:FC<DetailProps>= ({img, name, city, status, dateStart, dateF
             />
             <h1 className={style.detail__title}>{name}</h1>
             <p className={style.detail__city}>{`Город: ${city}`}</p>
-            <p className={classNames("text-orange", style.detail__status)}>{`Статус: ${status}`}</p>
+            {status && <p className={classNames("text-orange", style.detail__status)}>{`Статус: ${status}`}</p>}
             <Info 
                 dateStart={dateStart} 
                 dateFinish={dateFinish}

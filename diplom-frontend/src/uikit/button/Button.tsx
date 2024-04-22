@@ -4,16 +4,20 @@ import classNames from "classnames";
 import style from "./Button.module.scss";
 
 interface ButtonProps extends PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>> {
-    isGradient: boolean;
+    isGradient?: boolean;
+    isClear?: boolean;
 }
 
-export const Button: FC<ButtonProps> = ({children, className, isGradient, ...props}) => {
+export const Button: FC<ButtonProps> = ({children, className, isClear = false, isGradient = false, ...props}) => {
     return(
         <button 
         {...props} 
         className={classNames(
-            {[style.gradient]: isGradient },
-            className
+            {
+                [style.gradient]: isGradient,
+                [style.clear]: isClear 
+            },
+            [className]
         )}>{children}</button>
     )
 }

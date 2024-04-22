@@ -7,6 +7,10 @@
     font-size: 16px;
     font-weight: 500;
 
+    @media (max-width: map-get($breackpoints, laptop)){
+        font-size: 14px;
+    }
+
     &_border {
         padding-bottom: 10px;
         border-bottom: 1px solid $border-gray;
