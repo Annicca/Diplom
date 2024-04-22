@@ -9,7 +9,6 @@ import UserIcon from "assets/icons/user.svg?react";
 
 import styles from './NavMenu.module.scss'
 
-
 export const NavMenu: FC = () => {
 
     return(

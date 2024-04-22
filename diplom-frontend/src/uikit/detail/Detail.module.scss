@@ -1,0 +1,55 @@
+@import 'utils/const.scss';
+
+.detail {
+    width: 50%;
+    margin: 0 auto;
+    padding: 0 60px;
+    border-radius: 30px;
+    &__image {
+        display: block;
+        height: 400px;
+        width: auto;
+        object-fit: contain;
+        margin: 0 auto;
+        border-radius: 10px;
+    }
+    
+    &__title {
+        padding-top: 50px;
+        font-size: 36px;
+        font-weight: 700;
+    }
+    
+    &__info {
+        width: 40%;
+        min-width:fit-content;
+    }
+    
+    &__city {
+        padding-top: 20px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    
+    &__status{
+        padding-top: 10px;
+    }
+
+    &__description {
+        padding-top: 40px;
+        text-align: left;
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    &__button{
+        display: block;
+        width: 40%;
+        margin: 40px auto 0;
+    }
+}
+
+.detailSkeleton {
+    margin-bottom: 20px;
+}
+    

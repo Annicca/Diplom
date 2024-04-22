@@ -4,8 +4,8 @@ import { useLoaderData } from "react-router-dom";
 import { AxiosError } from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "src/utils/queryClient";
-import { competitionLoader as loader } from "./loader";
-import { competitionQuery } from "./competitionQuery";
+import { competitionsLoader as loader } from "./loader";
+import { competitionsQuery } from "./competitionsQuery";
 import classNames from "classnames";
 import { removeEmpty } from "src/utils/removeEnty";
 import { TCompetition } from "src/types/TCompetition";
@@ -24,10 +24,14 @@ export const Competitions: FC = () => {
     const {value: serachValue} = useSearchContext()
     const [filter, setFilter] = useState<TFiterCompetition>({})
     const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof loader>>>
-    const infinitedata = useInfiniteQuery<TPage<TCompetition[]>, AxiosError>({...competitionQuery(filter), initialData: initialData})
+    const infinitedata = useInfiniteQuery<TPage<TCompetition[]>, AxiosError>({...competitionsQuery(filter), initialData: initialData})
 
     const handleFilter = (filter:TFiterCompetition) => {
         setFilter(removeEmpty(filter))
+    }
+
+    const handleFilterCity = (city:string) => {
+        handleFilter({...filter, city})
     }
 
     useEffect(() => {
@@ -36,12 +40,9 @@ export const Competitions: FC = () => {
 
     useEffect(() => {
         if(IS_MOBILE) {
-            handleFilter({
-                ...filter,
-                city: serachValue
-            })
+            handleFilterCity(serachValue)
         }
-        console.log(serachValue)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [serachValue])
 
 

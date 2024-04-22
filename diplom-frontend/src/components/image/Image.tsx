@@ -1,8 +1,9 @@
 import { FC } from "react"
 import { URL_IMAGE } from "src/Constants"
+import ImageMock from 'assets/images/photo.png'
 
 interface ImageProps {
-    src: string,
+    src: string | null,
     alt: string,
     width?: number,
     height?: number,
@@ -19,7 +20,7 @@ export const Image: FC<ImageProps> = ({src,alt,width, height, className})=>{
             className = {className}
         /> :
         <img
-            src = 'assets/images/photo.png'
+            src = {ImageMock}
             alt = {alt}
             width = {width}
             height = {height}

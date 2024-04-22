@@ -1,0 +1,43 @@
+@import 'utils/const.scss';
+
+.group {
+    display: flex;
+    padding: 25px;
+    box-sizing: border-box;
+    gap: 5%;
+    border: 1px solid $border-gray;
+    border-radius: 10px;
+    color: $black;
+    text-decoration: none;
+
+    &__imgContainer,&__info {
+        flex: 1 1 50%;
+    }
+
+    &__image {
+        height: 150px;
+        width: auto;
+        max-width: 100%;
+        border: 1px solid $border-gray;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        row-gap: 30px;
+    }
+
+    &__infoSection {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    &__title {
+        font-size: 18px;
+        font-weight: 500;
+    }
+}

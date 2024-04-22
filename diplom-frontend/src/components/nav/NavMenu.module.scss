@@ -63,7 +63,7 @@
             font-weight: 600;
         }
 
-        &_select {
+        &_select, &:hover {
             transition: background-color 0.3s linear;
             background-color:  $light-yellow;
 
