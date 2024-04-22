@@ -58,9 +58,9 @@ export const FilterCompetition:FC<FilterCompetitionProps> = ({filter, handleFilt
             </div>
             {isOpen && 
             <form className={style.filter__form} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
-                <button onClick={handleOpen} className={style.filter__close}>
+                {IS_MOBILE && <button onClick={handleOpen} className={style.filter__close}>
                     <CloseIcon width={20} height={20} />
-                </button>
+                </button>}
                 <InputControl 
                 register={register}
                 type = "date" 
@@ -80,6 +80,7 @@ export const FilterCompetition:FC<FilterCompetitionProps> = ({filter, handleFilt
                 <InputControl 
                 register={register}
                 type = "checkbox" 
+                id="isStatusCompetition"
                 name="isStatusCompetition"
                 label="Набор участников"
                 error = {errors?.isStatusCompetition?.message}

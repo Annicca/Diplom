@@ -8,6 +8,6 @@ export interface TUser {
     loginUser: string,
     passwordUser: string,
     mailUser: string,
-    phoneUser: string,
+    phoneUser?: string,
     role: ERole
 }

@@ -12,6 +12,10 @@
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
 a {
   font-family: inherit;
   text-decoration: none;
@@ -70,6 +74,7 @@ body {
   display: block;
   width: 100%;
   line-height: 1;
+  border-radius: 10px;
   &-competition{
     display: block;
     height: 200px;

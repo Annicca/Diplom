@@ -5,7 +5,7 @@ import { TUser } from "./TUser";
 
 export interface TCompetition {
     idCompetition: number,
-    user: TUser,
+    organizer: TUser,
     nameCompetition: string,
     descriptionCompetition: string,
     dateStart:string,

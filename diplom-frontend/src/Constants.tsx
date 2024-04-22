@@ -7,7 +7,6 @@ import TgIcon from 'assets/icons/telegram.svg?react';
 
 export const IS_MOBILE = window.innerWidth <= 1024;
 export const URL_IMAGE = "http://localhost:8080/img/"
-export const IMAGE = 'src/assets/images/photo.png'
 
 export const header: TypeLink[] = [
     {

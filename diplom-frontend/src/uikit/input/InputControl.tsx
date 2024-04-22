@@ -26,10 +26,17 @@ export const InputControl = <T extends FieldValues,>( props : InputControlProps<
     const {label, register, required, name, maxLength, minLength, max, min, patternInput, validate, error, classNameContainer, ...inputProps} = props
     
     return(
-        <div className={classNameContainer}>
-            <label> {label} 
+        <div className={classNames(
+            classNameContainer,
+            style.inputContainer,
+            {[style.checkboxContainer]: props.type === 'checkbox'}
+        )}>
             <input
-                className={classNames(style.input, props.className)} 
+                className={classNames(
+                    style.input, 
+                    props.className,
+                    {[style.checkbox]: props.type === 'checkbox'}
+                )} 
                 {...register(name, { 
                     required,
                     maxLength: maxLength,
@@ -41,7 +48,7 @@ export const InputControl = <T extends FieldValues,>( props : InputControlProps<
                 })} 
                 {...inputProps} 
             />
-            </label>
+            <label htmlFor={props.name}> {label}</label>
             <div>{error}</div>
         </div>
     )

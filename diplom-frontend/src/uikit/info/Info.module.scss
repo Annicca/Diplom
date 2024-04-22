@@ -1,0 +1,20 @@
+@import 'utils/const.scss';
+
+.container {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    padding: 20px;
+    margin-top: 20px;
+    row-gap: 20px;
+    border-radius: 10px;
+    background-color: $peach;
+    font-size: 20px;
+    font-weight: 600;
+    
+    &__item {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+}
