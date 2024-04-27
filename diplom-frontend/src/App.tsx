@@ -16,6 +16,7 @@ import { GroupDetail } from './pages/GroupDetail/GroupDetail';
 import { Account } from './pages/Account/Account';
 import { Login } from './components/auth/Login';
 import { UserProvider } from './context/user-context/UserProvider';
+import { Register } from './components/auth/Register';
 
 
 const router = createBrowserRouter([
@@ -55,8 +56,8 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: '/registration',
-    element: <div>Registration</div>
+    path: '/signin',
+    element: <Register />
   }
 ]);
 

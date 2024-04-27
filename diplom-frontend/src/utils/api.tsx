@@ -7,6 +7,11 @@ export interface ILoginRequest {
     password: string
 }
 
+/**
+ * Регистрация пользователя
+ * @param loginData - должно содержать логин и пароль
+ * @returns пользователя
+ */
 export const login = async (loginData: ILoginRequest):Promise<TUser> => {
     return instance.post('login', loginData)
         .then((response) => {
@@ -21,3 +26,29 @@ export const login = async (loginData: ILoginRequest):Promise<TUser> => {
             else throw new Error(error.message)
         })
 }
+
+export interface IRegisterRequest {
+    surnameUser: string,
+    nameUser: string,
+    patronimycUser?: string,
+    loginUser: string,
+    mailUser: string,
+    phoneUser?: string,
+    passwordUser: string,
+    confirmPassword?: string
+}
+
+export const registerUser = async(registerData: IRegisterRequest):Promise<TUser> => {
+    delete registerData.confirmPassword
+    return instance.post('register', registerData)
+        .then((response) => {
+            setCookie('jwt',response.data.token,{path:"/"});
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            return response.data.user;
+        })
+        .catch((error) =>{
+            if(error.response) throw new Error(error.response.data.message)
+            else throw new Error(error.message)
+        })
+}
+

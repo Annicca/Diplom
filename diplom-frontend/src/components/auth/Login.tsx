@@ -64,7 +64,7 @@ export const Login:FC = () => {
                     error={errors.password && errors.password.message}
                 />
                 {mainError && <div className = 'error-text'>{mainError}</div>}
-                <Button className = {style.button} type = "submit">Войти</Button>
+                <Button type = "submit">Войти</Button>
             </form>
         </div>
     )
