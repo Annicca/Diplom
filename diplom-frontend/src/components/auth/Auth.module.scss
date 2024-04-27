@@ -1,0 +1,22 @@
+@import 'utils/const.scss';
+
+.container{
+    background: linear-gradient(114.22deg, $yellow74 16.81%, $orange 90.11%);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.form{
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    background-color: $white;
+    text-align: center;
+    padding: 35px 90px;
+    border-radius: 25px;
+}

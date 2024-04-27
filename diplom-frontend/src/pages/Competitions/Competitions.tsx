@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { useSearchContext } from "src/context/context";
+import { useSearchContext } from "src/context/search-context/useSearchContext";
 import { useLoaderData } from "react-router-dom";
 import { AxiosError } from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -7,7 +7,7 @@ import { queryClient } from "src/utils/queryClient";
 import { competitionsLoader as loader } from "./loader";
 import { competitionsQuery } from "./competitionsQuery";
 import classNames from "classnames";
-import { removeEmpty } from "src/utils/removeEnty";
+import { removeEmpty } from "src/utils/removeEmpty";
 import { TCompetition } from "src/types/TCompetition";
 import { TPage } from "src/types/TPage";
 import { TFiterCompetition } from "src/types/TFilterCompetition";

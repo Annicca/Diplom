@@ -1,0 +1,22 @@
+@import 'utils/const.scss';
+
+.account {
+    display: flex;
+    justify-content: center;
+    column-gap: 5%;
+
+    &__inner {
+        flex: 0 0 250px;
+    }
+
+    &__item {
+        display: flex;
+        padding: 20px;
+        align-items: center;
+        column-gap: 20px;
+        border-radius: 30px;
+        border: 1px solid $border-gray;
+        font-size: 16px;
+        font-weight: 600;
+    }
+}

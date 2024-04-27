@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { Link, useMatch, useNavigate } from 'react-router-dom';
-import { useSearchContext } from "src/context/context";
+import { useSearchContext } from "src/context/search-context/useSearchContext";
 import classNames from "classnames";
 import { List } from "../list/List";
 import { LinkItem } from "../link/LinkItem";
@@ -11,7 +11,6 @@ import { Button } from "src/uikit/button/Button";
 import ArrowLeft from 'assets/icons/arrow-left.svg?react'
 
 import styles from './Header.module.scss';
-
 
 export const Header: FC = () => {
     const isGroups = useMatch('/groups');
@@ -34,7 +33,7 @@ export const Header: FC = () => {
                 <Search handleSearch={handleChangeValue} placeholder="Введите город"/> 
                 :
                 <div>
-                    <Button onClick={() => navigate(-1)} className={styles.header__back}>
+                    <Button isYellow={false} onClick={() => navigate(-1)} className={styles.header__back}>
                         <ArrowLeft width={30} height={30}/>
                     </Button>
                 </div>

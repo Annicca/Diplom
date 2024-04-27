@@ -8,11 +8,14 @@ import { Competitions} from './pages/Competitions/Competitions';
 import { competitionsLoader } from './pages/Competitions/loader';
 import { CompetitionDetail } from './pages/CompetitionDetail/CompetitionDetail';
 import { competitionDetailLoader } from './pages/CompetitionDetail/loader';
-import { SearchContextProvider } from './context/context';
+import { SearchContextProvider } from './context/search-context/SearchContextProvider';
 import { Groups } from './pages/Groups/Groups';
 import { groupsLoader } from './pages/Groups/loader';
 import { groupLoader } from './pages/GroupDetail/loader';
 import { GroupDetail } from './pages/GroupDetail/GroupDetail';
+import { Account } from './pages/Account/Account';
+import { Login } from './components/auth/Login';
+import { UserProvider } from './context/user-context/UserProvider';
 
 
 const router = createBrowserRouter([
@@ -43,13 +46,13 @@ const router = createBrowserRouter([
       },
       {
         path: 'account',
-        element: <div>Account</div>
+        element: <Account />
       }
     ]
   },
   {
     path: '/login',
-    element: <div>Login</div>
+    element: <Login />
   },
   {
     path: '/registration',
@@ -60,12 +63,14 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <SearchContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </SearchContextProvider>
+    <UserProvider>
+      <SearchContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </SearchContextProvider>
+    </UserProvider>
   )
 }
 

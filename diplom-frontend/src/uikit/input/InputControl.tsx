@@ -1,55 +1,44 @@
-import { InputHTMLAttributes } from "react";
-import { FieldValues, Path, PathValue, UseFormRegister, Validate } from "react-hook-form";
+import { FC, InputHTMLAttributes, forwardRef } from "react";
 import classNames from "classnames";
 
-import style from './Input.module.scss'
+import clearStyle from './Input.module.scss'
+import style from './InputControl.module.scss'
 
-
-interface InputControlProps<T extends FieldValues> extends InputHTMLAttributes<HTMLInputElement> {
+interface InputControlProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string,
-    register: UseFormRegister<T>,
-    required?: boolean,
-    name: Path<T>,
-    maxLength?: number,
-    minLength?: number,
-    max?: number,
-    min?: number,
-    patternInput?: RegExp,
-    validate?: Validate<PathValue<T, Path<T>>, T> | Record<string, Validate<PathValue<T, Path<T>>, T>> | undefined,
     error?: string,
-    classNameContainer?: string,
-
+    mode? : 'clear' | 'default'
+    classNameContainer?: string;
   }
 
-export const InputControl = <T extends FieldValues,>( props : InputControlProps<T>)  => {
+export const InputControl:FC<InputControlProps> = forwardRef<HTMLInputElement, InputControlProps>((props, ref)  => {
     
-    const {label, register, required, name, maxLength, minLength, max, min, patternInput, validate, error, classNameContainer, ...inputProps} = props
+    const {label, error, classNameContainer, mode = 'default', ...inputProps} = props
     
     return(
         <div className={classNames(
             classNameContainer,
-            style.inputContainer,
-            {[style.checkboxContainer]: props.type === 'checkbox'}
+            {
+                [style.inputContainer]: mode === 'default' && props.type !== 'checkbox',
+                [clearStyle.inputContainer]: mode === 'clear' && props.type !== 'checkbox',
+                [clearStyle.checkboxContainer]: props.type === 'checkbox'
+            }
         )}>
             <input
                 className={classNames(
-                    style.input, 
                     props.className,
-                    {[style.checkbox]: props.type === 'checkbox'}
+                    {
+                        [style.input]: mode === 'default' && props.type !== 'checkbox',
+                        [clearStyle.input]: mode === 'clear' && props.type !== 'checkbox',
+                        [clearStyle.checkbox]: props.type === 'checkbox' ,
+                        ['error']: !!error
+                    }
                 )} 
-                {...register(name, { 
-                    required,
-                    maxLength: maxLength,
-                    minLength: minLength,
-                    max: max,
-                    min: min,
-                    pattern: patternInput,
-                    validate: validate
-                })} 
+                ref={ref}
                 {...inputProps} 
             />
-            <label htmlFor={props.name}> {label}</label>
-            <div>{error}</div>
+            <label className={classNames('', {[style.label]: mode === 'default'}) } htmlFor={props.name}> {label}</label>
+            <div className='error-text'>{error}</div>
         </div>
     )
-}
+})
