@@ -8,7 +8,7 @@ export interface ILoginRequest {
 }
 
 /**
- * Регистрация пользователя
+ * Авторизация пользователя
  * @param loginData - должно содержать логин и пароль
  * @returns пользователя
  */
@@ -37,6 +37,12 @@ export interface IRegisterRequest {
     passwordUser: string,
     confirmPassword?: string
 }
+
+/**
+ * Регистрация пользователя
+ * @param registerData - данные пользователя
+ * @returns пользователя
+ */
 
 export const registerUser = async(registerData: IRegisterRequest):Promise<TUser> => {
     delete registerData.confirmPassword

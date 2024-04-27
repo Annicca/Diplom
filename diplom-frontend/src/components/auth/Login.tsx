@@ -6,7 +6,7 @@ import { InputControl } from 'src/uikit/input/InputControl';
 import { Button } from 'src/uikit/button/Button';
 import { useUserContext } from 'src/context/user-context/useUserContext';
 import style from './Auth.module.scss'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Login:FC = () => {
     const {changeUser} = useUserContext()
@@ -26,7 +26,7 @@ export const Login:FC = () => {
             .then((response) => {
                 changeUser(response)
                 setMainError(null)
-                navigate(-1)
+                navigate('/')
             })
             .catch((error) => {
                 setMainError(error.message);
@@ -35,6 +35,9 @@ export const Login:FC = () => {
 
     return(
         <div className={style.container}>
+            <Link to = '/' className={style.toMain}>
+                {'<-'} Главная
+            </Link>
             <form className = {style.form} onSubmit={onSubmit}>
                 <AuthTitle title = {'Вход'} linkText = {'Ещё не зарегистрировались?'} path = {'/signin'} />
                 <InputControl

@@ -1,11 +1,18 @@
+import { useState } from 'react';
+import { useUserContext } from 'src/context/user-context/useUserContext';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import style from './Auth.module.scss'
 import { AuthTitle } from 'src/uikit/authTitle/AuthTitle';
 import { Button } from 'src/uikit/button/Button';
 import { InputControl } from 'src/uikit/input/InputControl';
 import { IRegisterRequest, registerUser } from 'src/utils/api';
+import style from './Auth.module.scss'
 
 export const Register = () => {
+    const {changeUser} = useUserContext()
+    const navigate = useNavigate()
+    const [mainError, setMainError] = useState<string | null>(null);
+    
     const {
         register,
         formState: {errors, isValid},
@@ -17,10 +24,21 @@ export const Register = () => {
     const onSubmit = handleSubmit(async (data: IRegisterRequest) => {
         console.log(data)
         registerUser(data)
+        .then((response) => {
+            changeUser(response)
+            setMainError(null)
+            navigate('/')
+        })
+        .catch((error) => {
+            setMainError(error.message)
+        })
     })
 
     return(
         <div className={style.container}>
+            <Link to = '/' className={style.toMain}>
+                {'<-'} Главная
+            </Link>
             <form className = {style.form} onSubmit = {onSubmit} >
                     <AuthTitle title = {'Регистрация'} linkText = {'Уже зарегистрированы?'} path = {'/login'} />
                     <InputControl 
@@ -115,9 +133,10 @@ export const Register = () => {
                             }
                         })}
                         placeholder = " "
-                        label='Пароль'
+                        label='Повторите пароль'
                         error={errors?.confirmPassword && errors?.confirmPassword?.message}
                     />
+                    {mainError && <div className = 'error-text'>{mainError}</div>}
                     <Button disabled = {!isValid} type = {"submit"}>
                         Регистрация
                     </Button>
