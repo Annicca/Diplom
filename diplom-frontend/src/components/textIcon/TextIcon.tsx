@@ -7,11 +7,19 @@ interface TextIconProps {
     icon: ReactNode,
     isTransition?: boolean,
     isBorder?: boolean,
+    classNameContainer?: string,
 }
 
-export const TextIcon: FC<TextIconProps> = ({text, icon, isTransition = false, isBorder = false}) => {
+export const TextIcon: FC<TextIconProps> = ({text, icon, isTransition = false, isBorder = false, classNameContainer}) => {
     return(
-        <div className={isBorder ? classNames(style.textIcon, style.textIcon_border) : style.textIcon}>
+        <div 
+            className={isBorder ? 
+                classNames(
+                style.textIcon, 
+                style.textIcon_border,
+                classNameContainer) 
+            : classNames(style.textIcon, classNameContainer)}
+        >
             <div className={style.textIcon__imgContainer}>
                 {icon}
                 <div >{text}</div>
