@@ -5,8 +5,10 @@ import { ILoginRequest, login } from 'src/utils/api';
 import { InputControl } from 'src/uikit/input/InputControl';
 import { Button } from 'src/uikit/button/Button';
 import { useUserContext } from 'src/context/user-context/useUserContext';
-import style from './Auth.module.scss'
 import { Link, useNavigate } from 'react-router-dom';
+import ArrowLeft from 'assets/icons/arrow-left.svg?react';
+
+import style from './Auth.module.scss'
 
 export const Login:FC = () => {
     const {changeUser} = useUserContext()
@@ -36,7 +38,7 @@ export const Login:FC = () => {
     return(
         <div className={style.container}>
             <Link to = '/' className={style.toMain}>
-                {'<-'} Главная
+                <ArrowLeft width={16} height={16} fill = "#FF6B00"/> Главная
             </Link>
             <form className = {style.form} onSubmit={onSubmit}>
                 <AuthTitle title = {'Вход'} linkText = {'Ещё не зарегистрировались?'} path = {'/signin'} />

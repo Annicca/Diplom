@@ -1,0 +1,17 @@
+@import 'utils/const.scss';
+
+.titleContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cancel {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $light-orange;
+    border-radius: 10px;
+}

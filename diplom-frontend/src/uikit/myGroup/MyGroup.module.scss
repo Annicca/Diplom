@@ -1,0 +1,86 @@
+@import 'utils/const.scss';
+
+.myGroup {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    row-gap: 20px;
+    border-radius: 10px;
+    border: 1px solid $border-gray;
+    overflow: hidden;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+        padding: 10px;
+    }
+
+    &__inner {
+        display: flex;
+        column-gap: 20px;
+        align-items: center;
+
+        @media (max-width: map-get($breackpoints, tablet)) {
+            column-gap: 10px;
+        }
+    }
+
+    &__imgContainer{
+        height: 200px;
+        width: auto;
+        border-radius: 10px;
+        object-fit: cover;
+
+        @media (max-width: map-get($breackpoints, tablet)) {
+            height: 100px;
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        max-width: 50%;
+        
+
+        @media (max-width: map-get($breackpoints, tablet)) {
+            div {
+                max-width: 100px;
+                overflow-wrap: break-word;
+            }
+        }
+    }
+
+    &__btnContainer {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        @media (max-width: map-get($breackpoints, tablet)) {
+            flex-direction: column;
+            row-gap: 10px;
+        }
+    }
+
+    &__invit_btn, &__competitions_btn {
+        flex: 0 1 calc(50% - 10px);
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    &__competitions_btn {
+        border: 1px solid $orange;
+    }
+
+    &__competitions_text {
+        color: $orange;
+    }
+
+    &__invit {
+        &_btn {
+            border: 1px solid red;
+        }
+
+        &_text {
+            color: red;
+        }
+    }
+}

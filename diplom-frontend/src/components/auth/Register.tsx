@@ -6,6 +6,8 @@ import { AuthTitle } from 'src/uikit/authTitle/AuthTitle';
 import { Button } from 'src/uikit/button/Button';
 import { InputControl } from 'src/uikit/input/InputControl';
 import { IRegisterRequest, registerUser } from 'src/utils/api';
+import ArrowLeft from 'assets/icons/arrow-left.svg?react';
+
 import style from './Auth.module.scss'
 
 export const Register = () => {
@@ -37,7 +39,7 @@ export const Register = () => {
     return(
         <div className={style.container}>
             <Link to = '/' className={style.toMain}>
-                {'<-'} Главная
+                <ArrowLeft width={16} height={16} fill = "#FF6B00"/> Главная
             </Link>
             <form className = {style.form} onSubmit = {onSubmit} >
                     <AuthTitle title = {'Регистрация'} linkText = {'Уже зарегистрированы?'} path = {'/login'} />

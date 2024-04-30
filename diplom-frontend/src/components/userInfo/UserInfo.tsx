@@ -4,11 +4,13 @@ import UserIcon from "assets/icons/user.svg?react";
 import EmailIcon from "assets/icons/mail.svg?react";
 import PhoneIcon from "assets/icons/phone.svg?react";
 import LogoutIcon from "assets/icons/exit.svg?react";
+import KeyIcon from "assets/icons/key.svg?react";
 import { TextIcon } from "../textIcon/TextIcon";
 import { logout } from "src/utils/api";
 import { Button } from "src/uikit/button/Button";
 
 import style from './UserInfo.module.scss'
+import { chooseRoleUser } from "../../utils/helpers";
 
 
 export const UserInfo = () => {
@@ -33,6 +35,7 @@ export const UserInfo = () => {
                 </Button>
             </div>
             <div className={style.info}>
+                {user?.role && <TextIcon icon = {<KeyIcon width={20} height={20} fill = "#FF6B00" />} text ={chooseRoleUser(user?.role)} classNameContainer="text-orange" />}
                 {user?.mailUser && <TextIcon icon={<EmailIcon width={20} height={20}/>} text={user?.mailUser}/>}
                 {user?.phoneUser && <TextIcon icon={<PhoneIcon width={20} height={20}/>} text= {user.phoneUser}/>}
                 

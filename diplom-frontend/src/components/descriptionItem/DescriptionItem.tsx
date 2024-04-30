@@ -18,13 +18,12 @@ export const DescriptionItem: FC<DescriptionItemProps> = ({description}) => {
     return(
         <div className={style.description}>
             <div className={style.description__label}>Описание:</div>
-            <div className={style.description__text}> {isUnwrap || description.length < 100 ? description : `${description.slice(0,100)}...`}
-                {description.length > 100 && 
-                    <Button onClick={handleUnWrap} isClear = {true} isYellow = {false} className={style.description__btn}>
-                        <span className="text-orange">{isUnwrap ? ' Скрыть' :' Развернуть всё'}</span>
-                    </Button>
-                }
-            </div>
+            <div className={style.description__text}> {isUnwrap || description.length < 100 ? description : `${description.slice(0,100)}...`}</div>
+            {description.length > 100 && 
+                <Button onClick={handleUnWrap} isClear = {true} isYellow = {false} className={style.description__btn}>
+                    <div className="text-orange">{isUnwrap ? ' Скрыть' :' Развернуть всё'}</div>
+                </Button>
+            }
         </div>
         
     )

@@ -1,3 +1,5 @@
+import { ERole } from "src/types/ERole";
+
 export const removeEmpty = (obj: object) => 
     Object.entries(obj)
         .filter(([, value]) => value != null && value !== '')
@@ -25,5 +27,14 @@ export const chooseTypeStatement = (type: string): string | undefined => {
     switch (type) {
         case 'GROUP': return 'Коллектив'
         case 'COMPETITION': return 'Конкурс'
+    }
+}
+
+export const chooseRoleUser = (role: ERole): string => {
+    switch (role) {
+        case ERole.ORGANIZER: return 'Организатор конкурсов';
+        case ERole.DIRECTOR: return 'Руководитель коллектива';
+        case ERole.ADMIN: return 'Администратор';
+        case ERole.CLIENT: return 'Клиент';
     }
 }

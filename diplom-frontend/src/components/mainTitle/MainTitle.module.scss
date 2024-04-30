@@ -4,6 +4,10 @@
     padding-bottom: 40px;
     h1 {
         padding-bottom: 20px;
+
+        @media (max-width: map-get($breackpoints, laptop)) {
+            padding-bottom: 0;
+        }
     }
 
     &__back {

@@ -9,10 +9,9 @@ import { AxiosError } from "axios"
 import { MainTite } from "src/components/mainTitle/MainTitle";
 import { PageLayout } from "src/components/layout/PageLayout"
 import { PaginationList } from "src/components/list/PaginationList"
-
-import style from '../../components/list/List.module.scss'
 import { Statement } from "src/uikit/statement/Statement";
 
+import style from '../../components/list/List.module.scss'
 
 export const MyStatements: FC = () => {
     const {idUser} = useParams()

@@ -1,5 +1,5 @@
 import { TUser } from "src/types/TUser"
-import { instance } from "./fetch"
+import { getRequestConfig, instance } from "./fetch"
 import { setCookie } from "react-use-cookie"
 
 export interface ILoginRequest {
@@ -58,8 +58,39 @@ export const registerUser = async(registerData: IRegisterRequest):Promise<TUser>
         })
 }
 
+/**
+ * Выход из аккаунта
+ */
 export const logout = () => {
     localStorage.removeItem('user')
     setCookie('jwt','',{path:"/"})
+}
+
+/**
+ * Удаление коллектива
+ * @param idGroup - идентификатор группы
+ * @returns ничего
+ */
+
+export const deleteGroup = async (idGroup: number) => {
+    return instance.delete(`groups/${idGroup}`, getRequestConfig())
+        .catch((error) => {
+            if(error.response) throw new Error(error.response.data.message)
+            else throw new Error(error.message)
+        })
+}
+
+/**
+ * Отмена конкурса
+ * @param idCompetition - идентификатор конкурса
+ * @returns ничего
+ */
+
+export const cancelCompetition = async (idCompetition: number) => {
+    return instance.put(`competitions/cancel/${idCompetition}`, {}, getRequestConfig())
+        .catch((error) => {
+            if(error.response) throw new Error(error.response.data.message)
+            else throw new Error(error.message)
+        })
 }
 

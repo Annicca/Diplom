@@ -10,9 +10,10 @@ interface TextIconProps {
     isTransition?: boolean,
     isBorder?: boolean,
     classNameContainer?: string,
+    arrowFill?: string;
 }
 
-export const TextIcon: FC<TextIconProps> = ({text, icon, isTransition = false, isBorder = false, classNameContainer}) => {
+export const TextIcon: FC<TextIconProps> = ({text, icon, isTransition = false, isBorder = false, classNameContainer, arrowFill}) => {
     return(
         <div 
             className={isBorder ? 
@@ -23,10 +24,10 @@ export const TextIcon: FC<TextIconProps> = ({text, icon, isTransition = false, i
             : classNames(style.textIcon, classNameContainer)}
         >
             <div className={style.textIcon__imgContainer}>
-                {icon}
-                <div >{text}</div>
+                <div>{icon}</div>
+                <div className={style.textIcon__text}>{text}</div>
             </div>
-            {isTransition && <ArrowRightIcon fill = {'#BFBFBF'} width = {15} height={15}/>}
+            {isTransition && <ArrowRightIcon fill = {arrowFill || '#BFBFBF'} width = {15} height={15}/>}
             {isTransition}
         </div>
     )

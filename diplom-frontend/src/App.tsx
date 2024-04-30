@@ -19,6 +19,10 @@ import { UserProvider } from './context/user-context/UserProvider';
 import { Register } from './components/auth/Register';
 import { MyStatements } from './pages/MyStatements/Statements';
 import { myStatementsLoader } from './pages/MyStatements/loader';
+import { myGroupsLoader } from './pages/MyGroups/loader';
+import { MyGroups } from './pages/MyGroups/MyGroups';
+import { MyCompetitions } from './pages/MyCompetitions/MyCompetitions';
+import { myCompetitionsLoader } from './pages/MyCompetitions/loader';
 
 
 const router = createBrowserRouter([
@@ -56,6 +60,16 @@ const router = createBrowserRouter([
         path: 'mystatements/:idUser',
         element: <MyStatements />,
         loader: ({params}) => myStatementsLoader(queryClient, params.idUser)
+      },
+      {
+        path: 'mygroups/:idUser',
+        element: <MyGroups />,
+        loader: ({params}) => myGroupsLoader(queryClient, params.idUser)
+      },
+      {
+        path: 'mycompetitions/:idUser',
+        element: <MyCompetitions />,
+        loader: ({params}) => myCompetitionsLoader(queryClient, params.idUser)
       }
     ]
   },
