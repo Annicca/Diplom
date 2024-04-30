@@ -1,12 +1,23 @@
 @import 'utils/const.scss';
 
 .wrapper {
+    width: 100%;
     max-width: 400px;
     padding: 20px;
-    border-radius: 30px;
+    border-radius: 10px;
     border: 1px solid $border-gray;
     font-size: 16px;
     font-weight: 600;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+        max-width: none;
+    }
+}
+
+.topContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 .user {
@@ -20,4 +31,9 @@
     flex-direction: column;
     margin-top: 20px;
     row-gap: 10px;
+}
+
+.logout {
+    padding: 0;
+    font-size: 16px;
 }

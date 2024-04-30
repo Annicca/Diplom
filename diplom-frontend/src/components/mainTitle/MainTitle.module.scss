@@ -1,0 +1,23 @@
+@import 'utils/const.scss';
+
+.mainTitle {
+    padding-bottom: 40px;
+    h1 {
+        padding-bottom: 20px;
+    }
+
+    &__back {
+        font-size: 20px;
+        color: $orange;
+        @media (max-width: map-get($breackpoints, laptop)) {
+            font-size: 16px;
+        }
+    }
+
+    &__btn {
+        padding: 0;
+        @media (max-width: map-get($breackpoints, tablet)) {
+            display: none;
+        }
+    }
+}

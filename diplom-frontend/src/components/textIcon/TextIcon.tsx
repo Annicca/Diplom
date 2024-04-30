@@ -1,6 +1,8 @@
 import { FC, ReactNode } from "react"
-import style from './TextIcon.module.scss'
 import classNames from "classnames"
+import ArrowRightIcon from 'assets/icons/arrowRight.svg?react'
+import style from './TextIcon.module.scss'
+
 
 interface TextIconProps {
     text: string,
@@ -24,7 +26,7 @@ export const TextIcon: FC<TextIconProps> = ({text, icon, isTransition = false, i
                 {icon}
                 <div >{text}</div>
             </div>
-            {/* {isTransition && <Image source={ArrowIcon} style = {textIconStyle.arrow} />} */}
+            {isTransition && <ArrowRightIcon fill = {'#BFBFBF'} width = {15} height={15}/>}
             {isTransition}
         </div>
     )

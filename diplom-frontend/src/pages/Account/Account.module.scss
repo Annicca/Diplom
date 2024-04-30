@@ -3,20 +3,66 @@
 .account {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     column-gap: 5%;
+    height: calc(100vh - 150px);
+
+    @media (max-width: map-get($breackpoints, laptop)) {
+        height: calc(100vh - 70px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: 0;
+        row-gap: 40px;
+    }
 
     &__inner {
-        flex: 0 0 250px;
+        width: 100%;
+        max-width: 250px;
+        height: fit-content;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid $border-gray;
+
+        @media (max-width: map-get($breackpoints, tablet)) {
+            width: 100%;
+            max-width: none;
+        }
     }
 
     &__item {
-        display: flex;
-        padding: 20px;
-        align-items: center;
-        column-gap: 20px;
-        border-radius: 30px;
-        border: 1px solid $border-gray;
-        font-size: 16px;
-        font-weight: 600;
+        padding: 15px;
+        border-radius: 5px 5px 0 0;
+        cursor: pointer;
+    }
+    
+}
+
+.auth_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+    height: calc(100vh - 150px);
+
+    @media (max-width: map-get($breackpoints, laptop)) {
+        height: calc(100vh - 70px);
+    }
+}
+
+.auth_btn {
+    width: 150px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 15px;
+    background-color: $yellow;
+    color: $white;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 17px;
+    text-align: center;
+    &:hover{
+        background-color: $yellow660;
     }
 }

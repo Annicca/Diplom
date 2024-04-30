@@ -1,0 +1,25 @@
+@import 'utils/const.scss';
+
+.statement {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid $border-gray;
+
+    &__data {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+}
+
+
+
+.buttonContainer {
+    display: flex;
+    flex-direction: 'row';
+    column-gap: 10px;
+    padding-top: 10px;
+}

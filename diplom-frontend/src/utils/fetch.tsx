@@ -1,4 +1,5 @@
 import axios from "axios"
+import { getCookie } from "react-use-cookie"
 
 export const URL_BASE:string = "http://localhost:8080/api/"
 
@@ -7,11 +8,12 @@ export const instance = axios.create({
     headers: {'Content-Type': 'application/json'},
 })
 
-export const fetchData = async (url: string, params: object) => {
+export const fetchData = async (url: string, params?: object, options?: object) => {
     
     return await instance.get(URL_BASE + url,
         {
-            params: params
+            params: params,
+            ...options
         })
         .then((resp) => resp.data)
         .catch((error) => {
@@ -19,4 +21,9 @@ export const fetchData = async (url: string, params: object) => {
             if(error.response) throw new Error(error.response.data.message)
             else throw new Error(error.message)
         })
+}
+
+export const getRequestConfig = () =>{
+    const token = getCookie('jwt');
+    return ({headers: {Authorization: `Bearer ${token}`}});
 }

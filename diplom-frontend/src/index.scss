@@ -19,6 +19,7 @@
 a {
   font-family: inherit;
   text-decoration: none;
+  color: $black;
 }
 
 body {
@@ -28,6 +29,15 @@ body {
 
   &.open-model {
     position: fixed;
+  }
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 600;
+
+  @media (max-width: map-get($breackpoints, laptop)) {
+    font-size: 20px;
   }
 }
 
@@ -60,7 +70,7 @@ button {
   }
 
   @media (max-width: map-get($breackpoints, laptop)){
-    padding: 60px 20px 80px;
+    padding: 40px 20px 80px;
   }
 }
 
@@ -70,8 +80,13 @@ button {
 }
 
 .text-orange {
-  font-weight: 500;
   color: $orange;
+  font-weight: 500;
+  font-size: 16px;
+  
+  @media (max-width: map-get($breackpoints, laptop)){
+    font-size: 14px;
+  }
 }
 
 .skeleton {

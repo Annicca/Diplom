@@ -17,6 +17,8 @@ import { Account } from './pages/Account/Account';
 import { Login } from './components/auth/Login';
 import { UserProvider } from './context/user-context/UserProvider';
 import { Register } from './components/auth/Register';
+import { MyStatements } from './pages/MyStatements/Statements';
+import { myStatementsLoader } from './pages/MyStatements/loader';
 
 
 const router = createBrowserRouter([
@@ -48,6 +50,12 @@ const router = createBrowserRouter([
       {
         path: 'account',
         element: <Account />
+      },
+
+      {
+        path: 'mystatements/:idUser',
+        element: <MyStatements />,
+        loader: ({params}) => myStatementsLoader(queryClient, params.idUser)
       }
     ]
   },

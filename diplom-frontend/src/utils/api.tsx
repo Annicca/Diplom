@@ -58,3 +58,8 @@ export const registerUser = async(registerData: IRegisterRequest):Promise<TUser>
         })
 }
 
+export const logout = () => {
+    localStorage.removeItem('user')
+    setCookie('jwt','',{path:"/"})
+}
+
