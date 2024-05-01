@@ -1,7 +1,9 @@
 import { FC } from "react";
+import { useUserContext } from "src/context/user-context/useUserContext";
 import { useNavigate } from "react-router-dom";
 import { Image } from "src/components/image/Image";
 import { TGroup } from "src/types/TGroup";
+import { ERole } from "src/types/ERole";
 import { Button } from "../button/Button";
 import { TextIcon } from "src/components/textIcon/TextIcon";
 import { DescriptionItem } from "src/components/descriptionItem/DescriptionItem";
@@ -13,7 +15,6 @@ import InvitIcon from 'assets/icons/invitation.svg?react';
 
 import style from './MyGroup.module.scss'
 
-
 interface MyGroupProps {
     group: TGroup;
     onDeleteItem?: () => void;
@@ -21,10 +22,14 @@ interface MyGroupProps {
 }
 
 export const MyGroup: FC<MyGroupProps> = ({group, onChangeItem, onDeleteItem})  => {
+    const {user} = useUserContext()
     const navigate = useNavigate()
     return(
         <div className={style.myGroup}>
-            <TitleContainerItem name={group.nameGroup} onTrash={onDeleteItem} onChange={onChangeItem} />
+            {user?.role === ERole.DIRECTOR ? 
+                <TitleContainerItem name={group.nameGroup} onTrash={onDeleteItem} onChange={onChangeItem} />
+                : <div className={style.myGroup__title}>{group.nameGroup}</div>
+            }
             <div className = {style.myGroup__inner}>
                 <Image src={group.img} className={style.myGroup__imgContainer} alt={group.nameGroup}/>
                 <div className={style.myGroup__info}>
@@ -34,8 +39,8 @@ export const MyGroup: FC<MyGroupProps> = ({group, onChangeItem, onDeleteItem})  
                 </div>
             </div>
             <DescriptionItem description={group.descriptionGroup} />
-            <div className={style.myGroup__btnContainer}>
-                <Button onClick={() => navigate('mygroups/competitions')} isClear={true} isYellow={false} className={style.myGroup__competitions_btn}>
+            {user?.role === ERole.DIRECTOR && <div className={style.myGroup__btnContainer}>
+                <Button onClick={() => navigate(`/mygroups/competitions/${group.idGroup}`)} isClear={true} isYellow={false} className={style.myGroup__competitions_btn}>
                     <TextIcon 
                         icon={<CompetitionIcon width={25} height={25} fill = '#FF6B00' />} 
                         text='Конкурсы'
@@ -53,7 +58,7 @@ export const MyGroup: FC<MyGroupProps> = ({group, onChangeItem, onDeleteItem})  
                         arrowFill="red"
                     />
                 </Button>
-            </div>
+            </div>}
         </div>
     )
 }

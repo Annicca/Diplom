@@ -12,10 +12,17 @@
         padding: 10px;
     }
 
-    &__data {
+    &__data, &__user {
         display: flex;
         flex-direction: column;
         row-gap: 10px;
+    }
+
+    &__user {
+        margin-top: 10px;
+        padding: 10px 0;
+        border-top: 1px solid $border-gray;
+        border-bottom: 1px solid $border-gray;
     }
 }
 
@@ -26,4 +33,8 @@
     flex-direction: 'row';
     column-gap: 10px;
     padding-top: 10px;
+
+    &_btn {
+        flex: 0 1 calc(50% - 10px)
+    }
 }

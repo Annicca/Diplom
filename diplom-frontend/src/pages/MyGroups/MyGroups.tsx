@@ -1,5 +1,6 @@
-import { AxiosError } from "axios"
 import { FC, useState } from "react"
+import { AxiosError } from "axios"
+import { useUserContext } from "src/context/user-context/useUserContext";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom"
 import { myGroupsLoader as loader } from "./loader";
@@ -16,11 +17,17 @@ import { queryClient } from "src/utils/queryClient";
 import { ErrorModal } from "src/components/errorModal/ErrorModal";
 
 import style from '../../components/list/List.module.scss'
+import { ERole } from "src/types/ERole";
 
-export const MyGroups:FC = () => {
-    const {idUser} = useParams()
+interface MyGroupsProps {
+    url: string;
+}
+
+export const MyGroups:FC<MyGroupsProps> = ({url}) => {
+    const {user} = useUserContext()
+    const {id} = useParams()
     const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof loader>>>
-    const infinitedata = useInfiniteQuery<TPage<TGroup[]>, AxiosError>({...query(idUser), initialData: initialData})
+    const infinitedata = useInfiniteQuery<TPage<TGroup[]>, AxiosError>({...query(url, id), initialData: initialData})
 
     const navigate = useNavigate()
 
@@ -45,7 +52,7 @@ export const MyGroups:FC = () => {
         deleteGroup(currentId)
         .then(() => {
             toggleDeleteModal();
-            queryClient.refetchQueries({queryKey: ['mygroups', idUser]});
+            queryClient.refetchQueries({queryKey: [url, id]});
         })
         .catch((error) =>{
             setErrorMessage(error.message);
@@ -60,7 +67,7 @@ export const MyGroups:FC = () => {
 
     return(
         <PageLayout>
-            <MainTite>Мои коллективы</MainTite>
+            <MainTite>{user?.role === ERole.DIRECTOR ? 'Мои коллективы' : 'Коллективы'}</MainTite>
             <PaginationList 
                 classNameList={style.list}
                 classNameInnerList={style.list_statements}

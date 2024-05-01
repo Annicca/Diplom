@@ -7,13 +7,20 @@ import { TStaement } from "src/types/TStatement"
 import { chooseTypeStatement } from "src/utils/helpers"
 import { Button } from "../button/Button"
 import { DescriptionItem } from "src/components/descriptionItem/DescriptionItem"
+import { TextIcon } from "src/components/textIcon/TextIcon"
+import LkIcon from "assets/icons/lk.svg?react";
+import EmailIcon from 'assets/icons/mail.svg?react'
+import PhoneIcon from 'assets/icons/phone.svg?react'
 
 import style from './Statement.module.scss'
 
+
 interface StatementProps {
-    statement: TStaement
+    statement: TStaement;
+    onReject?: () => void;
+    onAccept?: () => void
 }
-export const Statement:FC<StatementProps> = ({statement}) => {
+export const Statement:FC<StatementProps> = ({statement, onReject, onAccept}) => {
     const {user} = useUserContext()
     return(
         <article className={style.statement}>
@@ -28,23 +35,22 @@ export const Statement:FC<StatementProps> = ({statement}) => {
                     </>
                 }
                 {user?.role === ERole.ADMIN && 
-                    <>
-                        <div>Пользователь: {statement.user.patronimycUser + ' ' + statement.user.nameUser + ' ' + statement.user.surnameUser}</div>
-                        <div>Почта: {statement.user.mailUser}</div>
-                        <div>Телефон: {statement.user.phoneUser ? statement.user.phoneUser : '-'}</div>
-                    </>
+                    <div className={style.statement__user}>
+                        <div>Информация о пользователе:</div>
+                        <TextIcon icon = {<LkIcon width={20} height={20}/>} text ={statement.user.patronimycUser + ' ' + statement.user.nameUser + ' ' + statement.user.surnameUser}/>
+                        <TextIcon icon = {<EmailIcon width={20} height={20}/>} text ={statement.user.mailUser} />
+                        <TextIcon icon = {<PhoneIcon width={20} height={20}/>} text ={statement.user.phoneUser ? statement.user.phoneUser : '-'} />
+                    </div>
                 }
                 <DescriptionItem description={statement.description} />
 
                 {user?.role === ERole.ADMIN && 
                     <div className={style.buttonContainer}>
-                        {/* () => changeStatementStatus(statement.idStatement, 'accept') */}
-                        <Button onClick={() => {}}>
+                        <Button onClick={onAccept} className={style.buttonContainer_btn}>
                             Принять
                         </Button>
-                        {/* buttonStyle = {[styleStatementItem.button, styleStatementItem.rejectButton]}
-                        activity={() => changeStatementStatus(statement.idStatement, 'accept')} */}
-                        <Button >
+
+                        <Button onClick={onReject} className={style.buttonContainer_btn}>
                             Отклонить
                         </Button>
                     </div>

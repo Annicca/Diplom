@@ -16,11 +16,18 @@ import { cancelCompetition } from "src/utils/api";
 import { queryClient } from "src/utils/queryClient";
 
 import style from '../../components/list/List.module.scss'
+import { useUserContext } from "src/context/user-context/useUserContext";
+import { ERole } from "src/types/ERole";
 
-export const MyCompetitions:FC = () => {
-    const {idUser} = useParams()
+interface MyCompetitionsProps {
+    url: string;
+}
+
+export const MyCompetitions:FC<MyCompetitionsProps> = ({url}) => {
+    const {id} = useParams()
+    const {user} = useUserContext()
     const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof loader>>>
-    const infinitedata = useInfiniteQuery<TPage<TCompetition[]>, AxiosError>({...query(idUser), initialData: initialData})
+    const infinitedata = useInfiniteQuery<TPage<TCompetition[]>, AxiosError>({...query(url, id), initialData: initialData})
 
     const navigate = useNavigate()
 
@@ -45,7 +52,7 @@ export const MyCompetitions:FC = () => {
         cancelCompetition(currentId)
         .then(() => {
             toggleDeleteModal();
-            queryClient.refetchQueries({queryKey: ['mycompetitions', idUser]});
+            queryClient.refetchQueries({queryKey: [url, id]});
         })
         .catch((error) =>{
             console.log(error.message);
@@ -61,7 +68,7 @@ export const MyCompetitions:FC = () => {
 
     return(
         <PageLayout>
-            <MainTite>Мои коллективы</MainTite>
+            <MainTite>{user?.role === ERole.ORGANIZER ? 'Мои конкурсы' : 'Конкурсы'}</MainTite>
             <PaginationList 
                 classNameList={style.list}
                 classNameInnerList={style.list_statements}

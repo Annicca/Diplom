@@ -29,7 +29,10 @@ export const MyCompetition:FC<MyCompetitionProps> = ({onCancelItem, onChangeItem
     const navigate = useNavigate()
     return(
         <div className={style.myGroup}>
-            <TitleContainerItem name={competition.nameCompetition} onCancel={onCancelItem} onChange={onChangeItem} />
+            {user?.role === ERole.ORGANIZER ? 
+                <TitleContainerItem name={competition.nameCompetition} onCancel={onCancelItem} onChange={onChangeItem} />
+                : <div className={style.myGroup__title}>{competition.nameCompetition}</div>
+            }
             <div className={style.myGroup__inner}>
                 <Image src={competition.img} className={style.myGroup__imgContainer} alt={competition.nameCompetition}/>
                 <div className={style.myGroup__info}>
@@ -41,7 +44,7 @@ export const MyCompetition:FC<MyCompetitionProps> = ({onCancelItem, onChangeItem
             {user?.role === ERole.ORGANIZER &&
                 <div className={style.myGroup__btnContainer}>
                     <Button 
-                        onClick={() => navigate('participants')} 
+                        onClick={() => navigate(`/mycompetitions/participants/${competition.idCompetition}`)} 
                         className={style.myGroup__competitions_btn}
                         isYellow = {false}
                         isClear={true}

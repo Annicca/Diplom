@@ -6,8 +6,7 @@
     padding: 20px;
     border-radius: 10px;
     border: 1px solid $border-gray;
-    font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
 
     @media (max-width: map-get($breackpoints, tablet)) {
         max-width: none;
@@ -24,6 +23,8 @@
     display: flex;
     align-items: center;
     column-gap: 15px;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .info {
@@ -36,4 +37,16 @@
 .logout {
     padding: 0;
     font-size: 16px;
+}
+
+.role {
+    display: flex;
+    column-gap: 10px;
+}
+
+.dropdown {
+    width: 50%;
+    @media (max-width: map-get($breackpoints, tablet)) {
+        width: 80%;
+    }
 }

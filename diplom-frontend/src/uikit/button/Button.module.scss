@@ -29,3 +29,12 @@
         background-color: $yellow660;
     }
 }
+
+.save {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: $yellow;
+}

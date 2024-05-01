@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useMemo } from "react"
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import { useSearchContext } from "src/context/search-context/useSearchContext";
 import classNames from "classnames";
@@ -15,9 +15,17 @@ import styles from './Header.module.scss';
 export const Header: FC = () => {
     const isGroups = useMatch('/groups');
     const isCompetitions = useMatch('/');
+    const isStatements = useMatch('/admin/statements');
+    const isUsers = useMatch('/users');
     const navigate = useNavigate()
 
     const {handleChangeValue} = useSearchContext()
+
+    const placeholder = useMemo(() =>{
+        if(isGroups || isCompetitions) return 'Введите город'
+        if(isStatements) return 'Введите номер заявки'
+        if(isUsers) return 'Введите логин'
+    },[isGroups, isCompetitions, isStatements, isUsers])
 
     if (!IS_MOBILE) return (
         <header className={classNames('container',styles.header)}>
@@ -29,8 +37,8 @@ export const Header: FC = () => {
     )
     else return (
         <header className={classNames('container',styles.header_mobile)}>
-            {isGroups || isCompetitions ?
-                <Search handleSearch={handleChangeValue} placeholder="Введите город"/> 
+            {isGroups || isCompetitions || isStatements || isUsers ?
+                <Search handleSearch={handleChangeValue} placeholder={placeholder}/> 
                 :
                 <div>
                     <Button isYellow={false} onClick={() => navigate(-1)} className={styles.header__back}>

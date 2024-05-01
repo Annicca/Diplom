@@ -20,6 +20,7 @@ export const ErrorModal:FC<ErroModalProps> = ({isOpen, text, toggleModal}) => {
             }
         }}>
             <div className={style.errorModal}>
+                <div>Ошибка</div>
                 <div>{text}</div>
                 <div className={style.btnContainer}>
                     <Button onClick={toggleModal} className={style.ok}>ОК</Button>

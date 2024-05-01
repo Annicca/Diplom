@@ -94,3 +94,31 @@ export const cancelCompetition = async (idCompetition: number) => {
         })
 }
 
+/**
+ * Изменить статус заявки на размещение
+ * @param idStatement - идентификатор заявки
+ * @param status - статус заявки
+ * @returns ничего
+ */
+
+export const changeStatementStatus = async (idStatement: number, status: string) => {
+    return instance.put(`statements/${status}/${idStatement}`, {},  getRequestConfig() )
+        .catch((error) => {
+            if(error.response) throw new Error(error.response.data.message)
+            else throw new Error(error.message)
+        })
+}
+
+/**
+ * Смена роли пользователя
+ * @param user измененный пользователь
+ */
+
+export const changeRoleUser = async (user: TUser) => {
+    return instance.put('users', user, getRequestConfig())
+        .catch((error) => {
+            if(error.response) throw new Error(error.response.data.message)
+            else throw new Error(error.message)
+        })
+}
+
