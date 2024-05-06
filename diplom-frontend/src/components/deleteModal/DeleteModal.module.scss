@@ -1,0 +1,31 @@
+@import 'utils/const.scss';
+
+.deleteModal {
+    display: flex;
+    padding-top: 40px;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+    text-align: center;
+}
+
+.btnContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.cancel {
+    background-color: transparent;
+    color: $yellow;
+    border: 1px solid $yellow;
+
+    &:hover {
+        background-color: $light-yellow;
+        transition: background-color 0.3s ease-in-out;
+    }
+}
+
+.cancel, .confirm {
+    flex: 0 1 calc(50% - 10px)
+}

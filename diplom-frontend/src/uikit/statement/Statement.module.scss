@@ -1,0 +1,40 @@
+@import 'utils/const.scss';
+
+.statement {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid $border-gray;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+        padding: 10px;
+    }
+
+    &__data, &__user {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    &__user {
+        margin-top: 10px;
+        padding: 10px 0;
+        border-top: 1px solid $border-gray;
+        border-bottom: 1px solid $border-gray;
+    }
+}
+
+
+
+.buttonContainer {
+    display: flex;
+    flex-direction: 'row';
+    column-gap: 10px;
+    padding-top: 10px;
+
+    &_btn {
+        flex: 0 1 calc(50% - 10px)
+    }
+}

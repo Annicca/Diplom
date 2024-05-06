@@ -1,7 +1,7 @@
 import { TGroup } from "src/types/TGroup"
 import { TPage } from "src/types/TPage"
 import { fetchData } from "src/utils/fetch"
-import { removeEmpty } from "src/utils/removeEnty"
+import { removeEmpty } from "src/utils/removeEmpty"
 
 export const groupsQuery = (city: string) => ({
     queryKey: ['groups', city],

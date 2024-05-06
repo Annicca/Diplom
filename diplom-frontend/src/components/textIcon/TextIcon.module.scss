@@ -22,4 +22,8 @@
         align-items: center;
         gap: 10px;
     }
+
+    &__text {
+        text-wrap: wrap;
+    }
 }

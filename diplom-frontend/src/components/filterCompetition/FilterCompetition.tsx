@@ -62,33 +62,33 @@ export const FilterCompetition:FC<FilterCompetitionProps> = ({filter, handleFilt
                     <CloseIcon width={20} height={20} />
                 </button>}
                 <InputControl 
-                register={register}
-                type = "date" 
-                name="dateStart"
-                label="Дата начала:"
-                error = {errors?.dateStart?.message}
+                    type = "date" 
+                    label="Дата начала:"
+                    error = {errors?.dateStart?.message}
+                    {...register("dateStart")}
+                    mode = 'clear'
                 />
 
                 <InputControl 
-                register={register}
-                type = "date" 
-                name="dateFinish"
-                label="Дата окончания:"
-                error = {errors?.dateFinish?.message}
+                    {...register("dateFinish")}
+                    type = "date" 
+                    label="Дата окончания:"
+                    error = {errors?.dateFinish?.message}
+                    mode = 'clear'
                 />
 
                 <InputControl 
-                register={register}
-                type = "checkbox" 
-                id="isStatusCompetition"
-                name="isStatusCompetition"
-                label="Набор участников"
-                error = {errors?.isStatusCompetition?.message}
-                classNameContainer={style.filter__checkbox}
+                    {...register("isStatusCompetition")}
+                    type = "checkbox" 
+                    id="isStatusCompetition"
+                    label="Набор участников"
+                    error = {errors?.isStatusCompetition?.message}
+                    classNameContainer={style.filter__checkbox}
+                    mode = 'clear'
                 />
                 <div className={style.filter__buttons}>
-                    <Button type="submit" className={style.filter__submit}>Применить</Button>
-                    <Button type="reset" className={style.filter__reset}>Очистить</Button>
+                    <Button type="submit" isYellow={false} className={style.filter__submit}>Применить</Button>
+                    <Button type="reset"isYellow={false} className={style.filter__reset}>Очистить</Button>
                 </div>
             </form>}
             

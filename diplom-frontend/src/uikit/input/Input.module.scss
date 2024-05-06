@@ -22,6 +22,7 @@
 }
 
 .checkboxContainer {
+    flex-direction: row;
     label {
         display: inline-flex;
         align-items: center;
@@ -35,7 +36,7 @@
         height: 1em;
         flex-shrink: 0;
         flex-grow: 0;
-        border: 1px solid #adb5bd;
+        border: 1px solid $border-dark;
         border-radius: 0.25em;
         margin-right: 0.5em;
         background-repeat: no-repeat;

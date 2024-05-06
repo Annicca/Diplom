@@ -41,4 +41,15 @@
     &Container{
       width: 100%;
     }
+
+    &_statements {
+      display: grid;
+      width: 50%;
+      margin: 0 auto;
+      row-gap: 60px;
+
+      @media (max-width: map-get($breackpoints, laptop)){
+        width: 100%;
+      }
+    }
 }

@@ -47,6 +47,7 @@ export const Detail:FC<DetailProps>= ({img, name, city, status, dateStart, dateF
                 disabled={isDisabled} 
                 onClick={onClick} 
                 isGradient
+                isYellow={false}
                 className={style.detail__button}  
             >
                 {buttonText}

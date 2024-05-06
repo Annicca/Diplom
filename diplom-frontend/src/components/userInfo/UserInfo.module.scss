@@ -1,0 +1,52 @@
+@import 'utils/const.scss';
+
+.wrapper {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid $border-gray;
+    font-weight: 500;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+        max-width: none;
+    }
+}
+
+.topContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    row-gap: 10px;
+}
+
+.logout {
+    padding: 0;
+    font-size: 16px;
+}
+
+.role {
+    display: flex;
+    column-gap: 10px;
+}
+
+.dropdown {
+    width: 50%;
+    @media (max-width: map-get($breackpoints, tablet)) {
+        width: 80%;
+    }
+}

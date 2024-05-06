@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "src/utils/queryClient";
 import { useLoaderData } from "react-router-dom"
 import { PageLayout } from "src/components/layout/PageLayout"
-import { useSearchContext } from "src/context/context"
+import { useSearchContext } from "src/context/search-context/useSearchContext";
 import { groupsLoader as loader } from "./loader"
 import { groupsQuery } from "./groupsQuery"
 import { AxiosError } from "axios"
@@ -16,7 +16,6 @@ import { IS_MOBILE } from "src/Constants";
 
 import style from '../../components/list/List.module.scss'
 import pageStyle from './Groups.module.scss'
-
 
 export const Groups = () => {
     const {value: serachValue} = useSearchContext()
