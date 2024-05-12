@@ -21,6 +21,39 @@
     outline: none;
 }
 
+.radioContainer {
+    flex-direction: row;
+    label {
+        display: inline-flex;
+        align-items: center;
+        user-select: none;
+
+        &::before {
+            content: "";
+            display: inline-block;
+            box-sizing: border-box;
+            margin-right: 5px;
+            width: 1em;
+            height: 1em;
+            border-radius: 50%;
+            border: 1px solid $orange;
+            background: $white;
+        }
+    }
+}
+
+.radio {
+    position: absolute;
+    width: fit-content;
+    z-index: -1;
+    opacity: 0;
+
+    &:checked + label::before {
+        transition: border 0.2s linear;
+        border: 5px solid $orange;
+    }
+}
+
 .checkboxContainer {
     flex-direction: row;
     label {

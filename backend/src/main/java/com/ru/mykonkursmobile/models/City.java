@@ -11,17 +11,16 @@ import jakarta.validation.constraints.NotNull;
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
-    private int idCity;
+    private Integer idCity;
 
     @NotBlank
     private String city;
 
-    public int getIdCity() {
+    public Integer getIdCity() {
         return idCity;
     }
 
-    public void setIdCity(int idCity) {
+    public void setIdCity(Integer idCity) {
         this.idCity = idCity;
     }
 

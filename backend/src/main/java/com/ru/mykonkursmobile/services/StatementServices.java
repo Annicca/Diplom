@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class StatementServices implements IStatementService {
@@ -73,7 +72,7 @@ public class StatementServices implements IStatementService {
             throw new ChangeStatusException(HttpStatus.BAD_REQUEST, "Вы не можете изменить статус заявки, так как у неё уже есть статус");
         }
 
-        statement.setStatusStatement(StatusStatement.ACCEPTED);
+        statement.setStatusStatement(Status.ACCEPTED);
 
         User user = userService.getById(statement.getUser().getIdUser());
 
@@ -118,7 +117,7 @@ public class StatementServices implements IStatementService {
         if(statement.getStatusStatement() != null){
             throw new ChangeStatusException(HttpStatus.BAD_REQUEST, "Вы не можете изменить статус заявки, так как у неё уже есть статус");
         } else{
-            statement.setStatusStatement(StatusStatement.REJECTED);
+            statement.setStatusStatement(Status.REJECTED);
         }
 
         return update(statement);

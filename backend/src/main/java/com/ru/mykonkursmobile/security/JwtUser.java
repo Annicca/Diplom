@@ -1,7 +1,10 @@
 package com.ru.mykonkursmobile.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ru.mykonkursmobile.enums.TypeUser;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,6 +30,22 @@ public class JwtUser implements UserDetails{
 
     private final String phoneUser;
 
+    private final TypeUser typeUser;
+
+    private final String organizationName;
+
+    private final String inn;
+
+    private final String kpp;
+
+    private final String legalAddress;
+
+    private final String settlementAccount;
+
+    private final String bikBank;
+
+    private final Boolean withNds;
+
     private final Collection<? extends GrantedAuthority> authorities;
 
     public JwtUser(int idUser,
@@ -37,6 +56,14 @@ public class JwtUser implements UserDetails{
                    String passwordUser,
                    String mailUser,
                    String phoneUser,
+                   TypeUser typeUser,
+                   String organizationName,
+                   String inn,
+                   String kpp,
+                   String legalAddress,
+                   String settlementAccount,
+                   String bikBank,
+                   Boolean withNds,
                    Collection<? extends GrantedAuthority> authorities){
         this.idUser = idUser;
         this.surnameUser = surnameUser;
@@ -46,6 +73,14 @@ public class JwtUser implements UserDetails{
         this.passwordUser = passwordUser;
         this.mailUser = mailUser;
         this.phoneUser = phoneUser;
+        this.typeUser = typeUser;
+        this.organizationName = organizationName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.legalAddress = legalAddress;
+        this.settlementAccount = settlementAccount;
+        this.bikBank = bikBank;
+        this.withNds = withNds;
         this.authorities = authorities;
     }
 
@@ -111,5 +146,37 @@ public class JwtUser implements UserDetails{
 
     public String getPhoneUser() {
         return phoneUser;
+    }
+
+    public TypeUser getTypeUser() {
+        return typeUser;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public String getInn() {
+        return inn;
+    }
+
+    public String getKpp() {
+        return kpp;
+    }
+
+    public String getLegalAddress() {
+        return legalAddress;
+    }
+
+    public String getSettlementAccount() {
+        return settlementAccount;
+    }
+
+    public String getBikBank() {
+        return bikBank;
+    }
+
+    public Boolean getWithNds() {
+        return withNds;
     }
 }

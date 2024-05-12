@@ -15,7 +15,7 @@ public class Genre {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_nomination", nullable = false)
+    @JoinColumn(name = "id_nomination")
     @NotNull
     private Nomination nomination;
 
@@ -48,6 +48,10 @@ public class Genre {
 
     public Genre(int id, String name, Nomination nomination) {
         this.id = id;
+        this.name = name;
+        this.nomination = nomination;
+    }
+    public Genre(String name, Nomination nomination) {
         this.name = name;
         this.nomination = nomination;
     }

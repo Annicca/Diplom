@@ -10,15 +10,14 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "profile")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonProperty("idUser")
-	@Column(name="id_user", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUser;
 
-	@NotBlank
+	@NotNull(message = "Выберете тип пользователя")
 	@Column(name="type_user")
 	@Enumerated(EnumType.STRING)
 	private TypeUser typeUser;
@@ -65,13 +64,14 @@ public class User{
 	@NotBlank(message = "Логин обязателен")
 	@Size(min = 5, message = "Минимальная длина логина 5 символов")
 	@Pattern(regexp = "^[A-Za-z0-9]+$", message = "Логин может содержать только буквы латинского алфавита и цифры")
+	@Column(name="login_user")
 	private String loginUser;
 
 
 	@Size(min = 8, message = "Минимальная длина пароля 8 символов")
 	@Pattern(regexp = "((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Za-z]).*$", message = "Пароль должен включать буквы латинского алфавита, цифры и хотя бы 1 спец символ")
 	@NotBlank(message = "Пароль обязателен")
-//	@JsonIgnoreProperties
+	@JsonIgnoreProperties
 	@Column(name="password_user", nullable = false)
 	private String passwordUser;
 
@@ -92,7 +92,6 @@ public class User{
 
 		this.idUser = idUser;
 	}
-	@Id
 	public int getIdUser(){
 
 		return this.idUser;
@@ -230,22 +229,24 @@ public class User{
 		return  this.role;
 	}
 
-	public User(int idUser,
-				TypeUser typeUser,
-				String surnameUser,
-				String nameUser,
-				String patronimycUser,
-				String loginUser,
-				String passwordUser,
-				String mailUser,
-				String phoneUser,
-				Role role,
-				String inn,
-				String kpp,
-				String bikBank,
-				String legalAddress,
-				String settlementAccount,
-				Boolean withNds){
+	public User(
+			Integer idUser,
+			TypeUser typeUser,
+			String surnameUser,
+			String nameUser,
+			String patronimycUser,
+			String loginUser,
+			String passwordUser,
+			String mailUser,
+			String phoneUser,
+			Role role,
+			String organizationName,
+			String inn,
+			String kpp,
+			String bikBank,
+			String legalAddress,
+			String settlementAccount,
+			Boolean withNds){
 		this.idUser = idUser;
 		this.typeUser = typeUser;
 		this.surnameUser = surnameUser;
@@ -256,6 +257,7 @@ public class User{
 		this.mailUser = mailUser;
 		this.phoneUser = phoneUser;
 		this.role = role;
+		this.organizationName = organizationName;
 		this.bikBank = bikBank;
 		this.inn = inn;
 		this.kpp = kpp;
@@ -274,6 +276,7 @@ public class User{
 				String mailUser,
 				String phoneUser,
 				Role role,
+				String organizationName,
 				String inn,
 				String kpp,
 				String bikBank,
@@ -289,6 +292,7 @@ public class User{
 		this.mailUser = mailUser;
 		this.phoneUser = phoneUser;
 		this.role = role;
+		this.organizationName = organizationName;
 		this.bikBank = bikBank;
 		this.inn = inn;
 		this.kpp = kpp;

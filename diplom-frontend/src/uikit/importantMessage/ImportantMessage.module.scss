@@ -1,0 +1,19 @@
+@import 'utils/const.scss';
+
+.warning {
+    width: 100%;
+    display: flex;
+    padding: 15px;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 20px;
+    background-color: $peach;
+    border-radius: 10px;
+    text-align: left;
+    line-height: 21px;
+
+    path {
+        fill: $orange;
+    }
+}

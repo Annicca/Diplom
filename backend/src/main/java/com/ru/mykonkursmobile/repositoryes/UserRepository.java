@@ -12,9 +12,9 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query(value = "select * from User where login_user = :login", nativeQuery = true)
+    @Query(value = "select * from profile where login_user = :login", nativeQuery = true)
     Page<User> findByLogin(@Param("login") String loginUser, Pageable pageable);
 
-    @Query(value = "select * from User where login_user = :login", nativeQuery = true)
+    @Query(value = "select * from profile where login_user = :login", nativeQuery = true)
     User getByLogin(@Param("login") String loginUser);
 }

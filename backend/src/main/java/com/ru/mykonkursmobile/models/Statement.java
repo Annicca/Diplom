@@ -1,18 +1,12 @@
 package com.ru.mykonkursmobile.models;
 
-import com.ru.mykonkursmobile.enums.StatusModeration;
-import com.ru.mykonkursmobile.enums.StatusStatement;
+import com.ru.mykonkursmobile.enums.Status;
 import com.ru.mykonkursmobile.enums.TypeStatement;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "statement")
@@ -20,11 +14,10 @@ public class Statement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_statement", unique = true, nullable = false)
     private int idStatement;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "id_user")
     private User user;
 
     @Enumerated(EnumType.STRING)
@@ -37,7 +30,7 @@ public class Statement {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_city", nullable = false)
+    @JoinColumn(name = "id_city")
     @NotNull
     private City city;
 
@@ -50,7 +43,7 @@ public class Statement {
     private Date dateFinish;
 
     @Enumerated(EnumType.STRING)
-    private StatusStatement statusStatement;
+    private Status statusStatement;
 
     @JoinColumn(name = "competition_fee")
     private Double competitionFee;
@@ -131,11 +124,11 @@ public class Statement {
         this.dateFinish = dateFinish;
     }
 
-    public StatusStatement getStatusStatement() {
+    public Status getStatusStatement() {
         return statusStatement;
     }
 
-    public void setStatusStatement(StatusStatement statusStatement) {
+    public void setStatusStatement(Status statusStatement) {
         this.statusStatement = statusStatement;
     }
 

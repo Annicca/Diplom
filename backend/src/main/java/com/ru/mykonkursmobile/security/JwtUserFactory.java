@@ -21,6 +21,14 @@ public final class JwtUserFactory {
                 user.getPasswordUser(),
                 user.getMailUser(),
                 user.getPhoneUser(),
+                user.getTypeUser(),
+                user.getOrganizationName(),
+                user.getInn(),
+                user.getKpp(),
+                user.getLegalAddress(),
+                user.getSettlementAccount(),
+                user.getBikBank(),
+                user.getWithNds(),
                 mapToGrantedAuthorities(user.getRole()));
     }
 

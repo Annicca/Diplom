@@ -4,6 +4,7 @@ import com.ru.mykonkursmobile.dto.CompetitionChangeDTO;
 import com.ru.mykonkursmobile.enums.StatusCompetition;
 import com.ru.mykonkursmobile.enums.StatusModeration;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
@@ -16,7 +17,7 @@ public class Competition {
     private int idCompetition;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "id_user")
     @NotNull
     private User organizer;
 
@@ -32,7 +33,7 @@ public class Competition {
     private Date dateFinish;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_city", nullable = false)
+    @JoinColumn(name = "id_city")
     @NotNull
     private City cityCompetition;
 
@@ -50,26 +51,11 @@ public class Competition {
     private String rules;
     private String img;
 
-//    @JsonBackReference
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(name = "participant",
-//            joinColumns = @JoinColumn(name = "id_competition"),
-//            inverseJoinColumns = @JoinColumn(name = "id_group"))
-//    private List<ArtGroup> groups = new ArrayList<>();
-//
-//    public List<ArtGroup> getGroups () {
-//        return groups;
-//    }
-
-//    public void setGroups(List<ArtGroup> groups) {
-//        this.groups = groups;
-//    }
-
-    public void setIdCompetition(Integer idCompetition) {
+    public void setIdCompetition(int idCompetition) {
         this.idCompetition = idCompetition;
     }
 
-    public Integer getIdCompetition() {
+    public int getIdCompetition() {
         return idCompetition;
     }
 
@@ -169,7 +155,7 @@ public class Competition {
         this.rules = rules;
     }
 
-    public Competition(Integer idCompetition,
+    public Competition(int idCompetition,
                        User organizer,
                        String nameCompetition,
                        String descriptionCompetition,

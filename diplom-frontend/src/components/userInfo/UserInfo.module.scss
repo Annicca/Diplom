@@ -32,6 +32,11 @@
     flex-direction: column;
     margin-top: 20px;
     row-gap: 10px;
+
+    &__item {
+        display: flex;
+        column-gap: 10px;
+    }
 }
 
 .logout {

@@ -15,7 +15,7 @@ public class ArtGroup {
     private int idGroup;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "id_user")
     @NotNull
     public User director;
 
@@ -26,7 +26,7 @@ public class ArtGroup {
     private String descriptionGroup;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_city", nullable = false)
+    @JoinColumn(name = "id_city")
     @NotNull
     private City cityGroup;
 
@@ -39,20 +39,6 @@ public class ArtGroup {
     private StatusModeration statusModeration;
 
     private String img;
-
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(name = "participant",
-//            joinColumns = @JoinColumn(name = "id_group"),
-//            inverseJoinColumns = @JoinColumn(name = "id_competition"))
-//    private List<Competition> competitions = new ArrayList<>();
-//
-//    public List<Competition> getCompetitions () {
-//        return competitions;
-//    }
-//
-//    public void setCompetitions(List<Competition> competitions) {
-//        this.competitions = competitions;
-//    }
 
     public void setIdGroup(int idGroup) {
         this.idGroup = idGroup;
@@ -126,7 +112,7 @@ public class ArtGroup {
         return img;
     }
 
-    public ArtGroup(Integer idGroup,
+    public ArtGroup(int idGroup,
                     User director,
                     String nameGroup,
                     String descriptionGroup,

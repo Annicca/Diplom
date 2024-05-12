@@ -22,6 +22,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Service
 public class UserService implements IUserService {
@@ -55,7 +56,6 @@ public class UserService implements IUserService {
 		User registeredUser = repository.save(user);
 		registeredUser = getByLogin(registeredUser.getLoginUser());
 		String jwtToken = jwtService.generateToken(registeredUser);
-
 		return new AuthenticationResponseDTO(registeredUser, jwtToken);
 	}
 

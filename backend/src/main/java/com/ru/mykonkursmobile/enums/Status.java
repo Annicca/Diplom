@@ -1,5 +1,5 @@
 package com.ru.mykonkursmobile.enums;
 
-public enum StatusStatement{
+public enum Status{
     ACCEPTED, REJECTED
 }

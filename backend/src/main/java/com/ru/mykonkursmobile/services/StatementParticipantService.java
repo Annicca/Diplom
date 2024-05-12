@@ -1,7 +1,7 @@
 package com.ru.mykonkursmobile.services;
 
+import com.ru.mykonkursmobile.enums.Status;
 import com.ru.mykonkursmobile.enums.StatusCompetition;
-import com.ru.mykonkursmobile.enums.StatusStatement;
 import com.ru.mykonkursmobile.exceptions.ChangeStatusException;
 import com.ru.mykonkursmobile.exceptions.NotFoundEntityException;
 import com.ru.mykonkursmobile.exceptions.TakePartException;
@@ -13,9 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Objects;
 
 @Service
 public class StatementParticipantService implements IStatementParticipant {
@@ -86,7 +83,7 @@ public class StatementParticipantService implements IStatementParticipant {
     @Override
     public StatementParticipant accept(Integer id) throws NotFoundEntityException, ChangeStatusException {
         StatementParticipant statementParticipant = getById(id);
-        statementParticipant.setStatus(StatusStatement.ACCEPTED);
+        statementParticipant.setStatus(Status.ACCEPTED);
 
         Competition competition = statementParticipant.getCompetition();
         ArtGroup groupParticipant = statementParticipant.getGroup();
@@ -102,7 +99,7 @@ public class StatementParticipantService implements IStatementParticipant {
     @Override
     public StatementParticipant reject(Integer id) throws NotFoundEntityException, ChangeStatusException {
         StatementParticipant statement = getById(id);
-        statement.setStatus(StatusStatement.REJECTED);
+        statement.setStatus(Status.REJECTED);
         return update(statement);
     }
 

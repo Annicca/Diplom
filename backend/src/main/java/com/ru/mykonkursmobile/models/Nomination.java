@@ -14,12 +14,12 @@ public class Nomination {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_statement", nullable = false)
+    @JoinColumn(name = "id_statement")
     @NotNull
     private Statement statement;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_competition", nullable = false)
+    @JoinColumn(name = "id_competition")
     @NotNull
     private Competition competition;
 
@@ -49,8 +49,19 @@ public class Nomination {
         this.competition = competition;
     }
 
-    public Nomination(int id, Statement statement, String name) {
+    public Nomination(Statement statement, Competition competition, String name) {
+        this.name = name;
+        this.statement = statement;
+        this.competition = competition;
+    }
+
+    public Nomination(Integer id, Statement statement, String name) {
         this.id = id;
+        this.name = name;
+        this.statement = statement;
+    }
+
+    public Nomination(Statement statement, String name) {
         this.name = name;
         this.statement = statement;
     }

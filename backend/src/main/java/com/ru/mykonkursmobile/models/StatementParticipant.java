@@ -1,6 +1,6 @@
 package com.ru.mykonkursmobile.models;
 
-import com.ru.mykonkursmobile.enums.StatusStatement;
+import com.ru.mykonkursmobile.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,18 +12,13 @@ public class StatementParticipant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-//    @JoinColumn(name = "id_user", nullable = false)
-//    @NotNull
-//    public User user;
-
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_group", nullable = false)
+    @JoinColumn(name = "id_group")
     @NotNull
     public ArtGroup group;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_competition", nullable = false)
+    @JoinColumn(name = "id_competition")
     @NotNull
     public Competition competition;
 
@@ -39,7 +34,7 @@ public class StatementParticipant {
     private Double cost;
 
     @Enumerated(EnumType.STRING)
-    private StatusStatement status;
+    private Status status;
 
     public int getId() {
         return id;
@@ -48,14 +43,6 @@ public class StatementParticipant {
     public void setId(int id) {
         this.id = id;
     }
-
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
 
     public ArtGroup getGroup() {
         return group;
@@ -89,11 +76,11 @@ public class StatementParticipant {
         this.countParticipants = countParticipants;
     }
 
-    public StatusStatement getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(StatusStatement status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -113,7 +100,7 @@ public class StatementParticipant {
         this.cost = cost;
     }
 
-    public StatementParticipant(int id, ArtGroup group, Competition competition, String nameAct, Integer countParticipants, Integer countAccompanying, Double cost, StatusStatement status) {
+    public StatementParticipant(int id, ArtGroup group, Competition competition, String nameAct, Integer countParticipants, Integer countAccompanying, Double cost, Status status) {
         this.id = id;
         this.group = group;
         this.competition = competition;

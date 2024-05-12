@@ -1,6 +1,7 @@
 import { TUser } from "src/types/TUser"
 import { getRequestConfig, instance } from "./fetch"
 import { setCookie } from "react-use-cookie"
+import { ETypeUser } from "src/types/ETypeUser"
 
 export interface ILoginRequest {
     login:string,
@@ -28,6 +29,8 @@ export const login = async (loginData: ILoginRequest):Promise<TUser> => {
 }
 
 export interface IRegisterRequest {
+    typeUser: ETypeUser,
+    organizationName?: string;
     surnameUser: string,
     nameUser: string,
     patronimycUser?: string,
@@ -35,7 +38,13 @@ export interface IRegisterRequest {
     mailUser: string,
     phoneUser?: string,
     passwordUser: string,
-    confirmPassword?: string
+    confirmPassword?: string,
+    bikBank?: string;
+	inn?: string;
+	kpp?: string;
+	legalAddress?: string;
+	settlementAccount?: string;
+	withNds?: boolean;
 }
 
 /**
@@ -53,7 +62,11 @@ export const registerUser = async(registerData: IRegisterRequest):Promise<TUser>
             return response.data.user;
         })
         .catch((error) =>{
-            if(error.response) throw new Error(error.response.data.message)
+            if(error.response) {
+                if(error.response.data.errors) throw new Error(error.response.data.errors)
+                throw new Error(error.response.data.message)
+            }
+                
             else throw new Error(error.message)
         })
 }

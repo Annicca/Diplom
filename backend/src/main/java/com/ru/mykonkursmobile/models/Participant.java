@@ -11,20 +11,20 @@ public class Participant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_competition", nullable = false)
+    @JoinColumn(name = "id_competition")
     @NotNull
     private Competition competition;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_group", nullable = false)
+    @JoinColumn(name = "id_group")
     @NotNull
     private ArtGroup group;
 
     @NotNull
-    private Integer countParticipants;
+    private int countParticipants;
 
     @NotNull
-    private Integer countAccompanying;
+    private int countAccompanying;
 
     public int getId() {
         return id;
@@ -50,27 +50,34 @@ public class Participant {
         this.group = group;
     }
 
-    public Integer getCountParticipants() {
+    public int getCountParticipants() {
         return countParticipants;
     }
 
-    public void setCountParticipants(Integer countParticipants) {
+    public void setCountParticipants(int countParticipants) {
         this.countParticipants = countParticipants;
     }
 
-    public Integer getCountAccompanying() {
+    public int getCountAccompanying() {
         return countAccompanying;
     }
 
-    public void setCountAccompanying(Integer countAccompanying) {
+    public void setCountAccompanying(int countAccompanying) {
         this.countAccompanying = countAccompanying;
     }
 
     public Participant() {
     }
 
-    public Participant(int id, Competition competition, ArtGroup group, Integer countParticipants, Integer countAccompanying) {
+    public Participant(int id, Competition competition, ArtGroup group, int countParticipants, int countAccompanying) {
         this.id = id;
+        this.competition = competition;
+        this.group = group;
+        this.countParticipants = countParticipants;
+        this.countAccompanying = countAccompanying;
+    }
+
+    public Participant(Competition competition, ArtGroup group, int countParticipants, int countAccompanying) {
         this.competition = competition;
         this.group = group;
         this.countParticipants = countParticipants;
