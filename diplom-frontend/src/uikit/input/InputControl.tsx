@@ -19,25 +19,27 @@ export const InputControl:FC<InputControlProps> = forwardRef<HTMLInputElement, I
         <div className={classNames(
             classNameContainer,
             {
-                [style.inputContainer]: mode === 'default' && props.type !== 'checkbox',
-                [clearStyle.inputContainer]: mode === 'clear' && props.type !== 'checkbox',
-                [clearStyle.checkboxContainer]: props.type === 'checkbox'
+                [style.inputContainer]: mode === 'default' && props.type !== 'checkbox' && props.type !== 'radio',
+                [clearStyle.inputContainer]: mode === 'clear' && props.type !== 'checkbox' && props.type !== 'radio',
+                [clearStyle.checkboxContainer]: props.type === 'checkbox',
+                [clearStyle.radioContainer]: props.type === 'radio'
             }
         )}>
             <input
                 className={classNames(
                     props.className,
                     {
-                        [style.input]: mode === 'default' && props.type !== 'checkbox',
-                        [clearStyle.input]: mode === 'clear' && props.type !== 'checkbox',
+                        [style.input]: mode === 'default' && props.type !== 'checkbox' && props.type !== 'radio',
+                        [clearStyle.input]: mode === 'clear' && props.type !== 'checkbox' && props.type !== 'radio',
                         [clearStyle.checkbox]: props.type === 'checkbox' ,
+                        [clearStyle.radio]: props.type === 'radio',
                         ['error']: !!error
                     }
                 )} 
                 ref={ref}
                 {...inputProps} 
             />
-            <label className={classNames('', {[style.label]: mode === 'default'}) } htmlFor={props.name}> {label}</label>
+            <label className={classNames('', {[style.label]: mode === 'default' && props.type !== 'checkbox' && props.type !== 'radio'}) } htmlFor={props.id || props.name}> {label}</label>
             <div className='error-text'>{error}</div>
         </div>
     )

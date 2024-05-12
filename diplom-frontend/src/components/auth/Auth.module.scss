@@ -13,6 +13,7 @@
 
 .form{
     width: 450px;
+    max-height: 750px;
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -34,6 +35,28 @@
     @media (max-width: map-get($breackpoints, laptop)) {
         
         padding: 20px;
+    }
+}
+
+.radioContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: flex-start;
+}
+
+.stage_btn {
+    padding: 10px 15px;
+}
+
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
+    &__two {
+        justify-content: space-between;
+        column-gap: 10px;
     }
 }
 
