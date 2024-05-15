@@ -1,7 +1,11 @@
 import { TUser } from "src/types/TUser"
-import { getRequestConfig, instance } from "./fetch"
+import { fetchData, getFileConfig, getRequestConfig, instance } from "./fetch"
 import { setCookie } from "react-use-cookie"
 import { ETypeUser } from "src/types/ETypeUser"
+import { useQuery } from "@tanstack/react-query"
+import { TCIty } from "src/types/TCity"
+import { TStatement } from "src/types/TStatement"
+
 
 export interface ILoginRequest {
     login:string,
@@ -135,3 +139,31 @@ export const changeRoleUser = async (user: TUser) => {
         })
 }
 
+/**
+ * Получить города
+ */
+
+export const getCities = async(): Promise<TCIty[]> => fetchData('cities', {}, getRequestConfig())
+
+export const useCities = () => useQuery(['cities'], getCities)
+
+/**
+ * Подать заявку на размещение
+ */
+export const sendStatement = async (statement: FormData, idUser: number): Promise<TStatement> => {
+    return instance.post(`statements/${idUser}`, statement, getFileConfig())
+        .then((response) => response.data)
+        .catch((error) => {
+            if(error.response) {
+                if(error.response.data.errors) throw new Error(error.response.data.errors)
+                throw new Error(error.response.data.message)
+            }
+                
+            else throw new Error(error.message)
+        })
+}
+
+/**
+ * Получить пользователя
+ */
+export const getUser = async(id: number): Promise<TUser> => fetchData(`user/${id}`, {}, getRequestConfig())

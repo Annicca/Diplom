@@ -10,16 +10,23 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class AuthExceptionHandler extends ResponseEntityExceptionHandler {
+public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AuthException.class)
     protected ResponseEntity<ResponseException> handleException(AuthException ex) {
+        ResponseException response = new ResponseException(ex.getReason());
+        return new ResponseEntity<>(response, ex.getStatusCode());
+    }
+
+    @ExceptionHandler(FileException.class)
+    protected ResponseEntity<ResponseException> handleFileException(FileException ex) {
         ResponseException response = new ResponseException(ex.getReason());
         return new ResponseEntity<>(response, ex.getStatusCode());
     }

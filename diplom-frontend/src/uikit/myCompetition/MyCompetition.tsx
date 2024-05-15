@@ -15,6 +15,7 @@ import CalendarIcon from 'assets/icons/calendar.svg?react';
 import GroupIcon from "assets/icons/scene.svg?react";
 import StatementIcon from 'assets/icons/statement-participant.svg?react';
 import { DescriptionItem } from "src/components/descriptionItem/DescriptionItem";
+import { FileDownload } from "../fileUpload/FileDownload";
 
 import style from '../myGroup/MyGroup.module.scss'
 
@@ -41,6 +42,12 @@ export const MyCompetition:FC<MyCompetitionProps> = ({onCancelItem, onChangeItem
                     <Contact contact = {transformDate(competition.dateStart) + " - " + transformDate(competition.dateFinish)} icon ={<CalendarIcon height={25} />} classnames={style.competition__date} />
                 </div>
             </div>
+            {competition.rules &&
+                <FileDownload fileName={competition.rules} newFileName = {`Положение_конкурса_${competition.nameCompetition}`} text = "Положение конкурса"/>
+            }
+            {competition.regulation &&
+                <FileDownload fileName={competition.regulation} text = "Правила проведения" newFileName = {`Правила_проведения_конкурса_${competition.nameCompetition}`}/>
+            }
             {user?.role === ERole.ORGANIZER &&
                 <div className={style.myGroup__btnContainer}>
                     <Button 

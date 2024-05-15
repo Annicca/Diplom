@@ -38,12 +38,8 @@
     }
     
     &__info {
-        width: 40%;
+        width: 100%;
         min-width:fit-content;
-
-        @media (max-width: map-get($breackpoints, tablet)){
-            width: 100%;
-        }
     }
     
     &__city {

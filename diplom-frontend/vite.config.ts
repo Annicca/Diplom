@@ -34,7 +34,8 @@ export default defineConfig({
       hooks: 'src/hooks',
       utils: '/src/utils',
       assets: '/src/assets',
-      types: '/src/types'
+      types: '/src/types',
+      'react-windowed-select': 'react-windowed-select/dist/main.js',
     }
   }
 })

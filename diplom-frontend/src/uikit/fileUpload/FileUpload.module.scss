@@ -1,0 +1,68 @@
+@import 'utils/const.scss';
+
+.fileContainer{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    &__input{
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+    }
+    &__text{
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-wrap: nowrap;
+        white-space: nowrap;
+        padding: 10px 8px;
+        border-left: 1px solid $black;
+
+        @media (max-width: map-get($breackpoints, tablet)){
+            padding: 5px;
+        }
+
+        &_download {
+            border-right: 1px solid $black;
+        }
+    }
+    &__button{
+        padding: 15px;
+        border-radius: 15px;
+        cursor: pointer;
+
+        @media (max-width: map-get($breackpoints, tablet)){
+            padding: 10px;
+        }
+
+        &:hover{
+            background-color: $yellow660;
+        }
+    }
+
+
+}
+
+.label{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: $yellow;
+    border-radius: 15px;
+    width: 300px;
+
+    @media (max-width: map-get($breackpoints, tablet)){
+        width: 100%;
+    }
+
+    &_button {
+        padding: 0;
+        color: $black;
+        font-weight: 400;
+    }
+
+    &_download {
+        width: fit-content;
+    }
+}

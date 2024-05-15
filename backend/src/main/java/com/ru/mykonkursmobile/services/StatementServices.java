@@ -1,20 +1,28 @@
 package com.ru.mykonkursmobile.services;
 
+import com.ru.mykonkursmobile.dto.StatementDTO;
 import com.ru.mykonkursmobile.enums.*;
 import com.ru.mykonkursmobile.exceptions.ChangeStatusException;
+import com.ru.mykonkursmobile.exceptions.FileException;
 import com.ru.mykonkursmobile.exceptions.NotFoundEntityException;
 import com.ru.mykonkursmobile.interfaces.IStatementService;
-import com.ru.mykonkursmobile.models.ArtGroup;
-import com.ru.mykonkursmobile.models.Competition;
-import com.ru.mykonkursmobile.models.Statement;
-import com.ru.mykonkursmobile.models.User;
+import com.ru.mykonkursmobile.models.*;
 import com.ru.mykonkursmobile.repositoryes.StatementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class StatementServices implements IStatementService {
@@ -30,6 +38,12 @@ public class StatementServices implements IStatementService {
     @Autowired
     GroupService groupService;
 
+    @Autowired
+    CityService cityService;
+
+    @Autowired
+    private FileService fileServise;
+
     @Override
     public Page<Statement> all(Pageable pageable) {
         return repository.findAllByOrderByStatusStatement(pageable);
@@ -40,6 +54,28 @@ public class StatementServices implements IStatementService {
         return repository.save(statement);
     }
 
+    public Statement addDto(StatementDTO statementDto, Integer idUser) throws NotFoundEntityException, IOException, FileException {
+        User user = userService.getById(idUser);
+        City city = cityService.getById(statementDto.getIdCity());
+        Statement statement = new Statement(
+                user,
+                statementDto.getType(),
+                statementDto.getName(),
+                statementDto.getDescription(),
+                city,
+                statementDto.getAddress(),
+                statementDto.getDateStart(),
+                statementDto.getDateFinish(),
+                statementDto.getCompetitionFee()
+        );
+        if( statementDto.getRegulation() != null){
+            statement.setRegulation(fileServise.saveFile(statementDto.getRegulation()));
+        }
+        if( statementDto.getRules() != null){
+            statement.setRules(fileServise.saveFile(statementDto.getRules()));
+        }
+        return repository.save(statement);
+    }
 
     @Override
     public Statement update(Statement statement) throws NotFoundEntityException {
@@ -85,8 +121,9 @@ public class StatementServices implements IStatementService {
                     statement.getAddress()
             );
             groupService.add(group);
-            userService.changeRole(user, Role.DIRECTOR);
-
+            if(user.getRole() == Role.CLIENT) {
+                userService.changeRole(user, Role.DIRECTOR);
+            }
         } else if(statement.getType() == TypeStatement.COMPETITION && (user.getRole() == Role.ORGANIZER || user.getRole() == Role.CLIENT)){
             Competition competition = new Competition(
                                 statement.getUser(),
@@ -102,12 +139,12 @@ public class StatementServices implements IStatementService {
                                 statement.getRegulation()
                         );
             competitionService.add(competition);
-            userService.changeRole(user, Role.ORGANIZER);
-
+            if(user.getRole() == Role.CLIENT) {
+                userService.changeRole(user, Role.ORGANIZER);
+            }
         } else{
-            throw new ChangeStatusException(HttpStatus.BAD_REQUEST,"Не удалось разместить коллектив или конкурс. Возможно пользователь имеет неподходящую роль. Разместить коллектив или конкурс может только клиент, конкурс - организатор, коллектив - руководитель");
+            throw new ChangeStatusException(HttpStatus.BAD_REQUEST,"Не удалось разместить коллектив или конкурс. Возможно пользователь имеет неподходящую роль");
         }
-
         return update(statement);
     }
 

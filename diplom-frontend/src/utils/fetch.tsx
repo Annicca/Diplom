@@ -27,3 +27,16 @@ export const getRequestConfig = () =>{
     const token = getCookie('jwt');
     return ({headers: {Authorization: `Bearer ${token}`}});
 }
+
+export const getFileConfig = () =>{
+    const token = getCookie('jwt');
+    return ({headers: {Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data'}});
+}
+
+export const getDownloadConfig = () => {
+    return(
+        {
+            responseType: 'blob',
+        }
+    )
+}

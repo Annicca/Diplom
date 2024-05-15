@@ -1,5 +1,6 @@
 package com.ru.mykonkursmobile.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ru.mykonkursmobile.dto.CompetitionChangeDTO;
 import com.ru.mykonkursmobile.enums.StatusCompetition;
 import com.ru.mykonkursmobile.enums.StatusModeration;
@@ -27,9 +28,11 @@ public class Competition {
     private String descriptionCompetition;
 
     @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateStart;
 
     @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateFinish;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -214,6 +217,5 @@ public class Competition {
         this.descriptionCompetition = competitionChangeDTO.getDescriptionCompetition();
         this.dateStart = competitionChangeDTO.getDateStart();
         this.dateFinish = competitionChangeDTO.getDateFinish();
-        this.img = competitionChangeDTO.getImg();
     }
 }

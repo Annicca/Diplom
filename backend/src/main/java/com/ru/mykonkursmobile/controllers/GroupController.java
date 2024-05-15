@@ -54,16 +54,9 @@ public class GroupController {
         return service.getById(id);
     }
 
-//    @PutMapping("/groups")
-//    @ResponseBody
-//    public ArtGroup UpdateGroup(@ModelAttribute @Valid GroupChangeDTO group) throws IOException {
-//
-//        return service.update(group);
-//    }
-
     @PutMapping("/groups")
     @ResponseBody
-    public ArtGroup UpdateGroup(@RequestBody @Valid GroupChangeDTO group) throws IOException {
+    public ArtGroup UpdateGroup(@ModelAttribute @Valid GroupChangeDTO group) throws IOException {
 
         return service.update(group);
     }

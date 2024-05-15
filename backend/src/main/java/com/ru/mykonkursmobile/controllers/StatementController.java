@@ -1,27 +1,42 @@
 package com.ru.mykonkursmobile.controllers;
 
+import com.ru.mykonkursmobile.dto.StatementDTO;
+import com.ru.mykonkursmobile.exceptions.FileException;
 import com.ru.mykonkursmobile.models.Statement;
-import com.ru.mykonkursmobile.models.User;
 import com.ru.mykonkursmobile.services.StatementServices;
-import com.ru.mykonkursmobile.services.UserService;
+import jakarta.servlet.ServletContext;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import java.util.List;
+import javax.print.DocFlavor;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173"})
 @RequestMapping("/api")
 public class StatementController {
 
+//    @Value("${upload.path}")
+//    private String uploadPath;
+    @Autowired
+    ServletContext context;
+
     @Autowired
     StatementServices service;
-    @Autowired
-    UserService userService;
 
     @GetMapping("/statements")
     @ResponseBody
@@ -49,11 +64,16 @@ public class StatementController {
         return service.getByUserId(userId, pageable);
     }
 
+//    @PostMapping("/statements/{idUser}")
+//    public Statement CreateStatement(@PathVariable(value = "idUser") Integer idUser, @ModelAttribute @Valid StatementDTO statement ){
+//
+//        return service.add(statement);
+//    }
+
     @PostMapping("/statements/{idUser}")
-    public Statement CreateStatement(@PathVariable(value = "idUser") Integer idUser, @RequestBody @Valid Statement statement ){
-        User user = userService.getById(idUser);
-        statement.setUser(user);
-        return service.add(statement);
+    public Statement CreateStatement(@PathVariable(value = "idUser") Integer idUser, @ModelAttribute @Valid StatementDTO statement ) throws IOException, MaxUploadSizeExceededException, FileException {
+
+        return service.addDto(statement, idUser);
     }
 
     @PutMapping("/statements/accept/{id}")

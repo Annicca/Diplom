@@ -1,6 +1,6 @@
 export enum ETypeStatement {
     GROUP = 'GROUP',
-    CMPETITION = 'COMPETITION'
+    COMPETITION = 'COMPETITION'
 }
 
 export enum EStatusStatement {

@@ -26,9 +26,8 @@ public class CompetitionChangeDTO {
     @NotNull
     private Integer idCity;
 
-//    private MultipartFile img;
+    private MultipartFile img;
 
-    private String img;
 
     public Integer getIdCompetition() {
         return idCompetition;
@@ -78,19 +77,11 @@ public class CompetitionChangeDTO {
         this.idCity = idCity;
     }
 
-    public String getImg() {
+    public MultipartFile getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(MultipartFile img) {
         this.img = img;
     }
-
-    //    public MultipartFile getImg() {
-//        return img;
-//    }
-//
-//    public void setImg(MultipartFile img) {
-//        this.img = img;
-//    }
 }
