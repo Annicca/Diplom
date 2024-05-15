@@ -12,9 +12,10 @@ import classNames from 'classnames';
 import { PhisicalForm } from './PhisicalForm';
 import ArrowLeft from 'assets/icons/arrow-left.svg?react';
 import ArrowRight from 'assets/icons/arrowRight.svg?react';
+import { ImportantMessage } from 'src/uikit/importantMessage/ImportantMessage';
 
 import style from './Auth.module.scss'
-import { ImportantMessage } from 'src/uikit/importantMessage/ImportantMessage';
+
 
 export const Register = () => {
     const {changeUser} = useUserContext()

@@ -42,6 +42,8 @@ export const CompetitionDetail:FC = () => {
                                 description={competition.descriptionCompetition}
                                 isDisabled={competition.statusCompetition !== EStatusCompetition.CREATED}
                                 onClick={() => navigate('')}
+                                rules={competition.rules}
+                                regulation={competition.regulation}
                                 buttonText="Принять участие"
                             />
                         }

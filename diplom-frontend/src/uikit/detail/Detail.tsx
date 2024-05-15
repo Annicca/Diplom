@@ -5,6 +5,8 @@ import { Button } from "src/uikit/button/Button";
 import classNames from "classnames";
 
 import style from './Detail.module.scss'
+import { FileDownload } from "../fileUpload/FileDownload";
+import { MainTite } from "src/components/mainTitle/MainTitle";
 
 interface DetailProps {
     img: string | null;
@@ -16,15 +18,18 @@ interface DetailProps {
     number?: string;
     mail: string;
     address?: string;
+    rules?: string | null;
+    regulation?: string | null;
     description: string | null;
     buttonText: string;
     onClick?: () => void;
     isDisabled?: boolean;
 }
 
-export const Detail:FC<DetailProps>= ({img, name, city, status, dateStart, dateFinish, number, mail,address, description, buttonText, onClick, isDisabled}) => {
+export const Detail:FC<DetailProps>= ({img, name, city, status, dateStart, dateFinish, rules, regulation, number, mail,address, description, buttonText, onClick, isDisabled}) => {
     return(
         <section className={style.detail}>
+            <MainTite>Конкурс</MainTite>
             <Image 
                 src = {img}
                 alt = {name}
@@ -41,7 +46,12 @@ export const Detail:FC<DetailProps>= ({img, name, city, status, dateStart, dateF
                 address={address}
                 clasNameContainer={style.detail__info}
             />
-            
+            {rules &&
+                <FileDownload fileName={rules} newFileName = {`Положение_конкурса_${name}`} text = "Положение конкурса"/>
+            }
+            {regulation &&
+                <FileDownload fileName={regulation} text = "Правила проведения" newFileName = {`Правила_проведения_конкурса_${name}`}/>
+            }
             <p className={style.detail__description}>{description}</p>
             <Button
                 disabled={isDisabled} 

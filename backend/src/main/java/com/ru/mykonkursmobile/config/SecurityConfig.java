@@ -47,6 +47,7 @@ public class SecurityConfig{
                         .requestMatchers(HttpMethod.GET,"/api/statements/**").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.PUT,"/api/statements/**").hasAuthority(Role.ADMIN.name())
 
+                        .requestMatchers(HttpMethod.GET,"/api/users/id").authenticated()
                         .requestMatchers(HttpMethod.GET,"/api/users/**").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.PUT,"/api/users/**").hasAuthority(Role.ADMIN.name())
 

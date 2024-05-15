@@ -27,6 +27,7 @@ import { Statements } from './pages/Statements/Statements';
 import { statementsLoader } from './pages/Statements/loader';
 import { Users } from './pages/Users/Users';
 import { usersLoader } from './pages/Users/loader';
+import { CreateStatement } from './pages/CreateStatement/CreateStatement';
 
 
 const router = createBrowserRouter([
@@ -59,7 +60,10 @@ const router = createBrowserRouter([
         path: 'account',
         element: <Account />
       },
-
+      {
+        path: 'create/statement',
+        element: <CreateStatement />,
+      },
       {
         path: 'mystatements/:idUser',
         element: <MyStatements />,

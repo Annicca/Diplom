@@ -15,7 +15,7 @@ public class GroupChangeDTO {
 
     private String descriptionGroup;
 
-    @NotNull
+    @NotNull(message = "Город обязателен для заполнения")
     private Integer idCity;
 
     @NotBlank
@@ -23,9 +23,8 @@ public class GroupChangeDTO {
 
     private String category;
 
-//    private MultipartFile img;
+    private MultipartFile img;
 
-    private String img;
     public Integer getIdGroup() {
         return idGroup;
     }
@@ -74,19 +73,11 @@ public class GroupChangeDTO {
         this.category = category;
     }
 
-    public String getImg() {
+    public MultipartFile getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(MultipartFile img) {
         this.img = img;
     }
-
-    //    public MultipartFile getImg() {
-//        return img;
-//    }
-//
-//    public void setImg(MultipartFile img) {
-//        this.img = img;
-//    }
 }

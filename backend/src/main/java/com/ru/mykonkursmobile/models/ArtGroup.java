@@ -148,6 +148,5 @@ public class ArtGroup {
         this.descriptionGroup  = groupChangeDTO.getDescriptionGroup();
         this.addressGroup = groupChangeDTO.getAddressGroup();
         this.category = groupChangeDTO.getCategory();
-        this.img = groupChangeDTO.getImg();
     }
 }

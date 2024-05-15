@@ -7,6 +7,7 @@ import TgIcon from 'assets/icons/telegram.svg?react';
 
 export const IS_MOBILE = window.innerWidth <= 1024;
 export const URL_IMAGE = "http://localhost:8080/img/"
+export const URL_FILE = "http://localhost:8080/rules/"
 
 export const header: TypeLink[] = [
     {
@@ -15,11 +16,11 @@ export const header: TypeLink[] = [
     },
     {
         title: 'Регистрация',
-        link: 'signin',
+        link: '/signin',
     },
     {
         title: 'Разместить коллектив и конкурс',
-        link: '/statement',
+        link: '/create/statement',
     }
 ];
 

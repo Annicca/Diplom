@@ -61,20 +61,20 @@ public class CompetitionService implements ICompetitionService {
     @Override
     public Competition update(CompetitionChangeDTO competition) throws NotFoundEntityException, DataIntegrityViolationException, IOException {
         Competition competitionChange = getById(competition.getIdCompetition());
-//        if( competition.getImg() != null){
-//            competitionChange.setImg(fileServise.saveImg(competition.getImg()));
-//        }
+        if( competition.getImg() != null){
+            competitionChange.setImg(fileServise.saveImg(competition.getImg()));
+        }
         competitionChange.setCityCompetition(cityService.getById(competition.getIdCity()));
         competitionChange.update(competition);
         return updateStatusCompetition(competitionChange);
     }
 
-    public Competition change(Competition competition) throws NotFoundEntityException{
-        if(!repository.existsById(competition.getIdCompetition())){
-            throw new NotFoundEntityException(HttpStatus.NOT_FOUND, "Такого конкурса не существует");
-        }
-        return repository.save(competition);
-    }
+//    public Competition change(Competition competition) throws NotFoundEntityException{
+//        if(!repository.existsById(competition.getIdCompetition())){
+//            throw new NotFoundEntityException(HttpStatus.NOT_FOUND, "Такого конкурса не существует");
+//        }
+//        return repository.save(competition);
+//    }
 
 
     @Override

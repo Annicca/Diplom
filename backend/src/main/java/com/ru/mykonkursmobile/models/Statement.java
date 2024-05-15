@@ -1,5 +1,6 @@
 package com.ru.mykonkursmobile.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ru.mykonkursmobile.enums.Status;
 import com.ru.mykonkursmobile.enums.TypeStatement;
 import jakarta.persistence.*;
@@ -7,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "statement")
@@ -37,9 +40,11 @@ public class Statement {
     private String address;
 
     @JoinColumn(name = "date_start")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateStart;
 
     @JoinColumn(name = "date_finish")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateFinish;
 
     @Enumerated(EnumType.STRING)
@@ -47,6 +52,9 @@ public class Statement {
 
     @JoinColumn(name = "competition_fee")
     private Double competitionFee;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    private List<Nomination> nominationList = new ArrayList<>();
 
     private String regulation;
 
@@ -156,6 +164,14 @@ public class Statement {
         this.rules = rules;
     }
 
+    public List<Nomination> getNominationList() {
+        return nominationList;
+    }
+
+    public void setNominationList(List<Nomination> nominationList) {
+        this.nominationList = nominationList;
+    }
+
     public Statement(int idStatement,
                      User user,
                      TypeStatement type,
@@ -182,35 +198,24 @@ public class Statement {
         this.regulation = regulation;
     }
 
-    public Statement(User user, TypeStatement type, String name, String description, City city, String address) {
+    public Statement(User user,
+                     TypeStatement type,
+                     String name,
+                     String description,
+                     City city,
+                     String address,
+                     Date dateStart,
+                     Date dateFinish,
+                     Double competitionFee) {
         this.user = user;
         this.type = type;
         this.name = name;
         this.description = description;
         this.city = city;
         this.address = address;
-    }
-
-    public Statement(User user,
-                     TypeStatement type,
-                     String name,
-                     String description,
-                     City city,
-                     Date dateStart,
-                     Date dateFinish,
-                     Double competitionFee,
-                     String regulation,
-                     String rules) {
-        this.user = user;
-        this.type = type;
-        this.name = name;
-        this.description = description;
-        this.city = city;
         this.dateStart = dateStart;
         this.dateFinish = dateFinish;
         this.competitionFee = competitionFee;
-        this.rules = rules;
-        this.regulation = regulation;
     }
 
     public Statement(){}

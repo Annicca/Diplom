@@ -7,9 +7,9 @@ import style from './InputControl.module.scss'
 interface InputControlProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string,
     error?: string,
-    mode? : 'clear' | 'default'
+    mode? : 'clear' | 'default' | 'none',
     classNameContainer?: string;
-  }
+}
 
 export const InputControl:FC<InputControlProps> = forwardRef<HTMLInputElement, InputControlProps>((props, ref)  => {
     

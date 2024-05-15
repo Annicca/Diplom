@@ -1,6 +1,5 @@
 import { EStatusCompetition } from "./EStatusCompetition";
 import { TCIty } from "./TCity";
-import { TGroup } from "./TGroup";
 import { TUser } from "./TUser";
 
 export interface TCompetition {
@@ -12,6 +11,8 @@ export interface TCompetition {
     dateFinish: string,
     cityCompetition: TCIty,
     statusCompetition: EStatusCompetition,
-    img: string,
-    groups: TGroup[]
+    img: string | null,
+    competitionFee: number | null,
+    rules: string | null,
+    regulation: string | null,
 }

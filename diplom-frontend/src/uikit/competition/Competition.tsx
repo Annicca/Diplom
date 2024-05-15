@@ -16,6 +16,8 @@ interface CompetitionProps {
 }
 
 export const Competition : FC<CompetitionProps> = ({competition}) => {
+
+    console.log(competition)
     
     const status = <p className="text-orange">{"Статус: " + chooseStatusCompetition(competition.statusCompetition)}</p>
     

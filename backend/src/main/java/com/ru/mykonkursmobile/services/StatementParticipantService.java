@@ -85,13 +85,13 @@ public class StatementParticipantService implements IStatementParticipant {
         StatementParticipant statementParticipant = getById(id);
         statementParticipant.setStatus(Status.ACCEPTED);
 
-        Competition competition = statementParticipant.getCompetition();
-        ArtGroup groupParticipant = statementParticipant.getGroup();
+//        Competition competition = statementParticipant.getCompetition();
+//        ArtGroup groupParticipant = statementParticipant.getGroup();
 //        добавление коллектива в участники
 //        List<ArtGroup> groups = competition.getGroups();
 //        groups.add(groupParticipant);
 //        competition.setGroups(groups);
-        competitionService.change(competition);
+//        competitionService.change(competition);
 
         return repository.save(statementParticipant);
     }
