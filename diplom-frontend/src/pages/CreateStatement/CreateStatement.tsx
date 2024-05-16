@@ -16,9 +16,8 @@ import { CreateGroup } from "src/components/createStatement/CreateGroup";
 import { CreateCompetition } from "src/components/createStatement/CreateCompetition";
 import { sendStatement } from "src/utils/api";
 import { TCIty } from "src/types/TCity";
-import style from './CreateStatement.module.scss'
 import { CreateNominations } from "src/components/createStatement/CreateNominations";
-
+import style from './CreateStatement.module.scss'
 
 export type CreateStatementForm = Exclude<TStatement, TCIty> & {
     city: {

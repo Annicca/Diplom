@@ -65,7 +65,7 @@ export const CreateCompetition:FC<CreateCompetitionProps> = ({register, control,
                 id = "rulesInput"
                 label="Загрузите положение конкурса"
                 file={rules}
-                accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+                accept=".doc, .docx, .ppt, .pptx, .pdf"
                 {...register('rules', {
                     onChange: changeRules,
                     required : 'Положение обязательно',
@@ -76,7 +76,7 @@ export const CreateCompetition:FC<CreateCompetitionProps> = ({register, control,
                 id = "regulationInput"
                 label="Загрузите правила проведения"
                 file={regulation}
-                accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+                accept=".doc, .docx, .ppt, .pptx, .pdf"
                 {...register('regulation', {
                     onChange: changeRegulation
                 })}

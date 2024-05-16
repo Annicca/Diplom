@@ -62,7 +62,7 @@ export const MyGroups:FC<MyGroupsProps> = ({url}) => {
     }
 
     const onChange = (id: number) => {
-        navigate('/groups/change/'+id)
+        navigate('/mygroups/edit/'+id)
     }
 
     return(

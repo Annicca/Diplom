@@ -28,6 +28,9 @@
     &:hover{
         background-color: $yellow660;
     }
+    &:disabled {
+        background-color: $border-gray;
+    }
 }
 
 .save {

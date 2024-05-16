@@ -84,6 +84,18 @@ export const logout = () => {
 }
 
 /**
+ * Редактирование коллектива
+ */
+
+export const editGroup = async (groupData: FormData) => {
+    return instance.put('groups', groupData, getFileConfig())
+       .catch((error) => {
+            if(error.response) throw new Error(error.response.data.message)
+            else throw new Error(error.message)
+        })
+}
+
+/**
  * Удаление коллектива
  * @param idGroup - идентификатор группы
  * @returns ничего
@@ -166,4 +178,4 @@ export const sendStatement = async (statement: FormData, idUser: number): Promis
 /**
  * Получить пользователя
  */
-export const getUser = async(id: number): Promise<TUser> => fetchData(`user/${id}`, {}, getRequestConfig())
+export const getUser = async(id: number): Promise<TUser> => fetchData(`users/${id}`, {}, getRequestConfig())
