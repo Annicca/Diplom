@@ -4,7 +4,6 @@ import { URL_FILE } from "src/Constants";
 
 import style from './FileUpload.module.scss'
 
-
 interface FileDownloadProps {
     fileName: string;
     text: string;

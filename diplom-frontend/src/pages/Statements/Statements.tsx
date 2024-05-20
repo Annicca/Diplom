@@ -10,13 +10,12 @@ import { PageLayout } from "src/components/layout/PageLayout"
 import { PaginationList } from "src/components/list/PaginationList"
 import { MainTite } from "src/components/mainTitle/MainTitle"
 import { TPage } from "src/types/TPage";
-import { TStaement } from "src/types/TStatement";
+import { TStatement } from "src/types/TStatement";
 import { IS_MOBILE } from "src/Constants";
 import { Search } from "src/uikit/search/Search";
 import { Statement } from "src/uikit/statement/Statement";
 import { ErrorModal } from "src/components/errorModal/ErrorModal";
 import { changeStatementStatus } from "src/utils/api";
-
 
 import style from '../../components/list/List.module.scss'
 import pageStyle from './Statements.module.scss'
@@ -27,7 +26,7 @@ export const Statements:FC = () => {
     const [isOpenErrorModal, setOpenErrorModal] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof loader>>>
-    const infinitedata = useInfiniteQuery<TPage<TStaement[]>, AxiosError>({...query(number), initialData: initialData})
+    const infinitedata = useInfiniteQuery<TPage<TStatement[]>, AxiosError>({...query(number), initialData: initialData})
 
     const handleNumber = (number: string) => {
         setNumber(number)
@@ -83,7 +82,7 @@ export const Statements:FC = () => {
                 classNameInnerList={style.list_statements}
                 skeletonClassName="skeleton-competition"
                 infiniteData={infinitedata}
-                renderItem={(item: TStaement) => <Statement 
+                renderItem={(item: TStatement) => <Statement 
                     key={item.idStatement + (item?.statusStatement || '')} 
                     statement={item} 
                     onAccept={() => onAccept(item.idStatement)}

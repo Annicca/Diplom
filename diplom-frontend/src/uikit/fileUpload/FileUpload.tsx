@@ -13,7 +13,7 @@ export const FileUpload:FC<FileUploadProps> = forwardRef<HTMLInputElement, FileU
     const {label, accept, file, error, id, ...inputProps} = props
 
     return(
-        <div className={style.fileContainer}>
+        <div className={style.fileContainer} key = {id}>
                 <p className={style.fileContainer__title}>{label}</p>
                 <input 
                     ref={ref}
@@ -27,7 +27,7 @@ export const FileUpload:FC<FileUploadProps> = forwardRef<HTMLInputElement, FileU
                     <div className={style.fileContainer__button}>
                         <FileUploadIcon width={20} height={20} />
                     </div>
-                    <div className={style.fileContainer__text}>{ !file ? "Файл не выбран" : file.name.length > 19 ? file.name.slice(15) : file.name }</div>
+                    <div key = {file?.name} className={style.fileContainer__text}>{ !file || !file.name ? "Файл не выбран" : file.name.length > 19 ? file.name.slice(15) : file.name }</div>
                 </label>
                 {error && <div className='error-text'>{error}</div>}
         </div>

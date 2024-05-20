@@ -31,6 +31,12 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, ex.getStatusCode());
     }
 
+    @ExceptionHandler(NotFoundEntityException.class)
+    protected ResponseEntity<ResponseException> handleNotFoundException(NotFoundEntityException ex) {
+        ResponseException response = new ResponseException(ex.getReason());
+        return new ResponseEntity<>(response, ex.getStatusCode());
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,

@@ -29,6 +29,7 @@ import { Users } from './pages/Users/Users';
 import { usersLoader } from './pages/Users/loader';
 import { CreateStatement } from './pages/CreateStatement/CreateStatement';
 import { EditGroup } from './pages/EditGroup/EditGroup';
+import { CreateStatementParticipants } from './pages/CreateStatementParticipants/CreateStatementParticipants';
 
 
 const router = createBrowserRouter([
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
         path: "groups/:id",
         element: <GroupDetail />,
         loader: ({params}) => groupLoader(queryClient, params.id),
+      },
+      {
+        path: "participants/:id",
+        element: <CreateStatementParticipants />
       },
       {
         path: 'account',

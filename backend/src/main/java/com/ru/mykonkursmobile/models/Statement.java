@@ -30,6 +30,7 @@ public class Statement {
     @NotBlank
     private String name;
 
+    @Column(columnDefinition = "text")
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -53,12 +54,21 @@ public class Statement {
     @JoinColumn(name = "competition_fee")
     private Double competitionFee;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
-    private List<Nomination> nominationList = new ArrayList<>();
-
     private String regulation;
 
     private String rules;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_statement")
+    List<Nomination> nominations = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_statement")
+    List<GroupCategory> groupCategories = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_statement")
+    List<AgeCategory> ageCategories = new ArrayList<>();
 
     public int getIdStatement() {
         return idStatement;
@@ -164,12 +174,28 @@ public class Statement {
         this.rules = rules;
     }
 
-    public List<Nomination> getNominationList() {
-        return nominationList;
+    public List<Nomination> getNominations() {
+        return nominations;
     }
 
-    public void setNominationList(List<Nomination> nominationList) {
-        this.nominationList = nominationList;
+    public void setNominations(List<Nomination> nominations) {
+        this.nominations = nominations;
+    }
+
+    public List<GroupCategory> getGroupCategories() {
+        return groupCategories;
+    }
+
+    public void setGroupCategories(List<GroupCategory> groupCategories) {
+        this.groupCategories = groupCategories;
+    }
+
+    public List<AgeCategory> getAgeCategories() {
+        return ageCategories;
+    }
+
+    public void setAgeCategories(List<AgeCategory> ageCategories) {
+        this.ageCategories = ageCategories;
     }
 
     public Statement(int idStatement,
@@ -183,7 +209,10 @@ public class Statement {
                      Date dateFinish,
                      Double competitionFee,
                      String regulation,
-                     String rules) {
+                     String rules,
+                     List<Nomination> nominations,
+                     List<GroupCategory> groupCategories,
+                     List<AgeCategory> ageCategories) {
         this.idStatement = idStatement;
         this.user = user;
         this.type = type;
@@ -196,6 +225,9 @@ public class Statement {
         this.competitionFee = competitionFee;
         this.rules = rules;
         this.regulation = regulation;
+        this.nominations = nominations;
+        this.groupCategories = groupCategories;
+        this.ageCategories = ageCategories;
     }
 
     public Statement(User user,
@@ -206,7 +238,10 @@ public class Statement {
                      String address,
                      Date dateStart,
                      Date dateFinish,
-                     Double competitionFee) {
+                     Double competitionFee,
+                     List<Nomination> nominations,
+                     List<GroupCategory> groupCategories,
+                     List<AgeCategory> ageCategories) {
         this.user = user;
         this.type = type;
         this.name = name;
@@ -216,6 +251,23 @@ public class Statement {
         this.dateStart = dateStart;
         this.dateFinish = dateFinish;
         this.competitionFee = competitionFee;
+        this.nominations = nominations;
+        this.groupCategories = groupCategories;
+        this.ageCategories = ageCategories;
+    }
+
+    public Statement(User user,
+                     TypeStatement type,
+                     String name,
+                     String description,
+                     City city,
+                     String address) {
+        this.user = user;
+        this.type = type;
+        this.name = name;
+        this.description = description;
+        this.city = city;
+        this.address = address;
     }
 
     public Statement(){}

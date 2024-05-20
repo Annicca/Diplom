@@ -58,6 +58,22 @@
         }
     }
 
+    &__show {
+        svg {
+            fill: $orange;
+            transform: rotate(90deg);
+        }
+        
+
+        &_open svg{
+            transform: rotate(-90deg);
+        }
+    }
+
+    &__infoRules {
+        font-weight: 600;
+    }
+
     &__btnContainer {
         display: flex;
         justify-content: space-between;

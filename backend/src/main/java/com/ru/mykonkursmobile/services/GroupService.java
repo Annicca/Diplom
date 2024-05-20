@@ -89,10 +89,10 @@ public class GroupService implements IArtGroupService {
         return groups;
     }
 
-//    public List<ArtGroup> getListByDirectorId(Integer idDirector) throws NotFoundEntityException {
-//        User user = userService.getById(idDirector);
-//        return repository.findListByDirectorId(user.getIdUser());
-//    }
+    public List<ArtGroup> getListByDirectorId(Integer idDirector) throws NotFoundEntityException {
+        User user = userService.getById(idDirector);
+        return repository.findListByDirectorId(user.getIdUser());
+    }
 
     @Override
     public Page<ArtGroup> getByCity(Pageable pageable, String city) {
@@ -105,10 +105,7 @@ public class GroupService implements IArtGroupService {
         return repository.findParticipant(idCompetition);
     }
 
-
     public Page<ArtGroup> getPageParticipants(Integer idCompetition, Pageable pageable) {
-        return repository.findPageParticipant(idCompetition,pageable);
+        return repository.findPageParticipant(idCompetition, pageable);
     }
-
-
 }

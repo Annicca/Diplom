@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
+import { queryClient } from "src/utils/queryClient";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "src/context/user-context/useUserContext";
 import { ETypeStatement } from "src/types/ETypeStatement";
@@ -7,6 +8,7 @@ import { InputControl } from "src/uikit/input/InputControl";
 import { MainTite } from "src/components/mainTitle/MainTitle";
 import { PageLayout } from "src/components/layout/PageLayout";
 import classNames from "classnames";
+import { addObjectToFormData } from "src/utils/helpers";
 import { TStatement } from "src/types/TStatement";
 import ArrowRight from 'assets/icons/arrowRight.svg?react';
 import { Button } from "src/uikit/button/Button";
@@ -17,13 +19,31 @@ import { CreateCompetition } from "src/components/createStatement/CreateCompetit
 import { sendStatement } from "src/utils/api";
 import { TCIty } from "src/types/TCity";
 import { CreateNominations } from "src/components/createStatement/CreateNominations";
+import { CreateAgeCategories } from "src/components/createStatement/CreateAgeCategories";
+import { CreateGroupCategories } from "src/components/createStatement/CreateGroupCategories";
+import { StatementPreview } from "src/components/createStatement/StatementPreview";
 import style from './CreateStatement.module.scss'
+
 
 export type CreateStatementForm = Exclude<TStatement, TCIty> & {
     city: {
         label: string;
         value:number
-    }
+    },
+    rules?: File[], 
+    regulation?: File[],
+    nominations?: {
+        name: string;
+        genres?: {
+            name: string
+        }
+    }[],
+    ageCategories?: {
+        name: string
+    }[],
+    groupCategories?: {
+        name: string
+    }[]
 };
 
 export const CreateStatement:FC = () => {
@@ -31,12 +51,7 @@ export const CreateStatement:FC = () => {
     const navigate = useNavigate()
 
     const [stage, setStage] = useState<number>(1)
-    const [rules, setRules] = useState<File>()
-    const [regulation, setRegulation] = useState<File>()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [mainError, setMainError] = useState<string | string[] | null>(null)
-
-    const acceptedFormats = [".doc", ".docx", ".ppt", ".pptx", ".pdf"]
 
     const {
         register,
@@ -45,41 +60,15 @@ export const CreateStatement:FC = () => {
         control,
         reset,
         getValues,
-        setError
     } = useForm<CreateStatementForm>({
         mode: 'onChange',
         defaultValues: {
-            type: user?.role === ERole.DIRECTOR ? ETypeStatement.GROUP : ETypeStatement.COMPETITION
+            type: user?.role === ERole.DIRECTOR ? ETypeStatement.GROUP : ETypeStatement.COMPETITION,
         }
     });
 
     const onSubmit = handleSubmit(async (data) => {
         setMainError(null)
-        if(regulation) {
-            const fileExtension = regulation.name?.split('.').pop()?.toLowerCase();
-            if(!acceptedFormats.includes(`.${fileExtension}`)) {
-                setError('regulation', {message: 'Неверный формат файла. \n Формат файла может быть: .doc, .docx, .ppt, .pptx, .pdf'})
-                return;
-            }
-            
-            if(regulation?.size > 10*1024*1024) {
-                setError('regulation', {message: 'Превышен допустимый размер файла в 10МБ'})
-                return;
-            }
-        }
-        if(rules) {
-            const fileExtension = rules.name?.split('.').pop()?.toLowerCase();
-            if(!acceptedFormats.includes(`.${fileExtension}`)) {
-                console.log(!acceptedFormats.includes(`.${fileExtension}`))
-                setError('rules', {message: 'Неверный формат файла \n Формат файла может быть: .doc, .docx, .ppt, .pptx, .txt, .pdf'})
-                return;
-            }
-            if(rules?.size > 10*1024*1024) {
-                setError('rules', {message: 'Превышен допустимый размер файла в 10МБ'})
-                return;
-            }
-        }
-
         const formData = new FormData();
         formData.append('type', data.type)
         formData.append('name', data.name)
@@ -88,17 +77,26 @@ export const CreateStatement:FC = () => {
         data.dateStart && formData.append('dateStart', data.dateStart)
         data.dateFinish && formData.append('dateFinish', data.dateFinish)
         data.description && formData.append('description', data.description)
-        rules && formData.append('rules', rules)
-        regulation && formData.append('regulation', regulation)
+        data.rules && data.rules.length > 0 && formData.append('rules', data.rules[0])
+        data.regulation && data.regulation.length > 0 && formData.append('regulation', data.regulation[0])
+        data.nominations && data.nominations.length > 0 && addObjectToFormData(formData, data.nominations, "nominations")
+        data.ageCategories && data.ageCategories.length > 0 && addObjectToFormData(formData, data.ageCategories, "ageCategories")
+        data.groupCategories && data.groupCategories.length > 0 && addObjectToFormData(formData, data.groupCategories, "groupCategories")
 
+        for (const pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
+        }
         if(user) {
             await sendStatement(formData, user?.idUser)
-                .then((response) => {
+                .then(() => {
                     setMainError(null)
-                    if(data.type === ETypeStatement.GROUP) navigate(`/mystatements/${user.idUser}`)
-                    else navigate(`/create/nominations/${response.idStatement}`)
+                    queryClient.refetchQueries(['mystatements', user.idUser])
+                    navigate(`/mystatements/${user.idUser}`)
                 })
-                .catch((error) => setMainError(error.message))
+                .catch((error) => {
+                    console.log(error)
+                    setMainError(error.message)
+                })
         } else {
             setMainError('Вы не авторизованы')
         }
@@ -107,19 +105,6 @@ export const CreateStatement:FC = () => {
     const toggleStage = (stage:number) => {
         if(stage === 1) reset();
         setStage(stage)
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const changeRules = (event: any) => {
-        // changeFile(event.target.files[0]);
-        if (!event.target.files[0]) return;
-        setRules(event.target.files[0]);
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const changeRegulation = (event: any) => {
-        if (!event.target.files[0]) return;
-        setRegulation(event.target.files[0]);
     }
 
     useEffect(()=> {
@@ -192,10 +177,9 @@ export const CreateStatement:FC = () => {
                                 control={control}
                                 register={register} 
                                 errors={errors}
-                                changeRegulation={changeRegulation}
-                                changeRules={changeRules}
-                                regulation={regulation}
-                                rules={rules}
+                                city = {getValues().city}
+                                regulation={getValues("regulation")}
+                                rules={getValues("rules")}
                             />
                         </div>
                     </>
@@ -212,9 +196,72 @@ export const CreateStatement:FC = () => {
                                 control={control}
                             />
                         </div>
+                        <div className={classNames(style.buttonContainer, style.buttonContainer__two)}>
+                            <Button onClick={() => toggleStage(2)} className={style.stage_btn}>
+                                <ArrowLeft width={16} height={16} />
+                            </Button>
+                            <Button disabled = {!isValid} onClick={() => toggleStage(4)}>
+                                Добавить возрастные группы
+                            </Button>
+                        </div>
                     </>
                 }
-                {stage === 2 && getValues().type === ETypeStatement.GROUP &&
+                {stage === 4 && getValues().type === ETypeStatement.COMPETITION &&
+                    <>
+                        <div className={style.title}>
+                            4. Добавьте возрастные группы
+                        </div>
+                        <div className={style.formContent}>
+                            <CreateAgeCategories 
+                                register={register} 
+                                errors={errors} 
+                                control={control}
+                            />
+                        </div>
+                        <div className={classNames(style.buttonContainer, style.buttonContainer__two)}>
+                            <Button onClick={() => toggleStage(3)} className={style.stage_btn}>
+                                <ArrowLeft width={16} height={16} />
+                            </Button>
+                            <Button disabled = {!isValid} onClick={() => toggleStage(5)}>
+                                Добавить групповые формы
+                            </Button>
+                        </div>
+                    </>
+                }
+                {stage === 5 && getValues().type === ETypeStatement.COMPETITION &&
+                    <>
+                        <div className={style.title}>
+                            5. Добавьте групповые формы
+                        </div>
+                        <div className={style.formContent}>
+                            <CreateGroupCategories 
+                                register={register} 
+                                errors={errors} 
+                                control={control}
+                            />
+                        </div>
+                        <div className={classNames(style.buttonContainer, style.buttonContainer__two)}>
+                            <Button onClick={() => toggleStage(4)} className={style.stage_btn}>
+                                <ArrowLeft width={16} height={16} />
+                            </Button>
+                            <Button disabled = {!isValid} onClick={() => toggleStage(6)}>
+                                Далее
+                            </Button>
+                        </div>
+                    </>
+                }
+                {stage === 6 && getValues().type === ETypeStatement.COMPETITION &&
+                    <>
+                        <div className={style.title}>
+                            6. Проверьте введенную информацию
+                        </div>
+                        <div className={style.formContent}>
+                            <StatementPreview statementPreview={getValues()} />
+                        </div>
+                    </>
+                }
+                {((stage === 2 && getValues().type === ETypeStatement.GROUP) || 
+                    (stage === 6 && getValues().type === ETypeStatement.COMPETITION)) &&
                 <>
                     {mainError && Array.isArray(mainError) ? 
                         mainError.map((error) => <div className = 'error-text'>{error}</div>)
@@ -222,7 +269,7 @@ export const CreateStatement:FC = () => {
                         mainError && <div className = 'error-text'>{mainError}</div>
                     }
                     <div className={classNames(style.buttonContainer, style.buttonContainer__two)}>
-                        <Button onClick={() => toggleStage(1)} className={style.stage_btn}>
+                        <Button onClick={getValues().type === ETypeStatement.COMPETITION ? () => toggleStage(5) : () => toggleStage(1)} className={style.stage_btn}>
                             <ArrowLeft width={16} height={16} />
                         </Button>
                         <Button disabled = {!isValid} type = {"submit"}>

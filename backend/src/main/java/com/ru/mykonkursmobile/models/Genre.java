@@ -1,5 +1,7 @@
 package com.ru.mykonkursmobile.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,8 +16,9 @@ public class Genre {
     @NotNull
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_nomination")
+    @JsonIgnore
     @NotNull
     private Nomination nomination;
 
@@ -23,7 +26,7 @@ public class Genre {
         return id;
     }
 
-    public void setIdGroup(int idGroup) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -51,8 +54,7 @@ public class Genre {
         this.name = name;
         this.nomination = nomination;
     }
-    public Genre(String name, Nomination nomination) {
+    public Genre(String name) {
         this.name = name;
-        this.nomination = nomination;
     }
 }

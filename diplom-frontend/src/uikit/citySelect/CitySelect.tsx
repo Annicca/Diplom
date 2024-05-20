@@ -34,7 +34,7 @@ export const CitySelect = <T extends FieldValues>({control, name, defaultValue, 
             render={({field:{onChange, value, ref}}) => (
                 <>
                     <WindowedSelect 
-                        placeholder="Выберете город"
+                        placeholder="Выберете город *"
                         defaultValue={selected}
                         styles={{
                             container: (base) => ({

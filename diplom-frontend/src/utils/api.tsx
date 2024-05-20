@@ -5,6 +5,11 @@ import { ETypeUser } from "src/types/ETypeUser"
 import { useQuery } from "@tanstack/react-query"
 import { TCIty } from "src/types/TCity"
 import { TStatement } from "src/types/TStatement"
+import { TStatementParticipantDto } from "src/types/TStatementParicipant"
+import { competitionDetailQuery } from "src/pages/CompetitionDetail/competitionDetailQuery"
+import { AxiosError } from "axios"
+import { TCompetition } from "src/types/TCompetition"
+import { TGroup } from "src/types/TGroup"
 
 
 export interface ILoginRequest {
@@ -161,6 +166,7 @@ export const useCities = () => useQuery(['cities'], getCities)
 
 /**
  * Подать заявку на размещение
+ * @param statement - данные заявки на размещение коллектива или конкурса
  */
 export const sendStatement = async (statement: FormData, idUser: number): Promise<TStatement> => {
     return instance.post(`statements/${idUser}`, statement, getFileConfig())
@@ -177,5 +183,35 @@ export const sendStatement = async (statement: FormData, idUser: number): Promis
 
 /**
  * Получить пользователя
+ * @param id - идентификатор пользователя
  */
 export const getUser = async(id: number): Promise<TUser> => fetchData(`users/${id}`, {}, getRequestConfig())
+
+/**
+ * Хук для получения коллективов пользователя
+ */
+export const useUserGroupList = (id: number) => 
+    useQuery<TGroup[], AxiosError>(["mygroups/list", id], 
+        () => fetchData(`mygroups/list/${id}`, {}, getRequestConfig()))
+
+/**
+ * Хук для получения конкурса
+ */
+export const useCompetition = (id: number | string) => useQuery<TCompetition, AxiosError>({...competitionDetailQuery(id)})
+
+/**
+ * Подать заявку на участие
+ * @param statement - данные заявки на участие
+ */
+export const tajePart = async(statement:TStatementParticipantDto) => {
+    return instance.post('statementsparticipant', statement, getRequestConfig())
+        .then((response) => response.data)
+        .catch((error) => {
+            if(error.response) {
+                if(error.response.data.errors) throw new Error(error.response.data.errors)
+                throw new Error(error.response.data.message)
+            }
+                
+            else throw new Error(error.message)
+        })
+}

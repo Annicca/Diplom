@@ -42,17 +42,9 @@ public class StatementParticipantService implements IStatementParticipant {
         if(existStatement != null) {
             throw new TakePartException(HttpStatus.BAD_REQUEST, "Вы уже отправили заявку на данный конкурс. Подождите пока вашу заявку рассмотрят или проверьте личный кабинет");
         }
-        //сделать проверку на участие в конкурсе
 
-//        List<ArtGroup> groups = competition.getGroups();
-//
-//        if(!groups.isEmpty()) {
-//            for(ArtGroup competitionGroup: groups ){
-//                if(Objects.equals(competitionGroup.getIdGroup(), group.getIdGroup())){
-//                    throw new TakePartException(HttpStatus.BAD_REQUEST, "Вы уже приняли участие в этом конкурсе, вы не можете принять участие ещё раз");
-//                }
-//            }
-//        }
+        Double cost = competition.getCompetitionFee() * statementParticipant.getCountParticipants();
+        statementParticipant.setCost(cost);
 
         return repository.save(statementParticipant);
     }
@@ -84,15 +76,7 @@ public class StatementParticipantService implements IStatementParticipant {
     public StatementParticipant accept(Integer id) throws NotFoundEntityException, ChangeStatusException {
         StatementParticipant statementParticipant = getById(id);
         statementParticipant.setStatus(Status.ACCEPTED);
-
-//        Competition competition = statementParticipant.getCompetition();
-//        ArtGroup groupParticipant = statementParticipant.getGroup();
-//        добавление коллектива в участники
-//        List<ArtGroup> groups = competition.getGroups();
-//        groups.add(groupParticipant);
-//        competition.setGroups(groups);
-//        competitionService.change(competition);
-
+        //добавить в участники
         return repository.save(statementParticipant);
     }
 

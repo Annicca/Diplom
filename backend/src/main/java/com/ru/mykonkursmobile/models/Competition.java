@@ -9,6 +9,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "competition")
@@ -25,6 +27,7 @@ public class Competition {
     @NotNull
     private String nameCompetition;
 
+    @Column(columnDefinition = "text")
     private String descriptionCompetition;
 
     @NotNull
@@ -53,6 +56,18 @@ public class Competition {
 
     private String rules;
     private String img;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_competition")
+    List<Nomination> nominations = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_competition")
+    List<GroupCategory> groupCategories = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_competition")
+    List<AgeCategory> ageCategories = new ArrayList<>();
 
     public void setIdCompetition(int idCompetition) {
         this.idCompetition = idCompetition;
@@ -158,6 +173,30 @@ public class Competition {
         this.rules = rules;
     }
 
+    public List<Nomination> getNominations() {
+        return nominations;
+    }
+
+    public void setNominations(List<Nomination> nominations) {
+        this.nominations = nominations;
+    }
+
+    public List<GroupCategory> getGroupCategories() {
+        return groupCategories;
+    }
+
+    public void setGroupCategories(List<GroupCategory> groupCategories) {
+        this.groupCategories = groupCategories;
+    }
+
+    public List<AgeCategory> getAgeCategories() {
+        return ageCategories;
+    }
+
+    public void setAgeCategories(List<AgeCategory> ageCategories) {
+        this.ageCategories = ageCategories;
+    }
+
     public Competition(int idCompetition,
                        User organizer,
                        String nameCompetition,
@@ -170,7 +209,10 @@ public class Competition {
                        Double competitionFee,
                        String regulation,
                        String rules,
-                       String img){
+                       String img,
+                       List<Nomination> nominations,
+                       List<GroupCategory> groupCategories,
+                       List<AgeCategory> ageCategories){
         this.idCompetition = idCompetition;
         this.organizer = organizer;
         this.nameCompetition = nameCompetition;
@@ -184,6 +226,9 @@ public class Competition {
         this.rules = rules;
         this.regulation = regulation;
         this.img = img;
+        this.nominations = nominations;
+        this.groupCategories = groupCategories;
+        this.ageCategories = ageCategories;
     }
 
     public Competition( User organizer,
@@ -193,6 +238,36 @@ public class Competition {
                        Date dateFinish,
                        City cityCompetition,
                        StatusCompetition statusCompetition,
+                        Double competitionFee,
+                        StatusModeration statusModeration,
+                        String regulation,
+                        String rules,
+                        List<Nomination> nominations,
+                        List<GroupCategory> groupCategories,
+                        List<AgeCategory> ageCategories){
+        this.organizer = organizer;
+        this.nameCompetition = nameCompetition;
+        this.descriptionCompetition = descriptionCompetition;
+        this.dateStart = dateStart;
+        this.dateFinish = dateFinish;
+        this.cityCompetition = cityCompetition;
+        this.statusCompetition = statusCompetition;
+        this.statusModeration = statusModeration;
+        this.competitionFee = competitionFee;
+        this.rules = rules;
+        this.regulation = regulation;
+        this.nominations = nominations;
+        this.groupCategories = groupCategories;
+        this.ageCategories = ageCategories;
+    }
+
+    public Competition( User organizer,
+                        String nameCompetition,
+                        String descriptionCompetition,
+                        Date dateStart,
+                        Date dateFinish,
+                        City cityCompetition,
+                        StatusCompetition statusCompetition,
                         Double competitionFee,
                         StatusModeration statusModeration,
                         String regulation,

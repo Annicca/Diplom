@@ -1,4 +1,7 @@
+import { TAgeCategory } from "./TAgeCategory";
 import { TCIty } from "./TCity"
+import { TGroupCategory } from "./TGroupCategory";
+import { TNomination } from "./TNomination"
 import { TUser } from "./TUser"
 
 export type TStatement = {
@@ -15,4 +18,7 @@ export type TStatement = {
     competitionFee: number | null,
     rules: string | null,
     regulation: string | null,
+    nominations?: TNomination[];
+    groupCategories?: TGroupCategory[];
+    ageCategories?: TAgeCategory[];
 }

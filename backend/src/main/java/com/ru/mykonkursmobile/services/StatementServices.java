@@ -19,10 +19,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class StatementServices implements IStatementService {
@@ -42,7 +44,16 @@ public class StatementServices implements IStatementService {
     CityService cityService;
 
     @Autowired
-    private FileService fileServise;
+    private FileService fileService;
+
+    @Autowired
+    private NominationService nominationService;
+
+    @Autowired
+    private GroupCategoryService groupCategoryService;
+
+    @Autowired
+    private AgeCategoryService ageCategoryService;
 
     @Override
     public Page<Statement> all(Pageable pageable) {
@@ -50,6 +61,7 @@ public class StatementServices implements IStatementService {
     }
 
     @Override
+    @Transactional
     public Statement add(Statement statement) {
         return repository.save(statement);
     }
@@ -63,17 +75,37 @@ public class StatementServices implements IStatementService {
                 statementDto.getName(),
                 statementDto.getDescription(),
                 city,
-                statementDto.getAddress(),
-                statementDto.getDateStart(),
-                statementDto.getDateFinish(),
-                statementDto.getCompetitionFee()
+                statementDto.getAddress()
         );
-        if( statementDto.getRegulation() != null){
-            statement.setRegulation(fileServise.saveFile(statementDto.getRegulation()));
+
+        if(statementDto.getType() == TypeStatement.COMPETITION){
+            statement.setDateStart(statementDto.getDateStart());
+            statement.setDateFinish(statementDto.getDateFinish());
+            statement.setCompetitionFee(statementDto.getCompetitionFee());
+
+            if( statementDto.getRegulation() != null){
+                statement.setRegulation(fileService.saveFile(statementDto.getRegulation()));
+            }
+            if( statementDto.getRules() != null){
+                statement.setRules(fileService.saveFile(statementDto.getRules()));
+            } else {
+                throw new NotFoundEntityException(HttpStatus.BAD_REQUEST, "Положение конкурса обязательно");
+            }
+
+            List<Nomination> nominations = nominationService.savePreparation(statementDto.getNominations(), statement);
+
+            List<GroupCategory> groupCategories = statementDto.getGroupCategories();
+            groupCategories.forEach(groupCategory -> groupCategory.setStatement(statement));
+            List<AgeCategory> ageCategories = statementDto.getAgeCategories();
+            ageCategories.forEach(ageCategory -> ageCategory.setStatement(statement));
+
+            statement.setNominations(nominations);
+            statement.setGroupCategories(groupCategories);
+            statement.setAgeCategories(ageCategories);
+        } else {
+            return repository.save(statement);
         }
-        if( statementDto.getRules() != null){
-            statement.setRules(fileServise.saveFile(statementDto.getRules()));
-        }
+
         return repository.save(statement);
     }
 
@@ -101,6 +133,7 @@ public class StatementServices implements IStatementService {
     }
 
     @Override
+    @Transactional
     public Statement accept(Integer id) throws NotFoundEntityException, ChangeStatusException, DataIntegrityViolationException {
 
         Statement statement = getById(id);
@@ -110,7 +143,7 @@ public class StatementServices implements IStatementService {
 
         statement.setStatusStatement(Status.ACCEPTED);
 
-        User user = userService.getById(statement.getUser().getIdUser());
+        User user = statement.getUser();
 
         if(statement.getType() == TypeStatement.GROUP && (user.getRole() == Role.DIRECTOR || user.getRole() == Role.CLIENT)){
             ArtGroup group = new ArtGroup(
@@ -138,6 +171,15 @@ public class StatementServices implements IStatementService {
                                 statement.getRules(),
                                 statement.getRegulation()
                         );
+            List<Nomination> nominations = statement.getNominations();
+            nominations = nominationService.setCompetitionForAll(nominations, competition);
+            List<AgeCategory> ageCategories = statement.getAgeCategories();
+            ageCategories = ageCategoryService.setCompetitionForAll(ageCategories, competition);
+            List<GroupCategory> groupCategories = statement.getGroupCategories();
+            groupCategories = groupCategoryService.setCompetitionForAll(groupCategories, competition);
+            competition.setNominations(nominations);
+            competition.setAgeCategories(ageCategories);
+            competition.setGroupCategories(groupCategories);
             competitionService.add(competition);
             if(user.getRole() == Role.CLIENT) {
                 userService.changeRole(user, Role.ORGANIZER);

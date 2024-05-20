@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useUserContext } from "src/context/user-context/useUserContext";
 import { ERole } from "src/types/ERole";
 import { Button } from "../button/Button";
@@ -16,6 +16,10 @@ import GroupIcon from "assets/icons/scene.svg?react";
 import StatementIcon from 'assets/icons/statement-participant.svg?react';
 import { DescriptionItem } from "src/components/descriptionItem/DescriptionItem";
 import { FileDownload } from "../fileUpload/FileDownload";
+import { NominationsList } from "src/components/nominationsList/NominationsList";
+import { NestedList } from "src/components/nominationsList/NestedList";
+import classNames from "classnames";
+import ArrowIcon from "assets/icons/arrowRight.svg?react"
 
 import style from '../myGroup/MyGroup.module.scss'
 
@@ -28,6 +32,11 @@ interface MyCompetitionProps {
 export const MyCompetition:FC<MyCompetitionProps> = ({onCancelItem, onChangeItem, competition}) => {
     const {user} = useUserContext()
     const navigate = useNavigate()
+    const [isVisible, setIsVisible] = useState(false)
+    const toggleVisible = () => {
+        setIsVisible(isVisible => !isVisible)
+    }
+    
     return(
         <div className={style.myGroup}>
             {user?.role === ERole.ORGANIZER ? 
@@ -40,14 +49,37 @@ export const MyCompetition:FC<MyCompetitionProps> = ({onCancelItem, onChangeItem
                     <div className="text-orange">Статус: {competition.statusCompetition ? chooseStatusCompetition(competition.statusCompetition) : '-'}</div>
                     <TextIcon icon={<HouseIcon width={20} height={20}/>} text={competition.cityCompetition.city} />
                     <Contact contact = {transformDate(competition.dateStart) + " - " + transformDate(competition.dateFinish)} icon ={<CalendarIcon height={25} />} classnames={style.competition__date} />
+                    <div>Стоимость конкурсного взноса: {competition.competitionFee}</div>
                 </div>
             </div>
-            {competition.rules &&
-                <FileDownload fileName={competition.rules} newFileName = {`Положение_конкурса_${competition.nameCompetition}`} text = "Положение конкурса"/>
+            {user?.role === ERole.ORGANIZER && <div>
+                <span className={style.myGroup__infoRules}>Информация по положению:</span>
+                <Button 
+                    type = "button"
+                    className={classNames(style.myGroup__show, {[style.myGroup__show_open]: isVisible})} 
+                    isClear={true} 
+                    isYellow = {false} 
+                    onClick={toggleVisible}
+                >
+                    <ArrowIcon width={15} height={15}/>
+                </Button>
+            </div>}
+            {isVisible && <>
+                <NominationsList nominationsList={competition.nominations}/>
+                {competition.ageCategories && competition.ageCategories?.length > 0 &&
+                    <NestedList key = "age" list={competition.ageCategories} nameList="Возрастные категории" />
+                }
+                {competition.groupCategories && competition.groupCategories?.length > 0 &&
+                    <NestedList key = "groupCategory" list={competition.groupCategories} nameList="Групповые формы" />
+                }
+                {competition.rules &&
+                    <FileDownload fileName={competition.rules} newFileName = {`Положение_конкурса_${competition.nameCompetition}`} text = "Положение конкурса"/>
+                }
+                {competition.regulation &&
+                    <FileDownload fileName={competition.regulation} text = "Правила проведения" newFileName = {`Правила_проведения_конкурса_${competition.nameCompetition}`}/>
             }
-            {competition.regulation &&
-                <FileDownload fileName={competition.regulation} text = "Правила проведения" newFileName = {`Правила_проведения_конкурса_${competition.nameCompetition}`}/>
-            }
+            </>}
+            
             {user?.role === ERole.ORGANIZER &&
                 <div className={style.myGroup__btnContainer}>
                     <Button 

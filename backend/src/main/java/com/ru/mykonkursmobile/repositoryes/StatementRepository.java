@@ -13,6 +13,7 @@ public interface StatementRepository extends JpaRepository<Statement,Integer> {
 
     Page<Statement> findAllByIdStatement(Integer idStatement, Pageable pageable);
 
+    @Query(value = "select * from statement order by status_statement desc", nativeQuery = true)
     Page<Statement> findAllByOrderByStatusStatement(Pageable pageable);
 
     @Query(value = "select * from statement where id_user = :id order by id_statement desc", nativeQuery = true)

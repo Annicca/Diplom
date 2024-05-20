@@ -13,13 +13,13 @@ import { changeRoleUser } from "src/utils/api";
 import { Button } from "src/uikit/button/Button";
 import { chooseRoleUser } from "../../utils/helpers";
 import { ERole } from "src/types/ERole";
+import { ETypeUser } from "src/types/ETypeUser";
 import { TUser } from "src/types/TUser";
 import { DropDown } from "src/uikit/dropDown/DropDown";
 import { ButtonSave } from "src/uikit/button/ButtonSave";
 import { ErrorModal } from "../errorModal/ErrorModal";
 
 import style from './UserInfo.module.scss'
-import { ETypeUser } from "src/types/ETypeUser";
 
 type UserInfoProps = {
     user: TUser;
@@ -97,9 +97,7 @@ export const UserInfo:FC<UserInfoProps> = ({user, classNameContainer, isAccount 
                                 rules = {{
                                     required : 'Поле обязательно',
                                 }}
-                                // containerWidth={'70%'}
                                 selectedOption={selectedRole}
-                                // onValueChange={() => {}}
                                 classNameContainer={style.dropdown}
                                 error = {errors.role && errors.role.message?.toString()}
                             />

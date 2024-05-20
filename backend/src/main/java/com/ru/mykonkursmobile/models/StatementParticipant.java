@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "statement_participant")
 public class StatementParticipant {
@@ -12,23 +15,25 @@ public class StatementParticipant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, optional = false)
     @JoinColumn(name = "id_group")
-    @NotNull
+    @NotNull(message = "Выберите коллектив")
     public ArtGroup group;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, optional = false)
     @JoinColumn(name = "id_competition")
-    @NotNull
+    @NotNull(message = "Выберите конкурс")
     public Competition competition;
 
-    @NotBlank
-    private String nameAct;
 
-    @NotNull
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_act")
+    private List<Act> acts = new ArrayList<>();
+
+    @NotNull(message = "Укажите общее количество участников")
     private Integer countParticipants;
 
-    @NotNull
+    @NotNull(message = "Укажите количество сопровождающих")
     private Integer countAccompanying;
 
     private Double cost;
@@ -58,14 +63,6 @@ public class StatementParticipant {
 
     public void setCompetition(Competition competition) {
         this.competition = competition;
-    }
-
-    public String getNameAct() {
-        return nameAct;
-    }
-
-    public void setNameAct(String nameAct) {
-        this.nameAct = nameAct;
     }
 
     public Integer getCountParticipants() {
@@ -100,16 +97,31 @@ public class StatementParticipant {
         this.cost = cost;
     }
 
-    public StatementParticipant(int id, ArtGroup group, Competition competition, String nameAct, Integer countParticipants, Integer countAccompanying, Double cost, Status status) {
+    public List<Act> getActs() {
+        return acts;
+    }
+
+    public void setActs(List<Act> acts) {
+        this.acts = acts;
+    }
+
+    public StatementParticipant() {}
+    public StatementParticipant(int id, ArtGroup group, Competition competition, List<Act> acts, Integer countParticipants, Integer countAccompanying, Double cost, Status status) {
         this.id = id;
         this.group = group;
         this.competition = competition;
-        this.nameAct = nameAct;
         this.countParticipants = countParticipants;
         this.countAccompanying = countAccompanying;
         this.cost = cost;
         this.status = status;
+        this.acts = acts;
     }
 
-    public StatementParticipant() {}
+    public StatementParticipant(ArtGroup group, Competition competition, List<Act> acts,  Integer countParticipants, Integer countAccompanying) {
+        this.group = group;
+        this.competition = competition;
+        this.countParticipants = countParticipants;
+        this.countAccompanying = countAccompanying;
+        this.acts = acts;
+    }
 }

@@ -1,11 +1,10 @@
-import { FC } from "react";
-import { Control, Controller, FieldError, FieldErrorsImpl, FieldValues, Merge, RegisterOptions } from "react-hook-form";
+import { Control, Controller, FieldError, FieldErrorsImpl, FieldValues, Merge, Path, RegisterOptions } from "react-hook-form";
 import Select, { GroupBase, OptionsOrGroups } from 'react-select';
 
-interface DropDownProps {
-    rules?: Omit<RegisterOptions<FieldValues, string>, "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"> | undefined,
-    control: Control<FieldValues>,
-    name: string,
+interface DropDownProps<T extends FieldValues> {
+    rules?: Omit<RegisterOptions<T, Path<T>>, "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"> | undefined,
+    control: Control<T>,
+    name: Path<T>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> ,
      // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +15,7 @@ interface DropDownProps {
     classNameContainer?: string;
 }
 
-export const DropDown:FC<DropDownProps> = ({name, rules, control, error, selectedOption, options, placeholder, classNameContainer}) => {
+export const DropDown = <T extends FieldValues>({name, rules, control, error, selectedOption, options, placeholder, classNameContainer}: DropDownProps<T>) => {
     return(
         <div className={classNameContainer}>
             <Controller 
@@ -42,6 +41,10 @@ export const DropDown:FC<DropDownProps> = ({name, rules, control, error, selecte
                                 [':hover']: {
                                     borderColor: '#FFB800',
                                 },
+                            }),
+                            menu: (base) => ({
+                                ...base,
+                                zIndex: 2,
                             }),
                             option: (base, props)=> ({
                                 ...base,

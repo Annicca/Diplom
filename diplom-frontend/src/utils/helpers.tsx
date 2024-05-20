@@ -38,3 +38,28 @@ export const chooseRoleUser = (role: ERole): string => {
         case ERole.CLIENT: return 'Клиент';
     }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function addObjectToFormData(formData: FormData, data: Record<string, any>, prefix: string = '') {
+    for (const key in data) {
+      let fullKey;
+      if(prefix && Array.isArray(data)) {
+        fullKey = `${prefix}[${key}]`
+      } else if(prefix && !Array.isArray(data)) {
+        fullKey = `${prefix}.${key}`
+      } else {
+        fullKey = key;
+      }
+      const value = data[key];
+  
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+          addObjectToFormData(formData, item, `${fullKey}[${index}]`);
+        });
+      } else if (value!== null && typeof value === "object") {
+        addObjectToFormData(formData, value, fullKey);
+      } else if (value!== null) {
+        formData.append(fullKey, value);
+      }
+    }
+}
