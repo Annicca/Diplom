@@ -15,11 +15,9 @@ import java.util.List;
 
 @Repository
 public interface StatementParticipantRepository extends JpaRepository<StatementParticipant,Integer> {
-
-//    @Query(value = "select * from statement_participant where id_user = :id order by id desc", nativeQuery = true)
-//    Page<StatementParticipant> findAllByUserId(@Param("id") Integer id, Pageable pageable);
-
     StatementParticipant findFirstByCompetitionAndGroup(Competition competition, ArtGroup group);
 
     Page<StatementParticipant> findAllByCompetition(Competition competition, Pageable pageable);
+
+    Page<StatementParticipant> findAllByGroup(ArtGroup group, Pageable pageable);
 }

@@ -1,0 +1,28 @@
+@import "utils/const.scss";
+
+.acts {
+  padding-top: 30px;
+  &__show {
+    svg {
+      fill: $orange;
+      transform: rotate(90deg);
+    }
+
+    &_open svg {
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+.act {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  padding: 20px 10px;
+  border-bottom: 1px solid $border-gray;
+
+  &__title {
+    font-weight: 600;
+    font-size: 18px;
+  }
+}

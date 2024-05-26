@@ -38,10 +38,13 @@ public class SecurityConfig{
                         .requestMatchers(HttpMethod.POST,  "/api/statements/**").hasAnyAuthority(Role.DIRECTOR.name(), Role.ORGANIZER.name(), Role.CLIENT.name())
                         .requestMatchers(HttpMethod.GET,"/api/competitions/**", "/api/groups/**", "/api/cities").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/statementsparticipant/{idDirector}").hasAuthority(Role.DIRECTOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/statementsparticipant/group/").hasAuthority(Role.DIRECTOR.name())
                         .requestMatchers(HttpMethod.GET, "/api/statementsparticipant/competition/**").hasAuthority(Role.ORGANIZER.name())
                         .requestMatchers(HttpMethod.POST, "/api/statementsparticipant/**").hasAuthority(Role.DIRECTOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/statementsparticipant/**").hasAuthority(Role.ORGANIZER.name())
+
+                        .requestMatchers(HttpMethod.GET, "/api/participant/**").hasAuthority(Role.ORGANIZER.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/perfomance/**").hasAuthority(Role.ORGANIZER.name())
 
                         .requestMatchers(HttpMethod.GET, "/api/mystatements/**").authenticated()
                         .requestMatchers(HttpMethod.GET,"/api/statements/**").hasAuthority(Role.ADMIN.name())

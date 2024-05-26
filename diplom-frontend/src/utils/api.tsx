@@ -234,3 +234,36 @@ export const takePart = async (statement: IStatementParticipantRequest) => {
       } else throw new Error(error.message);
     });
 };
+
+/**
+ * Изменить статус заявки на участие
+ * @param status - статус заявки
+ * @param id - id заявки
+ */
+export const changeStatusStatementParticipant = async (
+  status: string,
+  id: number
+) => {
+  return instance
+    .put(`statementsparticipant/${status}/${id}`, {}, getRequestConfig())
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};
+
+/**
+ * Отметить оплату заявки
+ * @param id - номер заявки
+ */
+
+export const checkPayment = async (id: number) => {
+  return instance.put(
+    `statementsparticipant/payment/${id}`,
+    {},
+    getRequestConfig()
+  );
+};

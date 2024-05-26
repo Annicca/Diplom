@@ -29,14 +29,14 @@ public interface IStatementParticipant extends IService<StatementParticipant>{
     StatementParticipant reject(Integer id) throws NotFoundEntityException, ChangeStatusException;
 
     /**
-     * A method for getting all statements of the director by director's id
+     * A method for getting all statements of the group by group id
      * if there are no statements an empty page content is returned
-     * @param idUser id user
+     * @param idGroup id user
      * @param pageable - parameter for page request
      * @return page with  user's statements - see {@link StatementParticipant}
      * @throws NotFoundEntityException if director with this id does not exist
      */
-    Page<StatementParticipant> getByDirectorId(Integer idUser, Pageable pageable) throws NotFoundEntityException;
+    Page<StatementParticipant> getByGroup(Integer idGroup, Pageable pageable) throws NotFoundEntityException;
 
     /**
      * A method for getting all statements of the competition by competition's id
