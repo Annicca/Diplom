@@ -53,9 +53,8 @@ public class CompetitionService implements ICompetitionService {
     }
 
     @Override
-    public Competition add(Competition competition)
-    {
-      return repository.save(competition);
+    public Competition add(Competition competition) {
+        return repository.save(competition);
     }
 
     @Override

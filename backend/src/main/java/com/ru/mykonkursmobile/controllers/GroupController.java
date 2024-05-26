@@ -68,6 +68,13 @@ public class GroupController {
         return service.getByDirectorId(userId, pageable);
     }
 
+    @GetMapping("/mygroups/list/{userId}")
+    @ResponseBody
+    public List<ArtGroup> GetMyGroups(@PathVariable Integer userId){
+
+        return service.getListByDirectorId(userId);
+    }
+
     @DeleteMapping("/groups/{id}")
     @ResponseBody
     public Page<ArtGroup> DeleteGroup(@PathVariable Integer id, @PageableDefault(size = 1)Pageable pageable){

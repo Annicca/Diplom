@@ -2,8 +2,11 @@ package com.ru.mykonkursmobile.models;
 
 import com.ru.mykonkursmobile.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "statement_participant")
@@ -12,23 +15,27 @@ public class StatementParticipant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "id_group")
-    @NotNull
+    @NotNull(message = "Выберите коллектив")
     public ArtGroup group;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "id_competition")
-    @NotNull
+    @NotNull(message = "Выберите конкурс")
     public Competition competition;
 
-    @NotBlank
-    private String nameAct;
 
-    @NotNull
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_perfomance")
+    private List<Perfomance> perfomances = new ArrayList<>();
+
+    @NotNull(message = "Укажите общее количество участников")
+    @Min(value = 1, message = "Значение должно быть больше 0")
     private Integer countParticipants;
 
-    @NotNull
+    @NotNull(message = "Укажите количество сопровождающих")
+    @Min(value = 0, message = "Значение не должно быть меньше 0")
     private Integer countAccompanying;
 
     private Double cost;
@@ -58,14 +65,6 @@ public class StatementParticipant {
 
     public void setCompetition(Competition competition) {
         this.competition = competition;
-    }
-
-    public String getNameAct() {
-        return nameAct;
-    }
-
-    public void setNameAct(String nameAct) {
-        this.nameAct = nameAct;
     }
 
     public Integer getCountParticipants() {
@@ -100,16 +99,31 @@ public class StatementParticipant {
         this.cost = cost;
     }
 
-    public StatementParticipant(int id, ArtGroup group, Competition competition, String nameAct, Integer countParticipants, Integer countAccompanying, Double cost, Status status) {
+    public List<Perfomance> getPerfomances() {
+        return perfomances;
+    }
+
+    public void setPerfomances(List<Perfomance> perfomances) {
+        this.perfomances = perfomances;
+    }
+
+    public StatementParticipant() {}
+    public StatementParticipant(int id, ArtGroup group, Competition competition, List<Perfomance> perfomances, Integer countParticipants, Integer countAccompanying, Double cost, Status status) {
         this.id = id;
         this.group = group;
         this.competition = competition;
-        this.nameAct = nameAct;
         this.countParticipants = countParticipants;
         this.countAccompanying = countAccompanying;
         this.cost = cost;
         this.status = status;
+        this.perfomances = perfomances;
     }
 
-    public StatementParticipant() {}
+    public StatementParticipant(ArtGroup group, Competition competition, List<Perfomance> perfomances,  Integer countParticipants, Integer countAccompanying) {
+        this.group = group;
+        this.competition = competition;
+        this.countParticipants = countParticipants;
+        this.countAccompanying = countAccompanying;
+        this.perfomances = perfomances;
+    }
 }

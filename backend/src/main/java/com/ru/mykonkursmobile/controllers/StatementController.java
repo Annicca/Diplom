@@ -72,7 +72,7 @@ public class StatementController {
 
     @PostMapping("/statements/{idUser}")
     public Statement CreateStatement(@PathVariable(value = "idUser") Integer idUser, @ModelAttribute @Valid StatementDTO statement ) throws IOException, MaxUploadSizeExceededException, FileException {
-
+        System.out.println("aaa");
         return service.addDto(statement, idUser);
     }
 

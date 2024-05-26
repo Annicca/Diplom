@@ -40,8 +40,11 @@ export const CompetitionDetail:FC = () => {
                                 number={competition.organizer.phoneUser}
                                 mail={competition.organizer.mailUser}
                                 description={competition.descriptionCompetition}
+                                nominations={competition.nominations}
+                                ageCategories={competition.ageCategories}
+                                groupCategories={competition.groupCategories}
                                 isDisabled={competition.statusCompetition !== EStatusCompetition.CREATED}
-                                onClick={() => navigate('')}
+                                onClick={() => navigate(`/participants/${competition.idCompetition}`)}
                                 rules={competition.rules}
                                 regulation={competition.regulation}
                                 buttonText="Принять участие"

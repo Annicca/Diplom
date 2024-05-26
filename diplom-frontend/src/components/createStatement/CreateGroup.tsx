@@ -20,7 +20,7 @@ export const CreateGroup:FC<CreateGroupProps> = ({register, errors, control})=> 
                     required : 'Поле обязательно',
                 })}
                 placeholder = " "
-                label='Название'
+                label='Название *'
                 error={errors?.name && errors?.name?.message}
             />
             <CitySelect 
@@ -33,7 +33,7 @@ export const CreateGroup:FC<CreateGroupProps> = ({register, errors, control})=> 
                     required : 'Поле обязательно',
                 })}
                 placeholder = " "
-                label='Адрес'
+                label='Адрес *'
                 error={errors?.address && errors?.address?.message}
             />
             <TextareaControl 

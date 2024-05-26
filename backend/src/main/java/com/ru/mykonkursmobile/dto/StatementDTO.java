@@ -2,6 +2,8 @@ package com.ru.mykonkursmobile.dto;
 
 import com.ru.mykonkursmobile.enums.Status;
 import com.ru.mykonkursmobile.enums.TypeStatement;
+import com.ru.mykonkursmobile.models.AgeCategory;
+import com.ru.mykonkursmobile.models.GroupCategory;
 import com.ru.mykonkursmobile.models.Nomination;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -37,6 +39,10 @@ public class StatementDTO {
     private Double competitionFee;
 
     private List<Nomination> nominations = new ArrayList<>();
+
+    private List<GroupCategory> groupCategories = new ArrayList<>();
+
+    private List<AgeCategory> ageCategories = new ArrayList<>();
 
     private MultipartFile regulation;
 
@@ -144,5 +150,21 @@ public class StatementDTO {
 
     public void setNominations(List<Nomination> nominations) {
         this.nominations = nominations;
+    }
+
+    public List<GroupCategory> getGroupCategories() {
+        return groupCategories;
+    }
+
+    public void setGroupCategories(List<GroupCategory> groupCategories) {
+        this.groupCategories = groupCategories;
+    }
+
+    public List<AgeCategory> getAgeCategories() {
+        return ageCategories;
+    }
+
+    public void setAgeCategories(List<AgeCategory> ageCategories) {
+        this.ageCategories = ageCategories;
     }
 }

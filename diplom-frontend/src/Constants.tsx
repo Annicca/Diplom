@@ -1,8 +1,6 @@
 import { TImageLink } from "./types/TImageLink";
 import { TypeLink } from "./types/TypeLink";
-import YoutubeIcon from 'assets/icons/youtube.svg?react';
 import VkIcon from 'assets/icons/vk.svg?react';
-import InstIcon from 'assets/icons/instagram1.svg?react';
 import TgIcon from 'assets/icons/telegram.svg?react';
 
 export const IS_MOBILE = window.innerWidth <= 1024;
@@ -45,17 +43,8 @@ export const footerList: TypeLink[] = [
 
 export const socials: TImageLink[] = [
     {
-        icon: <YoutubeIcon width = {40} height={40} fill='#000'/>,
-        link: 'https://www.youtube.com/'
-    },
-
-    {
         icon: <TgIcon width = {40} height={40} fill='#000' />,
         link: 'https://web.telegram.org/'
-    },
-    {
-        icon: <InstIcon width = {40} height={40} fill='#000' color="#000" />,
-        link: 'https://www.instagram.com/'
     },
     {
         icon: <VkIcon width = {40} height={40} fill='#000' />,

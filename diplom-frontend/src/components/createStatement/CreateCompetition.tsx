@@ -10,15 +10,14 @@ import { TextareaControl } from "src/uikit/textarea/TextareaControl";
 interface CreateCompetitionProps {
     register: UseFormRegister<CreateStatementForm>,
     errors: FieldErrors<CreateStatementForm>,
-    changeRules: (event: any) => void,
-    changeRegulation: (event: any) => void,
-    rules?: File,
-    regulation?: File,
+    rules?: File[],
+    regulation?: File[] ,
+    city: {label: string; value: number}
     control: Control<CreateStatementForm>
 }
 
-export const CreateCompetition:FC<CreateCompetitionProps> = ({register, control, errors, changeRegulation, changeRules, regulation, rules})=> {
-
+export const CreateCompetition:FC<CreateCompetitionProps> = ({register, control, errors, regulation, rules, city})=> {
+    const acceptedFormats = [".doc", ".docx", ".ppt", ".pptx", ".pdf"]
     return(
         <>
             <InputControl 
@@ -27,12 +26,13 @@ export const CreateCompetition:FC<CreateCompetitionProps> = ({register, control,
                     required : 'Поле обязательно',
                 })}
                 placeholder = " "
-                label='Название'
+                label='Название *'
                 error={errors?.name && errors?.name?.message}
             />
             <CitySelect 
                 name = 'city'
                 control={control}
+                defaultValue={city && city.value}
             />
             <InputControl 
                 type = "date" 
@@ -40,7 +40,7 @@ export const CreateCompetition:FC<CreateCompetitionProps> = ({register, control,
                     required : 'Поле обязательно',
                 })}
                 placeholder = " "
-                label='Дата начала'
+                label='Дата начала *'
                 error={errors?.dateStart && errors?.dateStart?.message}
             />
             <InputControl 
@@ -49,7 +49,7 @@ export const CreateCompetition:FC<CreateCompetitionProps> = ({register, control,
                     required : 'Поле обязательно',
                 })}
                 placeholder = " "
-                label='Дата окончания'
+                label='Дата окончания *'
                 error={errors?.dateFinish && errors?.dateFinish?.message}
             />
             <InputControl 
@@ -58,27 +58,53 @@ export const CreateCompetition:FC<CreateCompetitionProps> = ({register, control,
                     required : 'Поле обязательно',
                 })}
                 placeholder = " "
-                label='Стоимость конкурсного взноса на 1 участника'
+                label='Стоимость конкурсного взноса на 1 участника *'
                 error={errors?.dateFinish && errors?.dateFinish?.message}
             />
             <FileUpload 
                 id = "rulesInput"
-                label="Загрузите положение конкурса"
-                file={rules}
-                accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+                label="Загрузите положение конкурса *"
+                file={rules && rules[0]}
+                accept=".doc, .docx, .ppt, .pptx, .pdf"
                 {...register('rules', {
-                    onChange: changeRules,
-                    required : 'Положение обязательно',
+                    // required : 'Положение обязательно',
+                    validate: (value) => {
+                        if(!value && rules && (rules?.length === 0 || !rules[0])) {
+                            return 'Положение обязательно';
+                        }
+                        const fileExtension = value[0]?.name?.split('.').pop()?.toLowerCase();
+                        if(!acceptedFormats.includes(`.${fileExtension}`)) {
+                            return 'Неверный формат файла. \n Формат файла может быть: .doc, .docx, .ppt, .pptx, .pdf';
+                        }
+                        
+                        if(value[0]?.size > 10*1024*1024) {
+                            return 'Превышен допустимый размер файла в 10МБ';
+                        } 
+                        return true;   
+                    }
                 })}
                 error={errors?.rules && errors?.rules?.message}
             />
             <FileUpload 
                 id = "regulationInput"
                 label="Загрузите правила проведения"
-                file={regulation}
-                accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+                file={regulation && regulation[0]}
+                accept=".doc, .docx, .ppt, .pptx, .pdf"
                 {...register('regulation', {
-                    onChange: changeRegulation
+                    validate: (value) => {
+                        if(!value[0]) {
+                            return;
+                        }
+                        const fileExtension = value[0].name?.split('.').pop()?.toLowerCase();
+                        if(!acceptedFormats.includes(`.${fileExtension}`)) {
+                            return 'Неверный формат файла. \n Формат файла может быть: .doc, .docx, .ppt, .pptx, .pdf';
+                        }
+                        
+                        if(value[0]?.size > 10*1024*1024) {
+                            return 'Превышен допустимый размер файла в 10МБ';
+                        }  
+                        return ;
+                    }
                 })}
                 error={errors?.regulation && errors?.regulation?.message}
             />

@@ -1,5 +1,8 @@
 import { EStatusCompetition } from "./EStatusCompetition";
+import { TAgeCategory } from "./TAgeCategory";
 import { TCIty } from "./TCity";
+import { TGroupCategory } from "./TGroupCategory";
+import { TNomination } from "./TNomination";
 import { TUser } from "./TUser";
 
 export interface TCompetition {
@@ -15,4 +18,7 @@ export interface TCompetition {
     competitionFee: number | null,
     rules: string | null,
     regulation: string | null,
+    nominations: TNomination[];
+    groupCategories?: TGroupCategory[];
+    ageCategories?: TAgeCategory[];
 }

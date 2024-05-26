@@ -9,7 +9,7 @@ public class GroupChangeDTO {
     @NotNull
     private Integer idGroup;
 
-    @NotBlank
+    @NotBlank(message = "Название обязательно")
     @Size(max = 25, message = "Максимальная длина названия 25 символов")
     private String nameGroup;
 
@@ -18,7 +18,7 @@ public class GroupChangeDTO {
     @NotNull(message = "Город обязателен для заполнения")
     private Integer idCity;
 
-    @NotBlank
+    @NotBlank(message = "Адрес обязателен для заполнения")
     private String addressGroup;
 
     private String category;

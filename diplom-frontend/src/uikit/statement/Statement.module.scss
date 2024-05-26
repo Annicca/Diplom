@@ -12,6 +12,11 @@
         padding: 10px;
     }
 
+    &__preview {
+        padding: 0;
+        border: none;
+    }
+
     &__data, &__user {
         display: flex;
         flex-direction: column;
@@ -23,6 +28,22 @@
         padding: 10px 0;
         border-top: 1px solid $border-gray;
         border-bottom: 1px solid $border-gray;
+    }
+
+    &__show {
+        svg {
+            fill: $orange;
+            transform: rotate(90deg);
+        }
+        
+
+        &_open svg{
+            transform: rotate(-90deg);
+        }
+    }
+
+    &__infoRules {
+        font-weight: 600;
     }
 }
 

@@ -28,6 +28,8 @@ import { statementsLoader } from './pages/Statements/loader';
 import { Users } from './pages/Users/Users';
 import { usersLoader } from './pages/Users/loader';
 import { CreateStatement } from './pages/CreateStatement/CreateStatement';
+import { EditGroup } from './pages/EditGroup/EditGroup';
+import { CreateStatementParticipants } from './pages/CreateStatementParticipants/CreateStatementParticipants';
 
 
 const router = createBrowserRouter([
@@ -57,6 +59,10 @@ const router = createBrowserRouter([
         loader: ({params}) => groupLoader(queryClient, params.id),
       },
       {
+        path: "participants/:id",
+        element: <CreateStatementParticipants />
+      },
+      {
         path: 'account',
         element: <Account />
       },
@@ -73,6 +79,11 @@ const router = createBrowserRouter([
         path: 'mygroups/:id',
         element: <MyGroups url = 'mygroups' />,
         loader: ({params}) => myGroupsLoader(queryClient, 'mygroups', params.id)
+      },
+      {
+        path: 'mygroups/edit/:id',
+        element: <EditGroup />,
+        loader: ({params}) => groupLoader(queryClient, params.id)
       },
       {
         path: 'mygroups/competitions/:id',

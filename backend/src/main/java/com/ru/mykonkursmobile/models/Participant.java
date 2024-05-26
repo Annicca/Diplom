@@ -1,6 +1,7 @@
 package com.ru.mykonkursmobile.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -25,6 +26,9 @@ public class Participant {
 
     @NotNull
     private int countAccompanying;
+
+    @NotBlank
+    private String nameAct;
 
     public int getId() {
         return id;
