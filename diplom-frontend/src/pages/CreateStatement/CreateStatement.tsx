@@ -23,6 +23,7 @@ import { CreateAgeCategories } from "src/components/createStatement/CreateAgeCat
 import { CreateGroupCategories } from "src/components/createStatement/CreateGroupCategories";
 import { StatementPreview } from "src/components/createStatement/StatementPreview";
 import style from "./CreateStatement.module.scss";
+import { ETypeUser } from "src/types/ETypeUser";
 
 export type CreateStatementForm = Exclude<TStatement, TCIty> & {
   city: {
@@ -63,7 +64,7 @@ export const CreateStatement: FC = () => {
     mode: "onChange",
     defaultValues: {
       type:
-        user?.role === ERole.DIRECTOR
+        user?.role === ERole.DIRECTOR || user?.typeUser === ETypeUser.PHISICAL
           ? ETypeStatement.GROUP
           : ETypeStatement.COMPETITION,
     },
@@ -79,6 +80,8 @@ export const CreateStatement: FC = () => {
     data.dateStart && formData.append("dateStart", data.dateStart);
     data.dateFinish && formData.append("dateFinish", data.dateFinish);
     data.description && formData.append("description", data.description);
+    data.competitionFee &&
+      formData.append("competitionFee", data.competitionFee.toString());
     data.rules &&
       data.rules.length > 0 &&
       formData.append("rules", data.rules[0]);
@@ -120,11 +123,14 @@ export const CreateStatement: FC = () => {
   };
 
   useEffect(() => {
+    if (user?.typeUser === ETypeUser.PHISICAL) {
+      toggleStage(2);
+    }
     if (user?.role === ERole.DIRECTOR || user?.role === ERole.ORGANIZER) {
       toggleStage(2);
     }
     getValues().type;
-  });
+  }, []);
 
   return (
     <PageLayout>

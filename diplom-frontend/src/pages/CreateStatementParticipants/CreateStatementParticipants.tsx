@@ -1,116 +1,195 @@
-import { FC, useMemo, useState } from "react"
-import { useUserContext } from "src/context/user-context/useUserContext"
-import { useCompetition, useUserGroupList } from "src/utils/api";
-import { useParams } from "react-router-dom";
-import { TStatementParticipantDto } from "src/types/TStatementParicipant";
+import { FC, useMemo, useState } from "react";
+import { takePart, useCompetition, useUserGroupList } from "src/utils/api";
+import {
+  IStatementParticipantRequest,
+  TStatementParticipantDto,
+} from "src/types/TStatementParicipant";
+import { TNomination } from "src/types/TNomination";
+import { TAgeCategory } from "src/types/TAgeCategory";
+import { TGroupCategory } from "src/types/TGroupCategory";
 import { useFieldArray, useForm } from "react-hook-form";
 import { MainTite } from "src/components/mainTitle/MainTitle";
 import { PageLayout } from "src/components/layout/PageLayout";
 import { DropDown } from "src/uikit/dropDown/DropDown";
 import { Button } from "src/uikit/button/Button";
 import { InputControl } from "src/uikit/input/InputControl";
-import CloseIcon from 'assets/icons/cancel.svg?react'
+import { CreateAct } from "src/components/createAct/CreateAct";
 
-import style from './CreateStatementParticipants.module.scss'
+import style from "./CreateStatementParticipants.module.scss";
+import { TCompetition } from "src/types/TCompetition";
 
-export const CreateStatementParticipants:FC = () => {
-    const {id} = useParams()
-    const {user} = useUserContext();
-    const {data: myGroups} = useUserGroupList(user?.idUser as number)
-    const {data: competition, isLoading} = useCompetition(id as string)
+export const CreateStatementParticipants: FC = () => {
+  const { data: myGroups, isLoading: isLoadingGroup } = useUserGroupList();
+  const { data: competition, isLoading } = useCompetition();
 
-    const [mainError, setMainError] = useState<string | string[] | null>(null)
+  const [mainError, setMainError] = useState<string | string[] | null>(null);
 
-    const groups = useMemo(() => {
-        return myGroups?.map((group) => {
-            return {
-                value: group,
-                label: group.nameGroup
-            }
-        })
-    }, [myGroups])
-
-    const {
-        register,
-        formState: {errors, isValid},
-        handleSubmit,
-        control,
-        // reset,
-    } = useForm<TStatementParticipantDto>({
-        mode: 'onChange',
-        defaultValues: {
-            competition: competition
-        }
+  const groups = useMemo(() => {
+    return myGroups?.map((group) => {
+      return {
+        value: group,
+        label: group.nameGroup,
+      };
     });
+  }, [myGroups]);
 
-    const {fields: actsFields, append, remove} = useFieldArray({control, name: 'acts', rules: {minLength: 1}})
+  const nominations = useMemo(() => {
+    return competition?.nominations.map((nomination) => {
+      return {
+        value: nomination,
+        label: nomination.name,
+      };
+    });
+  }, [competition]);
 
-    const onSubmit = handleSubmit(async (data) => {
-        console.log(data)
-        setMainError(null)
-    })
+  const ageCategories = useMemo(() => {
+    return competition?.ageCategories?.map((ageCategory) => {
+      return {
+        label: ageCategory.name,
+        value: ageCategory,
+      };
+    });
+  }, [competition]);
 
-    if(isLoading) return;
-    return(
-        <PageLayout>
-            <MainTite>Подать заявку на участие</MainTite>
-            <form onSubmit={onSubmit} className={style.form}>
-                <DropDown 
-                    options = {groups}
-                    placeholder='Выберите коллектив *'
-                    control={control}
-                    name = 'group'
-                    rules = {{
-                        required : 'Поле обязательно',
-                    }}
-                    classNameContainer={style.dropdown}
-                    error = {errors.group && errors.group.message?.toString()}
-                />
-                <InputControl 
-                    type = "number" 
-                    {...register('countParticipants', {
-                        required : 'Поле обязательно',
-                    })}
-                    placeholder = " "
-                    label='Общее количество участников *'
-                    error={errors?.countParticipants && errors?.countParticipants?.message}
-                />
-                <InputControl 
-                    type = "number" 
-                    {...register('countAccompanying', {
-                        required : 'Поле обязательно',
-                    })}
-                    placeholder = " "
-                    label='Количество сопровождающих *'
-                    error={errors?.countAccompanying && errors?.countAccompanying?.message}
-                />
-                <div>
-                    {actsFields.map(({id},index) => (
-                        <article key = {id} className={style.act}>
-                            <div className={style.act__name}>
-                                <div>Номер {index + 1}</div>
-                                <Button onClick={() => remove(index)} className={style.nomination__button}>
-                                    <CloseIcon width={20} height={20} />
-                                </Button>
-                            </div>
+  const groupCategories = useMemo(() => {
+    return competition?.groupCategories?.map((groupCategory) => {
+      return {
+        label: groupCategory.name,
+        value: groupCategory,
+      };
+    });
+  }, [competition]);
 
-                            <div className="error-text">{errors.acts?.message}</div>
-                        </article>
-                    ))
-                    }
-                    <Button type="button" className={style.nomination__add} onClick={() => append({})}>Добавить номр</Button>
-                </div>
-                {mainError && Array.isArray(mainError) ? 
-                    mainError.map((error) => <div className = 'error-text'>{error}</div>)
-                    :
-                    mainError && <div className = 'error-text'>{mainError}</div>
-                }
-                <div className={style.buttonContainer}>
-                    <Button type="submit" disabled={!isValid} className={style.stage_btn}>
-                        Подать заявку на участие
-                    </Button>
-                </div>
-            </form>
-        </PageLayout>
-    )
-}
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+    control,
+    watch,
+  } = useForm<TStatementParticipantDto>({
+    mode: "onChange",
+    defaultValues: {
+      competition: competition,
+    },
+  });
+
+  const {
+    fields: actsFields,
+    append,
+    remove,
+  } = useFieldArray({ control, name: "perfomances", rules: { minLength: 1 } });
+
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+    setMainError(null);
+    const statement: IStatementParticipantRequest = {
+      group: data.group.value,
+      competition: competition as TCompetition,
+      countParticipants: data.countParticipants,
+      countAccompanying: data.countAccompanying,
+      perfomances: data.perfomances.map((act) => {
+        return {
+          nomination: act.nomination?.value as TNomination,
+          ageCategory: act.ageCategory?.value as TAgeCategory,
+          groupCategory: act.groupCategory?.value as TGroupCategory,
+          genre: act.genre?.value,
+          countPeople: act.countPeople,
+          name: act.name,
+        };
+      }),
+    };
+    await takePart(statement)
+      .then(() => {
+        console.log("Заявка на участие отправлена");
+      })
+      .catch((error) => {
+        setMainError(error.message);
+      });
+  });
+
+  if (isLoading || isLoadingGroup) return;
+  return (
+    <PageLayout>
+      <MainTite>Подать заявку на участие</MainTite>
+      <form onSubmit={onSubmit} className={style.form}>
+        <DropDown
+          options={groups}
+          placeholder="Выберите коллектив *"
+          control={control}
+          name="group"
+          rules={{
+            required: "Поле обязательно",
+          }}
+          classNameContainer={style.dropdown}
+          error={errors.group && errors.group.message?.toString()}
+        />
+        <InputControl
+          type="number"
+          {...register("countParticipants", {
+            required: "Поле обязательно",
+            min: { value: 1, message: "Не может быть меньше 1" },
+          })}
+          placeholder=" "
+          label="Общее количество участников *"
+          error={
+            errors?.countParticipants && errors?.countParticipants?.message
+          }
+        />
+        <InputControl
+          type="number"
+          {...register("countAccompanying", {
+            required: "Поле обязательно",
+            min: { value: 0, message: "Не может быть меньше 0" },
+          })}
+          placeholder=" "
+          label="Количество сопровождающих *"
+          error={
+            errors?.countAccompanying && errors?.countAccompanying?.message
+          }
+        />
+        <div>
+          {actsFields.map(({ id }, index) => (
+            <CreateAct
+              key={id}
+              {...{
+                register,
+                errors,
+                control,
+                nominations,
+                ageCategories,
+                groupCategories,
+                index,
+                watch,
+                remove,
+              }}
+            />
+          ))}
+          <Button
+            type="button"
+            className={style.nomination__add}
+            onClick={() =>
+              append({
+                name: "",
+                countPeople: 0,
+                nomination: null,
+                genre: null,
+                ageCategory: null,
+                groupCategory: null,
+              })
+            }
+          >
+            Добавить номер
+          </Button>
+        </div>
+        {mainError && Array.isArray(mainError)
+          ? mainError.map((error) => <div className="error-text">{error}</div>)
+          : mainError && <div className="error-text">{mainError}</div>}
+        <div className={style.buttonContainer}>
+          <Button type="submit" disabled={!isValid} className={style.stage_btn}>
+            Подать заявку на участие
+          </Button>
+        </div>
+      </form>
+    </PageLayout>
+  );
+};

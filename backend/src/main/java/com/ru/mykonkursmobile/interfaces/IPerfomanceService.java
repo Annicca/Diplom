@@ -1,33 +1,32 @@
 package com.ru.mykonkursmobile.interfaces;
 
 import com.ru.mykonkursmobile.exceptions.NotFoundEntityException;
-import com.ru.mykonkursmobile.models.Act;
-import com.ru.mykonkursmobile.models.Genre;
+import com.ru.mykonkursmobile.models.Perfomance;
 
 import java.util.List;
 
-public interface IActService extends IService<Act> {
+public interface IPerfomanceService extends IService<Perfomance> {
 
     /**
      * A method that returns a List of acts
      * @return List of the acts
      */
-    List<Act> all();
+    List<Perfomance> all();
 
     /**
      * Method of adding record in the database
      * @param act - the act to add
-     * @return act - see {@link Act}
+     * @return act - see {@link Perfomance}
      */
-    Act add( Act act);
+    Perfomance add( Perfomance act);
 
     /**
      * Method of changing act in the database
      * @param act - act with changes
-     * @return modified act - see {@link Act}
+     * @return modified act - see {@link Perfomance}
      * @throws NotFoundEntityException if the act to be changed is not found in the database
      */
-    Act update(Act act) throws NotFoundEntityException;
+    Perfomance update(Perfomance act) throws NotFoundEntityException;
 
     /**
      * Delete the act from the database by id
@@ -42,5 +41,5 @@ public interface IActService extends IService<Act> {
      * @return act with this id
      * @throws NotFoundEntityException if act with this id does not exist
      */
-    Act getById(Integer id) throws NotFoundEntityException;
+    Perfomance getById(Integer id) throws NotFoundEntityException;
 }

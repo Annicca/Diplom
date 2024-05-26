@@ -17,9 +17,8 @@ public class Nomination {
     @NotNull
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_statement")
-    @NotNull
     @JsonIgnore
     private Statement statement;
 

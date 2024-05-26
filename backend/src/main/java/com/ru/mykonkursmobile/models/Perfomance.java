@@ -1,6 +1,7 @@
 package com.ru.mykonkursmobile.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,37 +19,48 @@ public class Perfomance {
     @NotNull
     private StatementParticipant statementParticipant;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_participant")
     private Participant participant;
 
     @NotBlank
     private String name;
 
-    @NotNull
+    @Min(value = 1, message = "Значение должно быть больше 0")
     private int countPeople;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_nomination")
+    private Nomination nomination;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_genre")
-    @NotNull
     private Genre genre;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_group_category")
+    private GroupCategory groupCategory;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_age_category")
+    private AgeCategory ageCategory;
 
     private String award;
 
-    @JoinColumn(name = "award_img")
-    private String awardImg;
+//    @JoinColumn(name = "award_img")
+//    private String awardImg;
+//
+//    private int numberBlock;
+//
+//    private int number;
 
-    private int numberBlock;
-
-    private int number;
-
-    @JoinColumn(name = "perfomance_time")
-    private Date perfomanceTime;
-
-    private String location;
-
-    @JoinColumn(name = "additional_info")
-    private String additionalInfo;
+//    @JoinColumn(name = "perfomance_time")
+//    private Date perfomanceTime;
+//
+//    private String location;
+//
+//    @JoinColumn(name = "additional_info")
+//    private String additionalInfo;
 
     public int getId() {
         return id;
@@ -106,52 +118,28 @@ public class Perfomance {
         this.award = award;
     }
 
-    public String getAwardImg() {
-        return awardImg;
+    public GroupCategory getGroupCategory() {
+        return groupCategory;
     }
 
-    public void setAwardImg(String awardImg) {
-        this.awardImg = awardImg;
+    public void setGroupCategory(GroupCategory groupCategory) {
+        this.groupCategory = groupCategory;
     }
 
-    public int getNumberBlock() {
-        return numberBlock;
+    public AgeCategory getAgeCategory() {
+        return ageCategory;
     }
 
-    public void setNumberBlock(int numberBlock) {
-        this.numberBlock = numberBlock;
+    public void setAgeCategory(AgeCategory ageCategory) {
+        this.ageCategory = ageCategory;
     }
 
-    public int getNumber() {
-        return number;
+    public Nomination getNomination() {
+        return nomination;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public Date getPerfomanceTime() {
-        return perfomanceTime;
-    }
-
-    public void setPerfomanceTime(Date perfomanceTime) {
-        this.perfomanceTime = perfomanceTime;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
+    public void setNomination(Nomination nomination) {
+        this.nomination = nomination;
     }
 
     public Perfomance() {
@@ -161,97 +149,38 @@ public class Perfomance {
                       StatementParticipant statementParticipant,
                       String name,
                       Integer countPeople,
+                      Nomination nomination,
                       Genre genre,
-                      String award,
-                      String awardImg,
-                      int numberBlock,
-                      int number,
-                      Date perfomanceTime,
-                      String location) {
+                      AgeCategory ageCategory,
+                      GroupCategory groupCategory,
+                      String award) {
         this.id = id;
         this.statementParticipant = statementParticipant;
         this.name = name;
         this.countPeople = countPeople;
+        this.nomination = nomination;
         this.genre = genre;
+        this.groupCategory = groupCategory;
+        this.ageCategory = ageCategory;
         this.award = award;
-        this.awardImg = awardImg;
-        this.numberBlock = numberBlock;
-        this.number = number;
-        this.perfomanceTime = perfomanceTime;
-        this.location = location;
     }
 
     public Perfomance(
                       StatementParticipant statementParticipant,
                       String name,
                       int countPeople,
+                      Nomination nomination,
                       Genre genre,
-                      String award,
-                      String awardImg,
-                      int numberBlock,
-                      int number,
-                      Date perfomanceTime,
-                      String location) {
+                      AgeCategory ageCategory,
+                      GroupCategory groupCategory,
+                      String award) {
         this.statementParticipant = statementParticipant;
         this.name = name;
         this.countPeople = countPeople;
+        this.nomination = nomination;
         this.genre = genre;
+        this.groupCategory = groupCategory;
+        this.ageCategory = ageCategory;
         this.award = award;
-        this.awardImg = awardImg;
-        this.numberBlock = numberBlock;
-        this.number = number;
-        this.perfomanceTime = perfomanceTime;
-        this.location = location;
-    }
-
-    public Perfomance(int id,
-                      StatementParticipant statementParticipant,
-                      Participant participant,
-                      String name,
-                      int countPeople,
-                      Genre genre,
-                      String award,
-                      String awardImg,
-                      int numberBlock,
-                      int number,
-                      Date perfomanceTime,
-                      String location) {
-        this.id = id;
-        this.statementParticipant = statementParticipant;
-        this.participant = participant;
-        this.name = name;
-        this.countPeople = countPeople;
-        this.genre = genre;
-        this.award = award;
-        this.awardImg = awardImg;
-        this.numberBlock = numberBlock;
-        this.number = number;
-        this.perfomanceTime = perfomanceTime;
-        this.location = location;
-    }
-
-    public Perfomance(
-                      StatementParticipant statementParticipant,
-                      Participant participant,
-                      String name,
-                      int countPeople,
-                      Genre genre,
-                      String award,
-                      String awardImg,
-                      int numberBlock,
-                      int number,
-                      Date perfomanceTime,
-                      String location) {
-        this.statementParticipant = statementParticipant;
-        this.participant = participant;
-        this.name = name;
-        this.countPeople = countPeople;
-        this.genre = genre;
-        this.award = award;
-        this.awardImg = awardImg;
-        this.numberBlock = numberBlock;
-        this.number = number;
-        this.perfomanceTime = perfomanceTime;
-        this.location = location;
     }
 }

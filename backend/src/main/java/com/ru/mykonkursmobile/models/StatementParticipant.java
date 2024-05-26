@@ -2,7 +2,7 @@ package com.ru.mykonkursmobile.models;
 
 import com.ru.mykonkursmobile.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
@@ -15,25 +15,27 @@ public class StatementParticipant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "id_group")
     @NotNull(message = "Выберите коллектив")
     public ArtGroup group;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "id_competition")
     @NotNull(message = "Выберите конкурс")
     public Competition competition;
 
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_act")
-    private List<Act> acts = new ArrayList<>();
+    @JoinColumn(name = "id_perfomance")
+    private List<Perfomance> perfomances = new ArrayList<>();
 
     @NotNull(message = "Укажите общее количество участников")
+    @Min(value = 1, message = "Значение должно быть больше 0")
     private Integer countParticipants;
 
     @NotNull(message = "Укажите количество сопровождающих")
+    @Min(value = 0, message = "Значение не должно быть меньше 0")
     private Integer countAccompanying;
 
     private Double cost;
@@ -97,16 +99,16 @@ public class StatementParticipant {
         this.cost = cost;
     }
 
-    public List<Act> getActs() {
-        return acts;
+    public List<Perfomance> getPerfomances() {
+        return perfomances;
     }
 
-    public void setActs(List<Act> acts) {
-        this.acts = acts;
+    public void setPerfomances(List<Perfomance> perfomances) {
+        this.perfomances = perfomances;
     }
 
     public StatementParticipant() {}
-    public StatementParticipant(int id, ArtGroup group, Competition competition, List<Act> acts, Integer countParticipants, Integer countAccompanying, Double cost, Status status) {
+    public StatementParticipant(int id, ArtGroup group, Competition competition, List<Perfomance> perfomances, Integer countParticipants, Integer countAccompanying, Double cost, Status status) {
         this.id = id;
         this.group = group;
         this.competition = competition;
@@ -114,14 +116,14 @@ public class StatementParticipant {
         this.countAccompanying = countAccompanying;
         this.cost = cost;
         this.status = status;
-        this.acts = acts;
+        this.perfomances = perfomances;
     }
 
-    public StatementParticipant(ArtGroup group, Competition competition, List<Act> acts,  Integer countParticipants, Integer countAccompanying) {
+    public StatementParticipant(ArtGroup group, Competition competition, List<Perfomance> perfomances,  Integer countParticipants, Integer countAccompanying) {
         this.group = group;
         this.competition = competition;
         this.countParticipants = countParticipants;
         this.countAccompanying = countAccompanying;
-        this.acts = acts;
+        this.perfomances = perfomances;
     }
 }

@@ -13,6 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class StatementParticipantService implements IStatementParticipant {
@@ -28,6 +31,11 @@ public class StatementParticipantService implements IStatementParticipant {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    PerfomanceService perfomanceService;
+
+    @Transactional
     @Override
     public StatementParticipant add(StatementParticipant statementParticipant) {
         Competition competition = competitionService.findById(statementParticipant.getCompetition().getIdCompetition());
@@ -42,6 +50,9 @@ public class StatementParticipantService implements IStatementParticipant {
         if(existStatement != null) {
             throw new TakePartException(HttpStatus.BAD_REQUEST, "Вы уже отправили заявку на данный конкурс. Подождите пока вашу заявку рассмотрят или проверьте личный кабинет");
         }
+
+        List<Perfomance> perfomanceList = perfomanceService.setStatement(statementParticipant.getPerfomances(), statementParticipant);
+        statementParticipant.setPerfomances(perfomanceList);
 
         Double cost = competition.getCompetitionFee() * statementParticipant.getCountParticipants();
         statementParticipant.setCost(cost);
@@ -90,7 +101,7 @@ public class StatementParticipantService implements IStatementParticipant {
     @Override
     public Page<StatementParticipant> getByDirectorId(Integer idUser, Pageable pageable) throws NotFoundEntityException {
         User user = userService.getById(idUser);
-        return repository.findAllByUserId(user.getIdUser(), pageable);
+        return repository.findAll(pageable);
     }
 
     @Override
