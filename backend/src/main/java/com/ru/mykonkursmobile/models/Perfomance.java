@@ -1,5 +1,6 @@
 package com.ru.mykonkursmobile.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -16,14 +17,15 @@ public class Perfomance {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_statement_participant")
-    @NotNull
+    @JsonIgnore
     private StatementParticipant statementParticipant;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinColumn(name = "id_participant")
     private Participant participant;
 
-    @NotBlank
+    @NotBlank(message = "Поле обязательно")
     private String name;
 
     @Min(value = 1, message = "Значение должно быть больше 0")

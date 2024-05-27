@@ -1,0 +1,50 @@
+@import "utils/const.scss";
+
+.acts {
+  padding-top: 30px;
+  &__show {
+    svg {
+      fill: $orange;
+      transform: rotate(90deg);
+    }
+
+    &_open svg {
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+.act {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  align-items: center;
+  row-gap: 10px;
+  padding: 20px 10px;
+  border-bottom: 1px solid $border-gray;
+
+  &__title {
+    grid-column: span 2;
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  &__award {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 5px;
+    align-items: center;
+  }
+
+  &__input {
+    padding: 8px 16px;
+    border: 2px solid $yellow;
+    border-radius: 10px;
+    color: $black;
+
+    &:focus,
+    &:hover {
+      border-color: $orange800;
+    }
+  }
+}

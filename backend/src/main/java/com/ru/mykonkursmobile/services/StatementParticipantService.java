@@ -30,10 +30,10 @@ public class StatementParticipantService implements IStatementParticipant {
     GroupService groupService;
 
     @Autowired
-    UserService userService;
+    PerfomanceService perfomanceService;
 
     @Autowired
-    PerfomanceService perfomanceService;
+    ParticipantService participantService;
 
     @Transactional
     @Override
@@ -53,6 +53,8 @@ public class StatementParticipantService implements IStatementParticipant {
 
         List<Perfomance> perfomanceList = perfomanceService.setStatement(statementParticipant.getPerfomances(), statementParticipant);
         statementParticipant.setPerfomances(perfomanceList);
+
+        statementParticipant.setPayment(false);
 
         Double cost = competition.getCompetitionFee() * statementParticipant.getCountParticipants();
         statementParticipant.setCost(cost);
@@ -86,22 +88,49 @@ public class StatementParticipantService implements IStatementParticipant {
     @Override
     public StatementParticipant accept(Integer id) throws NotFoundEntityException, ChangeStatusException {
         StatementParticipant statementParticipant = getById(id);
+        if(statementParticipant.getStatus() != null){
+            throw new ChangeStatusException(HttpStatus.BAD_REQUEST, "Вы не можете изменить статус заявки, так как у неё уже есть статус");
+        }
         statementParticipant.setStatus(Status.ACCEPTED);
-        //добавить в участники
         return repository.save(statementParticipant);
+    }
+
+    @Transactional
+    public StatementParticipant checkPay(Integer id) throws NotFoundEntityException, ChangeStatusException {
+        StatementParticipant statement = getById(id);
+        if(statement.isPayment()){
+            throw new ChangeStatusException(HttpStatus.BAD_REQUEST, "Вы уже отметили оплату заявки");
+        }
+        Participant participant = new Participant(
+            statement.competition,
+                statement.group,
+                statement.getCountParticipants(),
+                statement.getCountAccompanying()
+        );
+        List<Perfomance> perfomances = perfomanceService.setParticipant(statement.getPerfomances(), participant);
+        participant.setPerfomances(perfomances);
+        participantService.add(participant);
+
+        statement.setPayment(true);
+
+        return repository.save(statement);
+
     }
 
     @Override
     public StatementParticipant reject(Integer id) throws NotFoundEntityException, ChangeStatusException {
         StatementParticipant statement = getById(id);
+        if(statement.getStatus() != null){
+            throw new ChangeStatusException(HttpStatus.BAD_REQUEST, "Вы не можете изменить статус заявки, так как у неё уже есть статус");
+        }
         statement.setStatus(Status.REJECTED);
         return update(statement);
     }
 
     @Override
-    public Page<StatementParticipant> getByDirectorId(Integer idUser, Pageable pageable) throws NotFoundEntityException {
-        User user = userService.getById(idUser);
-        return repository.findAll(pageable);
+    public Page<StatementParticipant> getByGroup(Integer idGroup, Pageable pageable) throws NotFoundEntityException {
+        ArtGroup artGroup = groupService.getById(idGroup);
+        return repository.findAllByGroup(artGroup, pageable);
     }
 
     @Override

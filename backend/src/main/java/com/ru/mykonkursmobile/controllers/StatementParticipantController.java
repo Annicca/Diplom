@@ -17,16 +17,10 @@ public class StatementParticipantController {
     @Autowired
     StatementParticipantService service;
 
-//    @GetMapping("/{id}")
-//    @ResponseBody
-//    public StatementParticipant GetStatementParticipantById(@PathVariable Integer id){
-//        return service.getById(id);
-//    }
-
-    @GetMapping("/{idDirector}")
+    @GetMapping("/group/{idGroup}")
     @ResponseBody
-    public Page<StatementParticipant> GetStatementParticipantByDirector(@PathVariable(value = "idDirector")  Integer idDirector, @PageableDefault Pageable pageable){
-        return service.getByDirectorId(idDirector, pageable);
+    public Page<StatementParticipant> GetStatementParticipantByDirector(@PathVariable(value = "idGroup")  Integer idGroup, @PageableDefault Pageable pageable){
+        return service.getByGroup(idGroup, pageable);
     }
 
     @GetMapping("competition/{idCompetition}")
@@ -49,4 +43,7 @@ public class StatementParticipantController {
     public StatementParticipant RejectStatementParticipant(@PathVariable Integer id){
         return service.reject(id);
     }
+
+    @PutMapping("/payment/{id}")
+    public StatementParticipant PaymentStatementParticipant(@PathVariable Integer id) {return service.checkPay(id);}
 }

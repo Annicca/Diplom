@@ -10,7 +10,8 @@ export interface TStatementParticipant {
   countParticipants: number;
   countAccompanying: number;
   cost?: number;
-  status?: string | null;
+  status: string | null;
+  payment?: boolean;
 }
 
 export interface TStatementParticipantDto {

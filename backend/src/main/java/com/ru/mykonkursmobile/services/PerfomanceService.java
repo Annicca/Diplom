@@ -2,6 +2,7 @@ package com.ru.mykonkursmobile.services;
 
 import com.ru.mykonkursmobile.exceptions.NotFoundEntityException;
 import com.ru.mykonkursmobile.interfaces.IPerfomanceService;
+import com.ru.mykonkursmobile.models.Participant;
 import com.ru.mykonkursmobile.models.Perfomance;
 import com.ru.mykonkursmobile.models.StatementParticipant;
 import com.ru.mykonkursmobile.repositoryes.PerfomanceRepository;
@@ -31,8 +32,9 @@ public class PerfomanceService implements IPerfomanceService {
 
     @Override
     public Perfomance update(Perfomance act) throws NotFoundEntityException {
-        getById(act.getId());
-        return repository.save(act);
+        Perfomance oldAct = getById(act.getId());
+        oldAct.setAward(act.getAward());
+        return repository.save(oldAct);
     }
 
     @Override
@@ -50,6 +52,11 @@ public class PerfomanceService implements IPerfomanceService {
 
     public List<Perfomance> setStatement (List<Perfomance> perfomances, StatementParticipant statementParticipant) {
         perfomances.forEach(perfomance -> perfomance.setStatementParticipant(statementParticipant));
+        return new ArrayList<>(perfomances);
+    }
+
+    public List<Perfomance> setParticipant (List<Perfomance> perfomances, Participant participant) {
+        perfomances.forEach(perfomance -> perfomance.setParticipant(participant));
         return new ArrayList<>(perfomances);
     }
 }

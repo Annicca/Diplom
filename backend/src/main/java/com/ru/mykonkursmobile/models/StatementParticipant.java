@@ -4,6 +4,7 @@ import com.ru.mykonkursmobile.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class StatementParticipant {
 
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_perfomance")
+    @JoinColumn(name = "id_statement_participant")
     private List<Perfomance> perfomances = new ArrayList<>();
 
     @NotNull(message = "Укажите общее количество участников")
@@ -42,6 +43,8 @@ public class StatementParticipant {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    private boolean isPayment;
 
     public int getId() {
         return id;
@@ -107,8 +110,16 @@ public class StatementParticipant {
         this.perfomances = perfomances;
     }
 
+    public boolean isPayment() {
+        return isPayment;
+    }
+
+    public void setPayment(boolean payment) {
+        isPayment = payment;
+    }
+
     public StatementParticipant() {}
-    public StatementParticipant(int id, ArtGroup group, Competition competition, List<Perfomance> perfomances, Integer countParticipants, Integer countAccompanying, Double cost, Status status) {
+    public StatementParticipant(int id, ArtGroup group, Competition competition, List<Perfomance> perfomances, Integer countParticipants, Integer countAccompanying, Double cost, Status status, boolean isPayment) {
         this.id = id;
         this.group = group;
         this.competition = competition;
@@ -116,14 +127,16 @@ public class StatementParticipant {
         this.countAccompanying = countAccompanying;
         this.cost = cost;
         this.status = status;
+        this.isPayment = isPayment;
         this.perfomances = perfomances;
     }
 
-    public StatementParticipant(ArtGroup group, Competition competition, List<Perfomance> perfomances,  Integer countParticipants, Integer countAccompanying) {
+    public StatementParticipant(ArtGroup group, Competition competition, List<Perfomance> perfomances,  Integer countParticipants, Integer countAccompanying, boolean isPayment) {
         this.group = group;
         this.competition = competition;
         this.countParticipants = countParticipants;
         this.countAccompanying = countAccompanying;
+        this.isPayment = isPayment;
         this.perfomances = perfomances;
     }
 }

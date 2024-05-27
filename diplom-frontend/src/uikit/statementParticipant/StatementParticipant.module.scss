@@ -1,0 +1,60 @@
+@import "utils/const.scss";
+
+.statement {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  row-gap: 20px;
+  border-radius: 10px;
+  border: 1px solid $border-gray;
+  overflow: hidden;
+
+  @media (max-width: map-get($breackpoints, tablet)) {
+    padding: 10px;
+  }
+
+  &__imgContainer {
+    height: 200px;
+    width: auto;
+    border-radius: 10px;
+    object-fit: cover;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      height: 100px;
+    }
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      div {
+        max-width: 100px;
+        overflow-wrap: break-word;
+      }
+    }
+  }
+
+  &__innerRight {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      flex-direction: column;
+      row-gap: 10px;
+    }
+  }
+
+  &__btn {
+    flex: 0 1 calc(50% - 10px);
+  }
+}
