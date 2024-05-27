@@ -12,6 +12,7 @@ import { TCompetition } from "src/types/TCompetition";
 import { TGroup } from "src/types/TGroup";
 import { useParams } from "react-router-dom";
 import { useUserContext } from "src/context/user-context/useUserContext";
+import { TAct } from "src/types/TAct";
 
 export interface ILoginRequest {
   login: string;
@@ -261,9 +262,23 @@ export const changeStatusStatementParticipant = async (
  */
 
 export const checkPayment = async (id: number) => {
-  return instance.put(
-    `statementsparticipant/payment/${id}`,
-    {},
-    getRequestConfig()
-  );
+  return instance
+    .put(`statementsparticipant/payment/${id}`, {}, getRequestConfig())
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};
+
+export const changeAct = async (act: TAct) => {
+  return instance.put("perfomance", act, getRequestConfig()).catch((error) => {
+    if (error.response) {
+      if (error.response.data.errors)
+        throw new Error(error.response.data.errors);
+      throw new Error(error.response.data.message);
+    } else throw new Error(error.message);
+  });
 };

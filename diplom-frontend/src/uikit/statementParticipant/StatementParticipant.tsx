@@ -36,7 +36,6 @@ export const StatementParticipant: FC<TStatementParticipantProps> = ({
   payment = () => {},
 }) => {
   const { user } = useUserContext();
-  console.log(statement);
   return (
     <div className={style.statement}>
       <StatementTitle number={statement.id} status={statement.status} />
@@ -132,8 +131,6 @@ export const StatementParticipant: FC<TStatementParticipantProps> = ({
           text={"Стоимость: " + statement.cost}
         />
         <Acts acts={statement.perfomances} />
-        {/* номера со стрелкой вниз */}
-        <div></div>
       </div>
       {user?.role === ERole.ORGANIZER && !statement.status && (
         <div className={style.statement__buttonContainer}>

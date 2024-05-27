@@ -18,7 +18,6 @@ public class Perfomance {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_statement_participant")
     @JsonIgnore
-    @NotNull
     private StatementParticipant statementParticipant;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -26,7 +25,7 @@ public class Perfomance {
     @JoinColumn(name = "id_participant")
     private Participant participant;
 
-    @NotBlank
+    @NotBlank(message = "Поле обязательно")
     private String name;
 
     @Min(value = 1, message = "Значение должно быть больше 0")

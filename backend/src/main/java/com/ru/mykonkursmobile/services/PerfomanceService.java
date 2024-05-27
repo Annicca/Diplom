@@ -32,8 +32,9 @@ public class PerfomanceService implements IPerfomanceService {
 
     @Override
     public Perfomance update(Perfomance act) throws NotFoundEntityException {
-        getById(act.getId());
-        return repository.save(act);
+        Perfomance oldAct = getById(act.getId());
+        oldAct.setAward(act.getAward());
+        return repository.save(oldAct);
     }
 
     @Override

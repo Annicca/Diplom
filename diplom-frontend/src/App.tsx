@@ -32,6 +32,8 @@ import { EditGroup } from "./pages/EditGroup/EditGroup";
 import { CreateStatementParticipants } from "./pages/CreateStatementParticipants/CreateStatementParticipants";
 import { MyStatementsParticipant } from "./pages/MyStatementsParticipant/MyStatementsParticipant";
 import { myStatementsParticipantLoader } from "./pages/MyStatementsParticipant/loader";
+import { CompetitiosParticipant } from "./pages/CompetitionParticipants/CompetitionParticipants";
+import { participantsLoader } from "./pages/CompetitionParticipants/loader";
 
 const router = createBrowserRouter([
   {
@@ -111,9 +113,8 @@ const router = createBrowserRouter([
       },
       {
         path: "mycompetitions/participants/:id",
-        element: <MyGroups url="mycompetitions/participants" />,
-        loader: ({ params }) =>
-          myGroupsLoader(queryClient, "mycompetitions/participants", params.id),
+        element: <CompetitiosParticipant />,
+        loader: ({ params }) => participantsLoader(queryClient, params.id),
       },
       {
         path: "mycompetitions/statements-participant/:id",
