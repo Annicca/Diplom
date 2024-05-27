@@ -16,7 +16,6 @@ public class PerfomanceController {
     @PutMapping("/perfomance")
     @ResponseBody
     public Perfomance UpdatePerfomance(@RequestBody @Valid Perfomance perfomance) {
-        System.out.println(perfomance.getAward());
         return service.update(perfomance);
     }
 }
