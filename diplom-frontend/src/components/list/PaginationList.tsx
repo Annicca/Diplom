@@ -4,13 +4,10 @@ import { TPage } from "src/types/TPage";
 import { ETypeLoding } from "src/types/ETypeLoading";
 import { AxiosError } from "axios";
 import { useInView } from "react-hook-inview";
+import { withConditionalRender } from "src/hoc/withConditionalRender";
 import { List } from "./List";
 import { Loading } from "../loading/Loading";
-// import { Message } from "../message/Message";
-// import { ETypeMessage } from "src/types/ETypeMessage";
-
 import style from "./List.module.scss";
-import { withConditionalRender } from "src/hoc/withConditionalRender";
 
 interface PaginationListProps<T> {
   infiniteData: UseInfiniteQueryResult<TPage<T[]>, AxiosError>;
