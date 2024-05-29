@@ -23,7 +23,7 @@ public class ArtGroup {
     @Size(max = 25, message = "Максимальная длина названия 25 символов")
     private String nameGroup;
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String descriptionGroup;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
