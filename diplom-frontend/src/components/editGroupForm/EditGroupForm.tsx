@@ -13,8 +13,8 @@ import { Image } from "../image/Image";
 import { ImagePreview } from "../image/ImagePreview";
 import { editGroup } from "src/utils/api";
 import { useNavigate } from "react-router-dom";
-import style from "../../pages/CreateStatement/CreateStatement.module.scss";
 import classNames from "classnames";
+import style from "../../pages/CreateStatement/CreateStatement.module.scss";
 
 interface EditGroupFormProps {
   group: TGroup;

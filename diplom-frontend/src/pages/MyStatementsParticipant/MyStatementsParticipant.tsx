@@ -13,8 +13,15 @@ import { StatementParticipant } from "src/uikit/statementParticipant/StatementPa
 import { changeStatusStatementParticipant, checkPayment } from "src/utils/api";
 import { ErrorModal } from "src/components/errorModal/ErrorModal";
 import { queryClient } from "src/utils/queryClient";
+import { withConditional } from "src/hoc/withConditionalRender";
+import { Loading } from "src/components/loading/Loading";
+import { ETypeLoding } from "src/types/ETypeLoading";
 
 import style from "../../components/list/List.module.scss";
+
+const PaginationListConditional = withConditional(
+  PaginationList<TStatementParticipant>
+);
 
 interface TMyStatementsParticipantProps {
   url: string;
@@ -76,10 +83,19 @@ export const MyStatementsParticipant: FC<TMyStatementsParticipantProps> = ({
   return (
     <PageLayout>
       <MainTite>Заявки на участие</MainTite>
-      <PaginationList
+      <PaginationListConditional
+        isLoading={infinitedata.isLoading || infinitedata.isFetching}
+        isError={infinitedata.isError}
+        error={infinitedata.error}
+        loadingElement={
+          <Loading
+            type={ETypeLoding.SKELETON}
+            skeletonClassName={"skeleton-competition"}
+            classNameList={style.list_statements}
+          />
+        }
         classNameList={style.list}
         classNameInnerList={style.list_statements}
-        skeletonClassName="skeleton-competition"
         infiniteData={infinitedata}
         renderItem={(item: TStatementParticipant) => (
           <StatementParticipant

@@ -6,42 +6,38 @@ import { groupLoader as loader } from "./loader";
 import { groupQuery as query } from "./groupQuery";
 import { TGroup } from "src/types/TGroup";
 import { PageLayout } from "src/components/layout/PageLayout";
-import { Detail } from "src/uikit/detail/Detail";
+import Detail from "src/uikit/detail/Detail";
 import { DetailSkeleton } from "src/uikit/detail/components/DetailSkeleton";
-import { withConditionalRender } from "src/hoc/withConditionalRender";
 
-export const GroupDetail:FC = () => {
+export const GroupDetail: FC = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const initialData = useLoaderData() as Awaited<
+    ReturnType<ReturnType<typeof loader>>
+  >;
+  const {
+    data: group,
+    isError,
+    isLoading,
+    error,
+  } = useQuery<TGroup, AxiosError>({ ...query(id), initialData: initialData });
 
-    const {id} = useParams()
-    const navigate = useNavigate()
-    const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof loader>>>
-    const {data: group, isError, isLoading, error} = useQuery<TGroup, AxiosError>({...query(id), initialData: initialData})
-
-    return(
-        <PageLayout>
-            {withConditionalRender({
-                isLoading,
-                isError,
-                error,
-                loadingElement: <DetailSkeleton />,
-                data: group,
-                children: (
-                    <>
-                        {group && 
-                            <Detail 
-                            img={group.img}
-                            name={group.nameGroup}
-                            city={group.cityGroup.city}
-                            number={group.director.phoneUser}
-                            mail={group.director.mailUser}
-                            description={group.descriptionGroup}
-                            onClick={() => navigate('')}
-                            buttonText="Пригласить"
-                            />
-                        }
-                    </>
-                )      
-            })}
-        </PageLayout>
-    )
-}
+  return (
+    <PageLayout>
+      <Detail
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+        loadingElement={<DetailSkeleton />}
+        img={group.img}
+        name={group.nameGroup}
+        city={group.cityGroup.city}
+        number={group.director.phoneUser}
+        mail={group.director.mailUser}
+        description={group.descriptionGroup}
+        onClick={() => navigate("")}
+        buttonText="Пригласить"
+      />
+    </PageLayout>
+  );
+};

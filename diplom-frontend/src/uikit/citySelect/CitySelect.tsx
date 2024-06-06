@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import WindowedSelect from "react-windowed-select";
 import { useCities } from "src/utils/api";
+import { DropDownSkeleton } from "../dropDown/components/DropDownSkeleton";
 
 interface CitySelectProps<T extends FieldValues> {
   control?: Control<T>;
@@ -30,7 +31,7 @@ export const CitySelect = <T extends FieldValues>({
     return options?.find((option) => option.value === defaultValue);
   }, [defaultValue, options]);
 
-  if (!cities || isFetching || isLoading) return null;
+  if (!cities || isFetching || isLoading) return <DropDownSkeleton />;
   return (
     <Controller
       control={control}

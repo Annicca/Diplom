@@ -10,18 +10,23 @@ import { TPage } from "src/types/TPage";
 import { ERole } from "src/types/ERole";
 import { PageLayout } from "src/components/layout/PageLayout";
 import { MainTite } from "src/components/mainTitle/MainTitle";
+import { withConditional } from "src/hoc/withConditionalRender";
+import { Loading } from "src/components/loading/Loading";
 import { PaginationList } from "src/components/list/PaginationList";
 import { MyGroup } from "src/uikit/myGroup/MyGroup";
 import { DeleteModal } from "src/components/deleteModal/DeleteModal";
 import { deleteGroup } from "src/utils/api";
 import { queryClient } from "src/utils/queryClient";
 import { ErrorModal } from "src/components/errorModal/ErrorModal";
+import { ETypeLoding } from "src/types/ETypeLoading";
 
 import style from "../../components/list/List.module.scss";
 
 interface MyGroupsProps {
   url: string;
 }
+
+const PaginationListConditional = withConditional(PaginationList<TGroup>);
 
 export const MyGroups: FC<MyGroupsProps> = ({ url }) => {
   const { user } = useUserContext();
@@ -75,10 +80,19 @@ export const MyGroups: FC<MyGroupsProps> = ({ url }) => {
       <MainTite>
         {user?.role === ERole.DIRECTOR ? "Мои коллективы" : "Коллективы"}
       </MainTite>
-      <PaginationList
+      <PaginationListConditional
+        isLoading={infinitedata.isLoading || infinitedata.isFetching}
+        isError={infinitedata.isError}
+        error={infinitedata.error}
+        loadingElement={
+          <Loading
+            type={ETypeLoding.SKELETON}
+            skeletonClassName={"skeleton-competition"}
+            classNameList={style.list_statements}
+          />
+        }
         classNameList={style.list}
         classNameInnerList={style.list_statements}
-        skeletonClassName="skeleton-competition"
         infiniteData={infinitedata}
         renderItem={(item: TGroup) => (
           <MyGroup

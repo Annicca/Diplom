@@ -29,7 +29,6 @@ export const MyGroup: FC<MyGroupProps> = ({
 }) => {
   const { user } = useUserContext();
   const navigate = useNavigate();
-  console.log(group);
   return (
     <div className={style.myGroup}>
       {user?.role === ERole.DIRECTOR ? (

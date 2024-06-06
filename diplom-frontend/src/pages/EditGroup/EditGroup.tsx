@@ -7,9 +7,11 @@ import { MainTite } from "src/components/mainTitle/MainTitle";
 import { TGroup } from "src/types/TGroup";
 import { useLoaderData, useParams } from "react-router-dom";
 import { AxiosError } from "axios";
-import { withConditionalRender } from "src/hoc/withConditionalRender";
+import { withConditional } from "src/hoc/withConditionalRender";
 import { EditGroupForm } from "src/components/editGroupForm/EditGroupForm";
 import { EditGroupSkeleton } from "src/components/editGroupForm/EditGroupSkeleton";
+
+const EditGroupCondiitonal = withConditional(EditGroupForm);
 
 export const EditGroup: FC = () => {
   const { id } = useParams();
@@ -27,14 +29,13 @@ export const EditGroup: FC = () => {
   return (
     <PageLayout>
       <MainTite>Изменить коллектив</MainTite>
-      {withConditionalRender({
-        isLoading: isLoading || isFetching,
-        isError,
-        error,
-        loadingElement: <EditGroupSkeleton />,
-        data: group,
-        children: <EditGroupForm group={group} />,
-      })}
+      <EditGroupCondiitonal
+        isLoading={isLoading || isFetching}
+        isError={isError}
+        error={error}
+        group={group}
+        loadingElement={<EditGroupSkeleton />}
+      />
     </PageLayout>
   );
 };
