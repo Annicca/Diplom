@@ -1,87 +1,88 @@
-@import '../../utils/const.scss';
+@import "../../utils/const.scss";
 
 .nav {
-    background-color: $yellow;
+  background-color: $yellow;
+
+  @media (max-width: map-get($breackpoints, tablet)) {
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+    bottom: 0;
+    background-color: $white;
+    border-top: 2px solid $yellow;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+
+  &__container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
 
     @media (max-width: map-get($breackpoints, tablet)) {
-        width: 100%;
-        position: fixed;
-        z-index: 1;
-        bottom: 0;
-        background-color: $white;
-        border-top: 2px solid $yellow;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
+      padding: 10px 20px;
+    }
+  }
+
+  &__list {
+    display: flex;
+    gap: 10%;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      width: 100%;
+      max-width: 250px;
+      margin: 0 auto;
+      justify-content: space-between;
+    }
+  }
+
+  &__link {
+    min-width: 170px;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: $white;
+    text-align: center;
+    font-weight: 500;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: $black;
+    background-color: $background;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      min-width: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background-color: inherit;
+      color: $gray;
+      font-size: 8px;
+      font-weight: 600;
     }
 
-    &__container {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 20px;
+    &_select,
+    &:hover {
+      transition: background-color 0.3s linear;
+      background-color: $light-yellow;
 
-        @media (max-width: map-get($breackpoints, tablet)) {
-            padding: 10px 20px;
+      @media (max-width: map-get($breackpoints, tablet)) {
+        background-color: inherit;
+        color: $orange;
+
+        svg * {
+          color: $orange;
+          fill: $orange;
         }
+      }
     }
+  }
 
-    &__list {
-        display: flex;
-        gap: 10%;
-
-        @media (max-width: map-get($breackpoints, tablet)) {
-            width: 100%;
-            max-width: 250px;
-            margin: 0 auto;
-            justify-content: space-between;
-        }
-    }
-
-    &__link {
-        min-width: 170px;
-        padding: 10px;
-        border-radius: 15px;
-        background-color: $white;
-        text-align: center;
-        font-weight: 500;
-        font-size: 18px;
-        text-transform: uppercase;
-        color: $black;
-        background-color: $background;
-
-        @media (max-width:map-get($breackpoints, tablet)) {
-            min-width: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            background-color: inherit;
-            color: $gray;
-            font-size: 8px;
-            font-weight: 600;
-        }
-
-        &_select, &:hover {
-            transition: background-color 0.3s linear;
-            background-color:  $light-yellow;
-
-            @media(max-width: map-get($breackpoints, tablet)) {
-                background-color: inherit;
-                color: $orange;
-
-                svg * {
-                    color: $orange;
-                    fill: $orange;
-                }
-            }
-        }
-    }
-
-    &__iconlist {
-        display: flex;
-        justify-content: space-between;
-        gap: 10%;
-    }
+  &__iconlist {
+    display: flex;
+    justify-content: space-between;
+    gap: 10%;
+  }
 }

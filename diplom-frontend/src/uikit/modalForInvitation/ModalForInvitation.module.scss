@@ -1,0 +1,50 @@
+@import "utils/const.scss";
+
+.invitation {
+  width: 80%;
+  padding: 40px;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  @media (max-width: map-get($breackpoints, tablet)) {
+    padding: 20px;
+    width: 90%;
+  }
+
+  &__list {
+    display: grid;
+    margin: 0 auto;
+    padding-top: 40px;
+    row-gap: 30px;
+  }
+
+  &__chose {
+    display: flex;
+    flex-direction: column;
+    padding-top: 40px;
+    row-gap: 30px;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      flex-direction: column;
+      row-gap: 10px;
+    }
+  }
+
+  &__btn {
+    flex: 0 1 calc(50% - 10px);
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      flex: 0 1 100%;
+    }
+  }
+}
+
+.competition {
+  cursor: pointer;
+  width: 100%;
+}

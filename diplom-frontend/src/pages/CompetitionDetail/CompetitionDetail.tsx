@@ -29,31 +29,33 @@ export const CompetitionDetail: FC = () => {
 
   return (
     <PageLayout>
-      <Detail
-        isLoading={isLoading}
-        isError={isError}
-        error={error}
-        loadingElement={<DetailSkeleton />}
-        img={competition.img}
-        name={competition.nameCompetition}
-        city={competition.cityCompetition.city}
-        status={chooseStatusCompetition(competition.statusCompetition)}
-        dateStart={competition.dateStart}
-        dateFinish={competition.dateFinish}
-        number={competition.organizer.phoneUser}
-        mail={competition.organizer.mailUser}
-        description={competition.descriptionCompetition}
-        nominations={competition.nominations}
-        ageCategories={competition.ageCategories}
-        groupCategories={competition.groupCategories}
-        isDisabled={
-          competition.statusCompetition !== EStatusCompetition.CREATED
-        }
-        onClick={() => navigate(`/participants/${competition.idCompetition}`)}
-        rules={competition.rules}
-        regulation={competition.regulation}
-        buttonText="Принять участие"
-      />
+      {competition && (
+        <Detail
+          isLoading={isLoading}
+          isError={isError}
+          error={error}
+          loadingElement={<DetailSkeleton />}
+          img={competition.img}
+          name={competition.nameCompetition}
+          city={competition.cityCompetition.city}
+          status={chooseStatusCompetition(competition.statusCompetition)}
+          dateStart={competition.dateStart}
+          dateFinish={competition.dateFinish}
+          number={competition.organizer.phoneUser}
+          mail={competition.organizer.mailUser}
+          description={competition.descriptionCompetition}
+          nominations={competition.nominations}
+          ageCategories={competition.ageCategories}
+          groupCategories={competition.groupCategories}
+          isDisabled={
+            competition.statusCompetition !== EStatusCompetition.CREATED
+          }
+          onClick={() => navigate(`/participants/${competition.idCompetition}`)}
+          rules={competition.rules}
+          regulation={competition.regulation}
+          buttonText="Принять участие"
+        />
+      )}
     </PageLayout>
   );
 };

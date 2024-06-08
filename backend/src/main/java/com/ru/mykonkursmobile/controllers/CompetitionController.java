@@ -55,6 +55,13 @@ public class CompetitionController {
         return service.getByOrganizerId(userId, pageable);
     }
 
+    @GetMapping("/mycompetitions/started/{userId}")
+    @ResponseBody
+    public Page<Competition> GetMyCompetitionsStarted(@PathVariable Integer userId, Pageable pageable){
+
+        return service.getStartedByOrganizerId(userId, pageable);
+    }
+
     @PutMapping("/competitions")
     @ResponseBody
     public ResponseEntity UpdateCompetition(@ModelAttribute @Valid CompetitionChangeDTO competition) throws IOException {

@@ -30,7 +30,7 @@ public class Statement {
     @NotBlank
     private String name;
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

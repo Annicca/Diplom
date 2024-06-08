@@ -36,4 +36,78 @@ public class GroupUpdate {
     private String img;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private ArtGroup artGroup;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNameGroup() {
+        return nameGroup;
+    }
+
+    public void setNameGroup(String nameGroup) {
+        this.nameGroup = nameGroup;
+    }
+
+    public String getDescriptionGroup() {
+        return descriptionGroup;
+    }
+
+    public void setDescriptionGroup(String descriptionGroup) {
+        this.descriptionGroup = descriptionGroup;
+    }
+
+    public City getCityGroup() {
+        return cityGroup;
+    }
+
+    public void setCityGroup(City cityGroup) {
+        this.cityGroup = cityGroup;
+    }
+
+    public String getAddressGroup() {
+        return addressGroup;
+    }
+
+    public void setAddressGroup(String addressGroup) {
+        this.addressGroup = addressGroup;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public StatusModeration getStatusModeration() {
+        return statusModeration;
+    }
+
+    public void setStatusModeration(StatusModeration statusModeration) {
+        this.statusModeration = statusModeration;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public ArtGroup getArtGroup() {
+        return artGroup;
+    }
+
+    public void setArtGroup(ArtGroup artGroup) {
+        this.artGroup = artGroup;
+    }
+
+    
 }

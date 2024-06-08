@@ -23,6 +23,7 @@ export const Participant: FC<TParticipantProps> = ({ participant }) => {
     <div className={style.statement}>
       <div className={style.statement__inner}>
         <Image
+          key={participant.group.img}
           src={participant.group.img}
           className={style.statement__imgContainer}
           alt={participant.group.nameGroup}

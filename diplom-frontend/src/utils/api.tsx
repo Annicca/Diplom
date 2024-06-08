@@ -2,7 +2,7 @@ import { TUser } from "src/types/TUser";
 import { fetchData, getFileConfig, getRequestConfig, instance } from "./fetch";
 import { setCookie } from "react-use-cookie";
 import { ETypeUser } from "src/types/ETypeUser";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { TCIty } from "src/types/TCity";
 import { TStatement } from "src/types/TStatement";
 import { IStatementParticipantRequest } from "src/types/TStatementParicipant";
@@ -13,6 +13,8 @@ import { TGroup } from "src/types/TGroup";
 import { useParams } from "react-router-dom";
 import { useUserContext } from "src/context/user-context/useUserContext";
 import { TAct } from "src/types/TAct";
+import { TPage } from "src/types/TPage";
+import { TInvitation } from "src/types/TInvitation";
 
 export interface ILoginRequest {
   login: string;
@@ -212,6 +214,22 @@ export const useUserGroupList = () => {
 };
 
 /**
+ * Хук для получения конкурсов пользователя
+ */
+export const useUserCompetitionList = () => {
+  const { user } = useUserContext();
+  return useInfiniteQuery<TPage<TCompetition[]>, AxiosError>(
+    ["mycompetitions/started", user?.idUser],
+    () =>
+      fetchData(
+        `mycompetitions/started/${user?.idUser}`,
+        {},
+        getRequestConfig()
+      )
+  );
+};
+
+/**
  * Хук для получения конкурса
  */
 export const useCompetition = () => {
@@ -273,6 +291,12 @@ export const checkPayment = async (id: number) => {
     });
 };
 
+/**
+ * Функция изменения номера
+ * @param act - номер
+ * @returns измененный номер или ошибка
+ */
+
 export const changeAct = async (act: TAct) => {
   return instance.put("perfomance", act, getRequestConfig()).catch((error) => {
     if (error.response) {
@@ -281,4 +305,39 @@ export const changeAct = async (act: TAct) => {
       throw new Error(error.response.data.message);
     } else throw new Error(error.message);
   });
+};
+
+/**
+ * Функция создания приглашения
+ * @param invitation - приглашение
+ * @returns созданное пришлашение или ошибка
+ */
+
+export const addInvitation = async (invitation: TInvitation) => {
+  return instance
+    .post("invitations", invitation, getRequestConfig())
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};
+
+/**
+ * Изменить статус приглашения
+ * @param status - статус приглашения
+ * @param id - id приглашения
+ */
+export const changeStatusInvitation = async (status: string, id: number) => {
+  return instance
+    .put(`invitations/${status}/${id}`, {}, getRequestConfig())
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
 };

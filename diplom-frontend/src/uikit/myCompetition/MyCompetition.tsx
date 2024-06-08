@@ -20,6 +20,7 @@ import { NominationsList } from "src/components/nominationsList/NominationsList"
 import { NestedList } from "src/components/nominationsList/NestedList";
 import classNames from "classnames";
 import ArrowIcon from "assets/icons/arrowRight.svg?react";
+import InvitIcon from "assets/icons/invitation.svg?react";
 
 import style from "../myGroup/MyGroup.module.scss";
 
@@ -27,12 +28,14 @@ interface MyCompetitionProps {
   competition: TCompetition;
   onCancelItem?: () => void;
   onChangeItem?: () => void;
+  isSmal?: boolean;
 }
 
 export const MyCompetition: FC<MyCompetitionProps> = ({
   onCancelItem,
   onChangeItem,
   competition,
+  isSmal = false,
 }) => {
   const { user } = useUserContext();
   const navigate = useNavigate();
@@ -56,16 +59,14 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
       )}
       <div className={style.myGroup__inner}>
         <Image
+          key={competition.img}
           src={competition.img}
           className={style.myGroup__imgContainer}
           alt={competition.nameCompetition}
         />
         <div className={style.myGroup__info}>
           <div className="text-orange">
-            Статус:{" "}
-            {competition.statusCompetition
-              ? chooseStatusCompetition(competition.statusCompetition)
-              : "-"}
+            Статус: {chooseStatusCompetition(competition.statusCompetition)}
           </div>
           <TextIcon
             icon={<HouseIcon width={20} height={20} />}
@@ -80,10 +81,14 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
             icon={<CalendarIcon height={25} />}
             classnames={style.competition__date}
           />
-          <div>Стоимость конкурсного взноса: {competition.competitionFee}</div>
+          {!isSmal && (
+            <div>
+              Стоимость конкурсного взноса: {competition.competitionFee}
+            </div>
+          )}
         </div>
       </div>
-      {user?.role === ERole.ORGANIZER && (
+      {user?.role === ERole.ORGANIZER && !isSmal && (
         <div>
           <span className={style.myGroup__infoRules}>
             Информация по положению:
@@ -101,7 +106,7 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
           </Button>
         </div>
       )}
-      {isVisible && (
+      {isVisible && !isSmal && (
         <>
           <NominationsList nominationsList={competition.nominations} />
           {competition.ageCategories &&
@@ -120,14 +125,14 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
                 nameList="Групповые формы"
               />
             )}
-          {competition.rules && (
+          {competition.rules && !isSmal && (
             <FileDownload
               fileName={competition.rules}
               newFileName={`Положение_конкурса_${competition.nameCompetition}`}
               text="Положение конкурса"
             />
           )}
-          {competition.regulation && (
+          {competition.regulation && !isSmal && (
             <FileDownload
               fileName={competition.regulation}
               text="Правила проведения"
@@ -137,8 +142,13 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
         </>
       )}
 
-      {user?.role === ERole.ORGANIZER && (
-        <div className={style.myGroup__btnContainer}>
+      {user?.role === ERole.ORGANIZER && !isSmal && (
+        <div
+          className={classNames(
+            style.myGroup__btnContainer,
+            style.myGroup__btnContainer_three
+          )}
+        >
           <Button
             onClick={() =>
               navigate(
@@ -175,9 +185,31 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
               isTransition
             />
           </Button>
+          <Button
+            onClick={() =>
+              navigate(
+                `/mycompetitions/invitations/${competition.idCompetition}`
+              )
+            }
+            className={classNames(
+              style.myGroup__invitbtn,
+              style.myGroup__invitbtn_large
+            )}
+            isYellow={false}
+            isClear={true}
+          >
+            <TextIcon
+              icon={<InvitIcon width={25} height={25} fill="currentColor" />}
+              text="Приглашения"
+              isTransition
+              arrowFill="currentColor"
+            />
+          </Button>
         </div>
       )}
-      <DescriptionItem description={competition.descriptionCompetition} />
+      {!isSmal && (
+        <DescriptionItem description={competition.descriptionCompetition} />
+      )}
     </div>
   );
 };

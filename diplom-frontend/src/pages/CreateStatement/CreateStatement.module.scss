@@ -23,6 +23,10 @@
   overflow-y: scroll;
   scrollbar-width: none;
   scrollbar-color: unset;
+
+  @media (max-width: map-get($breackpoints, tablet)) {
+    padding: 10px 20px 0;
+  }
 }
 
 .title {
@@ -35,6 +39,14 @@
   font-weight: 600;
   color: $white;
   text-align: left;
+
+  @media (max-width: map-get($breackpoints, tablet)) {
+    padding: 20px;
+  }
+
+  @media (max-width: map-get($breackpoints, laptop)) {
+    font-size: 16px;
+  }
 }
 
 .radioContainer {
@@ -50,10 +62,18 @@
   display: flex;
   justify-content: flex-end;
 
+  @media (max-width: map-get($breackpoints, tablet)) {
+    padding: 0 20px 20px;
+  }
+
   &__two {
     padding: 0 40px 40px;
     justify-content: space-between;
     column-gap: 10px;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      padding: 0 20px 20px;
+    }
   }
 }
 

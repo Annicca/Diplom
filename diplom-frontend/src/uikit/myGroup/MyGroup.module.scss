@@ -79,7 +79,16 @@
 
     @media (max-width: map-get($breackpoints, tablet)) {
       flex-direction: column;
+      row-gap: 20px;
+    }
+
+    &_three {
+      flex-wrap: wrap;
       row-gap: 10px;
+
+      @media (max-width: map-get($breackpoints, tablet)) {
+        flex-direction: row;
+      }
     }
   }
 
@@ -90,6 +99,10 @@
     padding: 10px;
     border-radius: 10px;
     border: 1px solid;
+
+    @media (max-width: map-get($breackpoints, tablet)) {
+      flex: 0 1 100%;
+    }
   }
 
   &__competitionsbtn {
@@ -100,6 +113,10 @@
   &__invitbtn {
     border-color: $red;
     color: $red;
+
+    &_large {
+      flex: 1 0 100%;
+    }
   }
 
   &__participantbtn {

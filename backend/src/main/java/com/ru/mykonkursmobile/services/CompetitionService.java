@@ -105,6 +105,12 @@ public class CompetitionService implements ICompetitionService {
 
     }
 
+    public Page<Competition> getStartedByOrganizerId(Integer idUser, Pageable pageable) throws NotFoundEntityException {
+        User user = userService.getById(idUser);
+        return repository.findStartedByOrganizerId(user.getIdUser(), pageable);
+
+    }
+
     @Override
     public Page<Competition> cancel(Integer id, Pageable pageable) throws NotFoundEntityException, ChangeStatusException {
         Competition competition = repository.findById(id).orElseThrow(

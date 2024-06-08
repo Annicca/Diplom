@@ -21,6 +21,7 @@ import { cancelCompetition } from "src/utils/api";
 import { ETypeLoding } from "src/types/ETypeLoading";
 
 import style from "../../components/list/List.module.scss";
+import { AddLink } from "src/uikit/addLink/AddLink";
 
 interface MyCompetitionsProps {
   url: string;
@@ -107,6 +108,7 @@ export const MyCompetitions: FC<MyCompetitionsProps> = ({ url }) => {
           />
         )}
       />
+      <AddLink url="/create/statement" />
       <DeleteModal
         isOpen={isOpenDeleteModal}
         text="Вы действительно хотите отменить конкурс?"

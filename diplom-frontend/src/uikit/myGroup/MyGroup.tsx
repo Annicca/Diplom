@@ -42,6 +42,7 @@ export const MyGroup: FC<MyGroupProps> = ({
       )}
       <div className={style.myGroup__inner}>
         <Image
+          key={group.img}
           src={group.img}
           className={style.myGroup__imgContainer}
           alt={group.nameGroup}
@@ -80,9 +81,7 @@ export const MyGroup: FC<MyGroupProps> = ({
               />
             </Button>
             <Button
-              onClick={() =>
-                navigate(`/mygroups/invitations/${group.idGroup})}`)
-              }
+              onClick={() => navigate(`/mygroups/invitations/${group.idGroup}`)}
               isClear={true}
               isYellow={false}
               className={style.myGroup__invitbtn}

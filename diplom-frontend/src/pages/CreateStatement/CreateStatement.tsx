@@ -226,7 +226,7 @@ export const CreateStatement: FC = () => {
                 <ArrowLeft width={16} height={16} />
               </Button>
               <Button disabled={!isValid} onClick={() => toggleStage(4)}>
-                Добавить возрастные группы
+                + Возрастные группы
               </Button>
             </div>
           </>
@@ -254,7 +254,7 @@ export const CreateStatement: FC = () => {
                 <ArrowLeft width={16} height={16} />
               </Button>
               <Button disabled={!isValid} onClick={() => toggleStage(5)}>
-                Добавить групповые формы
+                + Групповые формы
               </Button>
             </div>
           </>
@@ -333,17 +333,18 @@ export const CreateStatement: FC = () => {
                 ))
               : mainError && <div className="error-text">{mainError}</div>}
             <div
-              className={classNames(
-                style.buttonContainer,
-                style.buttonContainer__two
-              )}
+              className={classNames(style.buttonContainer, {
+                [style.buttonContainer__two]: user?.role !== ERole.ORGANIZER,
+              })}
             >
-              <Button
-                onClick={() => toggleStage(1)}
-                className={style.stage_btn}
-              >
-                <ArrowLeft width={16} height={16} />
-              </Button>
+              {user?.role !== ERole.ORGANIZER && (
+                <Button
+                  onClick={() => toggleStage(1)}
+                  className={style.stage_btn}
+                >
+                  <ArrowLeft width={16} height={16} />
+                </Button>
+              )}
               <Button disabled={!isValid} onClick={() => toggleStage(3)}>
                 Добавить номинации
               </Button>

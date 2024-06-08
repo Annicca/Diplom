@@ -7,6 +7,7 @@ import {
 import { TNomination } from "src/types/TNomination";
 import { TAgeCategory } from "src/types/TAgeCategory";
 import { TGroupCategory } from "src/types/TGroupCategory";
+import { TCompetition } from "src/types/TCompetition";
 import { useFieldArray, useForm } from "react-hook-form";
 import { MainTite } from "src/components/mainTitle/MainTitle";
 import { PageLayout } from "src/components/layout/PageLayout";
@@ -16,9 +17,10 @@ import { InputControl } from "src/uikit/input/InputControl";
 import { CreateAct } from "src/components/createAct/CreateAct";
 
 import style from "./CreateStatementParticipants.module.scss";
-import { TCompetition } from "src/types/TCompetition";
+import { useParams } from "react-router-dom";
 
 export const CreateStatementParticipants: FC = () => {
+  const { idGroup } = useParams();
   const { data: myGroups, isLoading: isLoadingGroup } = useUserGroupList();
   const { data: competition, isLoading } = useCompetition();
 
@@ -32,6 +34,12 @@ export const CreateStatementParticipants: FC = () => {
       };
     });
   }, [myGroups]);
+
+  const selectedGroup = useMemo(() => {
+    if (idGroup) {
+      return groups?.filter((group) => group.value.idGroup === Number(idGroup));
+    }
+  }, [idGroup, groups]);
 
   const nominations = useMemo(() => {
     return competition?.nominations.map((nomination) => {
@@ -120,6 +128,7 @@ export const CreateStatementParticipants: FC = () => {
           rules={{
             required: "Поле обязательно",
           }}
+          selectedOption={selectedGroup}
           classNameContainer={style.dropdown}
           error={errors.group && errors.group.message?.toString()}
         />
@@ -130,7 +139,7 @@ export const CreateStatementParticipants: FC = () => {
             min: { value: 1, message: "Не может быть меньше 1" },
           })}
           placeholder=" "
-          label="Общее количество участников *"
+          label="Общее кол-во участников *"
           error={
             errors?.countParticipants && errors?.countParticipants?.message
           }
@@ -142,7 +151,7 @@ export const CreateStatementParticipants: FC = () => {
             min: { value: 0, message: "Не может быть меньше 0" },
           })}
           placeholder=" "
-          label="Количество сопровождающих *"
+          label="Кол-во сопровождающих *"
           error={
             errors?.countAccompanying && errors?.countAccompanying?.message
           }
@@ -185,7 +194,7 @@ export const CreateStatementParticipants: FC = () => {
           ? mainError.map((error) => <div className="error-text">{error}</div>)
           : mainError && <div className="error-text">{mainError}</div>}
         <div className={style.buttonContainer}>
-          <Button type="submit" disabled={!isValid} className={style.stage_btn}>
+          <Button type="submit" disabled={!isValid} className={style.submit}>
             Подать заявку на участие
           </Button>
         </div>

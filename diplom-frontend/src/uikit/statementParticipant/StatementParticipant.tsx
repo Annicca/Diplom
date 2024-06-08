@@ -45,6 +45,7 @@ export const StatementParticipant: FC<TStatementParticipantProps> = ({
       {user?.role === ERole.DIRECTOR && (
         <div className={style.statement__inner}>
           <Image
+            key={statement.competition.img}
             src={statement.competition.img}
             className={style.statement__imgContainer}
             alt={statement.competition.nameCompetition}
