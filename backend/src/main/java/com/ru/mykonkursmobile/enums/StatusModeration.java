@@ -1,5 +1,12 @@
 package com.ru.mykonkursmobile.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum StatusModeration {
-    ON_MODERATION, PASSED, NOT_PASSED
+    @JsonProperty("ON_MODERATION")
+    ON_MODERATION,
+    @JsonProperty("PASSED")
+    PASSED,
+    @JsonProperty("NOT_PASSED")
+    NOT_PASSED
 }

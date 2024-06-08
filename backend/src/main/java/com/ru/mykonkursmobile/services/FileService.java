@@ -29,7 +29,7 @@ public class FileService implements IFileService{
             throw new FileException(HttpStatus.BAD_REQUEST, "Файл пуст, пожалуйста, загрузите другой или повторите попытку");
         }
         try{
-            if( !(Arrays.asList(imgFormat).contains(FileService.getFileFormat(file.getOriginalFilename())))){
+            if( !(Arrays.asList(imgFormat).contains(FileService.getFileFormat(file.getOriginalFilename()).toLowerCase()))){
                 throw new FileException(HttpStatus.BAD_REQUEST, "Неверный формат файла, загрузите другой файл");
             }
             File uploadDir = new File(resourcesPath.toFile().getAbsoluteFile() + "/img");

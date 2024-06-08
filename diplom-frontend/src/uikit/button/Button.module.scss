@@ -1,43 +1,65 @@
-@import 'utils/const.scss';
+@import "utils/const.scss";
 
 .gradient {
-    padding: 8px 12px;
-    font-size: 14px;
-    font-weight: 600;   
-    background: linear-gradient(90deg in oklab, $yellow74, $light-orange);
-    border: none;
-    border-radius: 15px;
-    text-transform: uppercase;
-    cursor: pointer;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(90deg in oklab, $yellow74, $light-orange);
+  border: none;
+  border-radius: 15px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .clear {
-    background-color: transparent;
-    border: none;
+  background-color: transparent;
+  border: none;
 }
 
 .yellow {
-    padding: 15px 20px;
-    border: none;
-    border-radius: 15px;
-    background-color: $yellow;
-    color: $white;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 17px;
-    &:hover{
-        background-color: $yellow660;
-    }
-    &:disabled {
-        background-color: $border-gray;
-    }
+  padding: 15px 20px;
+  border: none;
+  border-radius: 15px;
+  background-color: $yellow;
+  color: $white;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 17px;
+  &:hover {
+    background-color: $yellow660;
+  }
+  &:disabled {
+    background-color: $border-gray;
+  }
+
+  @media (max-width: map-get($breackpoints, laptop)) {
+    font-size: 12px;
+  }
 }
 
 .save {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: $yellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: $yellow;
+}
+
+.cancel {
+  padding: 15px 20px;
+  border: 1px solid $yellow;
+  border-radius: 15px;
+  background-color: transparent;
+  color: $yellow;
+  font-size: 16px;
+
+  @media (max-width: map-get($breackpoints, laptop)) {
+    font-size: 12px;
+  }
+
+  &:hover {
+    background-color: $light-yellow;
+    transition: background-color 0.3s ease-in-out;
+  }
 }

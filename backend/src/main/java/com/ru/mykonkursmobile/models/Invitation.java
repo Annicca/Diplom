@@ -2,6 +2,7 @@ package com.ru.mykonkursmobile.models;
 
 import com.ru.mykonkursmobile.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "invitation")
@@ -11,13 +12,15 @@ public class Invitation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "id_competition")
+    @NotNull(message = "Выберите конкурс")
     private Competition competition;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "id_group")
-    private ArtGroup artGroup;
+    @NotNull(message = "Выберите коллектив")
+    private ArtGroup group;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -38,12 +41,16 @@ public class Invitation {
         this.id = id;
     }
 
-    public ArtGroup getArtGroup() {
-        return artGroup;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setArtGroup(ArtGroup artGroup) {
-        this.artGroup = artGroup;
+    public ArtGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(ArtGroup group) {
+        this.group = group;
     }
 
     public Status getStatus() {
@@ -60,13 +67,13 @@ public class Invitation {
     public Invitation(Integer id, Competition competition, ArtGroup artGroup, Status status) {
         this.id = id;
         this.competition = competition;
-        this.artGroup = artGroup;
+        this.group = artGroup;
         this.status = status;
     }
 
     public Invitation(Competition competition, ArtGroup artGroup, Status status) {
         this.competition = competition;
-        this.artGroup = artGroup;
+        this.group = artGroup;
         this.status = status;
     }
 }

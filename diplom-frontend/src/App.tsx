@@ -34,6 +34,8 @@ import { MyStatementsParticipant } from "./pages/MyStatementsParticipant/MyState
 import { myStatementsParticipantLoader } from "./pages/MyStatementsParticipant/loader";
 import { CompetitiosParticipant } from "./pages/CompetitionParticipants/CompetitionParticipants";
 import { participantsLoader } from "./pages/CompetitionParticipants/loader";
+import { Invitations } from "./pages/Invitations/Invitations";
+import { invitationsLoader } from "./pages/Invitations/loader";
 
 const router = createBrowserRouter([
   {
@@ -62,7 +64,7 @@ const router = createBrowserRouter([
         loader: ({ params }) => groupLoader(queryClient, params.id),
       },
       {
-        path: "participants/:id",
+        path: "participants/:id/:idGroup?",
         element: <CreateStatementParticipants />,
       },
       {
@@ -106,6 +108,12 @@ const router = createBrowserRouter([
           ),
       },
       {
+        path: "mygroups/invitations/:id",
+        element: <Invitations url="mygroups/invitations" />,
+        loader: ({ params }) =>
+          invitationsLoader(queryClient, "mygroups/invitations", params.id),
+      },
+      {
         path: "mycompetitions/:id",
         element: <MyCompetitions url="mycompetitions" />,
         loader: ({ params }) =>
@@ -125,6 +133,16 @@ const router = createBrowserRouter([
           myStatementsParticipantLoader(
             queryClient,
             "statementsparticipant/competition",
+            params.id
+          ),
+      },
+      {
+        path: "mycompetitions/invitations/:id",
+        element: <Invitations url="mycompetitions/invitations" />,
+        loader: ({ params }) =>
+          invitationsLoader(
+            queryClient,
+            "mycompetitions/invitations",
             params.id
           ),
       },

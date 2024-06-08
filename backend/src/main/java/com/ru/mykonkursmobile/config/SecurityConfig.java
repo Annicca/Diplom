@@ -58,11 +58,16 @@ public class SecurityConfig{
                         .requestMatchers(HttpMethod.PUT, "/api/competitions/**").hasAnyAuthority(Role.ADMIN.name(), Role.ORGANIZER.name())
                         .requestMatchers(HttpMethod.PUT, "/api/competitions/img/**").hasAnyAuthority(Role.ADMIN.name(), Role.ORGANIZER.name())
                         .requestMatchers(HttpMethod.GET, "/api/mycompetitions/**").hasAuthority(Role.ORGANIZER.name())
+                        .requestMatchers(HttpMethod.GET, "/api/mycompetitions/started/**").hasAuthority(Role.ORGANIZER.name())
 
                         .requestMatchers(HttpMethod.GET, "/api/mygroups/**", "/api/usergroups/**").hasAuthority(Role.DIRECTOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/groups").hasAnyAuthority(Role.DIRECTOR.name(), Role.ADMIN.name())
                         .requestMatchers(HttpMethod.PUT, "/api/groups/img/**").hasAnyAuthority(Role.DIRECTOR.name(), Role.ADMIN.name())
                         .requestMatchers(HttpMethod.DELETE, "/api/groups").hasAuthority(Role.DIRECTOR.name())
+
+                        .requestMatchers(HttpMethod.POST, "/api/invitations").hasAuthority(Role.ORGANIZER.name())
+                        .requestMatchers(HttpMethod.GET, "/api/invitations/**").hasAnyAuthority(Role.ORGANIZER.name(), Role.DIRECTOR.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/invitations/**").hasAuthority(Role.DIRECTOR.name())
 
                         .anyRequest().permitAll()
                 )

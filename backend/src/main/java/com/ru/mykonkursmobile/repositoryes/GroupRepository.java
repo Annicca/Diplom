@@ -15,10 +15,10 @@ public interface GroupRepository extends JpaRepository<ArtGroup,Integer> {
 
     Page<ArtGroup> findAllByOrderByIdGroupDesc(Pageable pageable);
 
-    @Query(value = "select * from art_group WHERE id_city in (select c.id_city from city c where c.city like :city% )", nativeQuery = true)
+    @Query(value = "select * from art_group WHERE id_city in (select c.id_city from city c where c.city like :city%)", nativeQuery = true)
     Page<ArtGroup> findAllByCityGroup(@Param("city")String city, Pageable pageable);
 
-    @Query(value = "select a from ArtGroup a WHERE a.director.idUser = :id")
+    @Query(value = "select a from ArtGroup a WHERE a.director.idUser = :id order by a.idGroup desc")
     Page<ArtGroup> findByDirectorId(@Param("id") Integer id, Pageable pageable);
 
     @Query(value ="select * from art_group WHERE id_user = :id", nativeQuery = true)

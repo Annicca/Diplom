@@ -107,4 +107,6 @@ button {
 .error-text {
   text-align: left;
   color: $orange;
+  max-width: 100%;
+  word-wrap: break-word;
 }

@@ -95,9 +95,15 @@ public class StatementServices implements IStatementService {
             List<Nomination> nominations = nominationService.savePreparation(statementDto.getNominations(), statement);
 
             List<GroupCategory> groupCategories = statementDto.getGroupCategories();
-            groupCategories.forEach(groupCategory -> groupCategory.setStatement(statement));
             List<AgeCategory> ageCategories = statementDto.getAgeCategories();
-            ageCategories.forEach(ageCategory -> ageCategory.setStatement(statement));
+
+            if(groupCategories != null && groupCategories.size() > 0) {
+                groupCategories.forEach(groupCategory -> groupCategory.setStatement(statement));
+            }
+
+            if(ageCategories != null && ageCategories.size() > 0) {
+                ageCategories.forEach(ageCategory -> ageCategory.setStatement(statement));
+            }
 
             statement.setNominations(nominations);
             statement.setGroupCategories(groupCategories);

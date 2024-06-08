@@ -6,16 +6,19 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Configuration
 @EnableWebMvc
 public class FileConfig implements WebMvcConfigurer {
-    @Value("${upload.path}")
-    private String uploadPath;
+//    @Value("${upload.path}")
+    private Path uploadPath = Paths.get("src", "main", "resources");
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**", "/rules/**")
-                .addResourceLocations("file:/" + uploadPath + "/img/","file:/" + uploadPath + "/rules/");
+                .addResourceLocations("classpath:/img/","classpath:/rules/");
 //                .addResourceLocations("/resources" + "/img/", "/resources" + "/rules/");
     }
 }

@@ -34,7 +34,7 @@ public class ParticipantService implements IParticipantService {
     @Override
     public Participant update(Participant participant) throws NotFoundEntityException {
         repository.findById(participant.getId()).orElseThrow(
-                () -> new NotFoundEntityException(HttpStatus.NOT_FOUND, "Такого номера не существует")
+                () -> new NotFoundEntityException(HttpStatus.NOT_FOUND, "Такого участника не существует")
         );
         return repository.save(participant);
     }

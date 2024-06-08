@@ -49,9 +49,11 @@ public class NominationService implements INominationService {
     public List<Nomination> savePreparation(List<Nomination> nominations, Statement statement) {
         nominations.forEach(nomination -> {
             nomination.setStatement(statement);
-            nomination.getGenres().forEach(genre -> {
-                genre.setNomination(nomination);
-            });
+            if(nomination.getGenres() != null && nomination.getGenres().size() > 0) {
+                nomination.getGenres().forEach(genre -> {
+                    genre.setNomination(nomination);
+                });
+            }
         });
         return nominations;
     }

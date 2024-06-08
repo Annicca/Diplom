@@ -24,6 +24,9 @@ public interface CompetitionRepository extends JpaRepository<Competition,Integer
     @Query(value = "select * from competition where id_user = :id ", nativeQuery = true)
     Page<Competition> findByOrganizerId(@Param("id") Integer id, Pageable pageable);
 
+    @Query(value = "select * from competition where id_user = :id and status_competition = 'CREATED'", nativeQuery = true)
+    Page<Competition> findStartedByOrganizerId(@Param("id") Integer id, Pageable pageable);
+
     @Query(value = "select * from competition c WHERE c.id_competition in (select p.id_competition from participant p where p.id_group = :idGroup) limit 10", nativeQuery = true)
     List<Competition> findByGroupLimit(@Param("idGroup") Integer idGroup);
 

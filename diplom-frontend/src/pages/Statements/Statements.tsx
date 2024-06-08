@@ -16,9 +16,13 @@ import { Search } from "src/uikit/search/Search";
 import { Statement } from "src/uikit/statement/Statement";
 import { ErrorModal } from "src/components/errorModal/ErrorModal";
 import { changeStatementStatus } from "src/utils/api";
-
+import { withConditional } from "src/hoc/withConditionalRender";
+import { Loading } from "src/components/loading/Loading";
+import { ETypeLoding } from "src/types/ETypeLoading";
 import style from "../../components/list/List.module.scss";
 import pageStyle from "./Statements.module.scss";
+
+const PaginationListConditional = withConditional(PaginationList<TStatement>);
 
 export const Statements: FC = () => {
   const { value: serachValue } = useSearchContext();
@@ -83,10 +87,19 @@ export const Statements: FC = () => {
           classNameContainer={pageStyle.search}
         />
       )}
-      <PaginationList
+      <PaginationListConditional
+        isLoading={infinitedata.isLoading || infinitedata.isFetching}
+        isError={infinitedata.isError}
+        error={infinitedata.error}
+        loadingElement={
+          <Loading
+            type={ETypeLoding.SKELETON}
+            skeletonClassName={"skeleton-competition"}
+            classNameList={style.list_statements}
+          />
+        }
         classNameList={style.list}
         classNameInnerList={style.list_statements}
-        skeletonClassName="skeleton-competition"
         infiniteData={infinitedata}
         renderItem={(item: TStatement) => (
           <Statement

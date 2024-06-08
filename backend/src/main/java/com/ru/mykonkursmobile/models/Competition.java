@@ -27,7 +27,7 @@ public class Competition {
     @NotNull
     private String nameCompetition;
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String descriptionCompetition;
 
     @NotNull

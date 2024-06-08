@@ -1,72 +1,78 @@
-@import 'utils/const.scss';
+@import "utils/const.scss";
 
 .group {
-    display: flex;
-    padding: 25px;
-    box-sizing: border-box;
-    gap: 5%;
-    border: 1px solid $border-gray;
+  display: flex;
+  padding: 25px;
+  box-sizing: border-box;
+  gap: 5%;
+  border: 1px solid $border-gray;
+  border-radius: 10px;
+  color: $black;
+  text-decoration: none;
+
+  @media (max-width: map-get($breackpoints, laptop)) {
+    flex-direction: column;
+    padding: 15px;
+    gap: 0;
+  }
+
+  &_smal {
+    border: none;
+    padding: 0;
+  }
+
+  &__imgContainer,
+  &__info {
+    flex: 1 1 50%;
+
+    @media (max-width: map-get($breackpoints, laptop)) {
+      flex: 1 1 100%;
+    }
+  }
+
+  &__imgContainer {
+    @media (max-width: map-get($breackpoints, laptop)) {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+  }
+
+  &__image {
+    height: 150px;
+    width: auto;
+    max-width: 100%;
     border-radius: 10px;
-    color: $black;
-    text-decoration: none;
+    object-fit: cover;
 
-    @media (max-width: map-get($breackpoints, laptop)){
-        flex-direction: column;
-        padding: 15px;
-        gap: 0;
+    @media (max-width: map-get($breackpoints, laptop)) {
+      height: auto;
+      max-height: 250px;
     }
+  }
 
-    &__imgContainer,&__info {
-        flex: 1 1 50%;
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    row-gap: 30px;
 
-        @media (max-width: map-get($breackpoints, laptop)){
-            flex: 1 1 100%;
-        }
+    @media (max-width: map-get($breackpoints, laptop)) {
+      gap: 10px;
     }
+  }
 
-    &__imgContainer {
-        @media (max-width: map-get($breackpoints, laptop)){
-            text-align: center;
-            padding-bottom: 20px;
-        }
+  &__infoSection {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+
+    @media (max-width: map-get($breackpoints, laptop)) {
+      font-size: 16px;
     }
-
-    &__image {
-        height: 150px;
-        width: auto;
-        max-width: 100%;
-        border-radius: 10px;
-        object-fit: cover;
-
-        @media (max-width: map-get($breackpoints, laptop)){
-            height: auto;
-            max-height: 250px;
-        }
-    }
-
-    &__info {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        row-gap: 30px;
-
-        @media (max-width: map-get($breackpoints, laptop)){
-            gap: 10px;
-        }
-    }
-
-    &__infoSection {
-        display: flex;
-        flex-direction: column;
-        row-gap: 10px;
-    }
-
-    &__title {
-        font-size: 18px;
-        font-weight: 500;
-
-        @media (max-width: map-get($breackpoints, laptop)){
-            font-size: 16px;
-        }
-    }
+  }
 }

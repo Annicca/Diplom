@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -23,13 +21,6 @@ public class GroupController {
 
     @Autowired
     GroupService service;
-
-//    @GetMapping("/groups")
-//    @ResponseBody
-//    public Page<ArtGroup> GetAllGroups(@PageableDefault(size = 10)Pageable pageable){
-//
-//        return service.all(pageable);
-//    }
 
     @GetMapping("/groups")
     @ResponseBody

@@ -64,15 +64,8 @@ public class StatementController {
         return service.getByUserId(userId, pageable);
     }
 
-//    @PostMapping("/statements/{idUser}")
-//    public Statement CreateStatement(@PathVariable(value = "idUser") Integer idUser, @ModelAttribute @Valid StatementDTO statement ){
-//
-//        return service.add(statement);
-//    }
-
     @PostMapping("/statements/{idUser}")
     public Statement CreateStatement(@PathVariable(value = "idUser") Integer idUser, @ModelAttribute @Valid StatementDTO statement ) throws IOException, MaxUploadSizeExceededException, FileException {
-        System.out.println("aaa");
         return service.addDto(statement, idUser);
     }
 
