@@ -21,4 +21,10 @@ public class ParticipantController {
     public Page<Participant> GetAllByCompetition(@PathVariable Integer id, @PageableDefault(size = 30) Pageable pageable){
         return service.allByCompetition(pageable, id);
     }
+
+    @GetMapping("/participant/{idCompetition}/{idGroup}")
+    @ResponseBody
+    public Participant GetByCompetitionAndGroup(@PathVariable Integer idCompetition, @PathVariable Integer idGroup){
+        return service.getById(idCompetition, idGroup);
+    }
 }

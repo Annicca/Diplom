@@ -23,6 +23,7 @@ import ArrowIcon from "assets/icons/arrowRight.svg?react";
 import InvitIcon from "assets/icons/invitation.svg?react";
 
 import style from "../myGroup/MyGroup.module.scss";
+import { GroupParticipant } from "../groupParticipant/GroupParticipant";
 
 interface MyCompetitionProps {
   competition: TCompetition;
@@ -40,8 +41,14 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
   const { user } = useUserContext();
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const [isParticipantOpen, setIsParticipantOpen] = useState(false);
+
   const toggleVisible = () => {
     setIsVisible((isVisible) => !isVisible);
+  };
+
+  const toggleParticipant = () => {
+    setIsParticipantOpen((isParticipantOpen) => !isParticipantOpen);
   };
 
   return (
@@ -209,6 +216,32 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
       )}
       {!isSmal && (
         <DescriptionItem description={competition.descriptionCompetition} />
+      )}
+      {user?.role === ERole.DIRECTOR && !isSmal && (
+        <>
+          <div>
+            <span className={style.myGroup__infoRules}>
+              Информация об участии:
+            </span>
+            <Button
+              type="button"
+              className={classNames(style.myGroup__show, {
+                [style.myGroup__show_open]: isParticipantOpen,
+              })}
+              isClear={true}
+              isYellow={false}
+              onClick={toggleParticipant}
+            >
+              <ArrowIcon width={15} height={15} />
+            </Button>
+          </div>
+          {isParticipantOpen && (
+            <GroupParticipant
+              key={competition.idCompetition}
+              idCompetition={competition.idCompetition}
+            />
+          )}
+        </>
       )}
     </div>
   );

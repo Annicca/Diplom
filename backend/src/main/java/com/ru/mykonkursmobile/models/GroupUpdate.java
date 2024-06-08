@@ -109,5 +109,17 @@ public class GroupUpdate {
         this.artGroup = artGroup;
     }
 
-    
+    public GroupUpdate(int id, String nameGroup, String descriptionGroup, City cityGroup, String addressGroup, String category, StatusModeration statusModeration, String img, ArtGroup artGroup) {
+        this.id = id;
+        this.nameGroup = nameGroup;
+        this.descriptionGroup = descriptionGroup;
+        this.cityGroup = cityGroup;
+        this.addressGroup = addressGroup;
+        this.category = category;
+        this.statusModeration = statusModeration;
+        this.img = img;
+        this.artGroup = artGroup;
+    }
+
+    public GroupUpdate() {}
 }

@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ru.mykonkursmobile.enums.Status;
 import com.ru.mykonkursmobile.enums.TypeStatement;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -27,7 +29,8 @@ public class Statement {
     @NotNull
     private TypeStatement type;
 
-    @NotBlank
+    @NotBlank(message = "Название не может быть пустым")
+    @Size(max = 25, message = "Максимальная длина названия 25 символов")
     private String name;
 
     @Column(columnDefinition = "TEXT")
@@ -52,6 +55,7 @@ public class Statement {
     private Status statusStatement;
 
     @JoinColumn(name = "competition_fee")
+    @Min(value = 0, message = "Конкурсный взнос не может быть меньше 0")
     private Double competitionFee;
 
     private String regulation;

@@ -43,7 +43,7 @@ public class SecurityConfig{
                         .requestMatchers(HttpMethod.POST, "/api/statementsparticipant/**").hasAuthority(Role.DIRECTOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/statementsparticipant/**").hasAuthority(Role.ORGANIZER.name())
 
-                        .requestMatchers(HttpMethod.GET, "/api/participant/**").hasAuthority(Role.ORGANIZER.name())
+                        .requestMatchers(HttpMethod.GET, "/api/participant/**").hasAnyAuthority(Role.ORGANIZER.name(), Role.DIRECTOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/perfomance/**").hasAuthority(Role.ORGANIZER.name())
 
                         .requestMatchers(HttpMethod.GET, "/api/mystatements/**").authenticated()

@@ -15,6 +15,7 @@ import { useUserContext } from "src/context/user-context/useUserContext";
 import { TAct } from "src/types/TAct";
 import { TPage } from "src/types/TPage";
 import { TInvitation } from "src/types/TInvitation";
+import { TParticipant } from "src/types/TParticipant";
 
 export interface ILoginRequest {
   login: string;
@@ -341,3 +342,23 @@ export const changeStatusInvitation = async (status: string, id: number) => {
       } else throw new Error(error.message);
     });
 };
+
+const getParticipant = async (idCompetition: number, idGroup?: number) => {
+  if (!idGroup) throw new Error("Произошла ошибка");
+  return instance
+    .get(`participant/${idCompetition}/${idGroup}`, getRequestConfig())
+    .then((response) => response.data)
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};
+
+export const useParticipant = (idCompetition: number, idGroup?: number) =>
+  useQuery<TParticipant, AxiosError>({
+    queryKey: ["participant", idCompetition, idGroup],
+    queryFn: () => getParticipant(idCompetition, idGroup),
+  });
