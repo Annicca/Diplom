@@ -2,7 +2,9 @@ package com.ru.mykonkursmobile.controllers;
 
 import com.ru.mykonkursmobile.dto.GroupChangeDTO;
 import com.ru.mykonkursmobile.models.ArtGroup;
+import com.ru.mykonkursmobile.models.GroupUpdate;
 import com.ru.mykonkursmobile.services.GroupService;
+import com.ru.mykonkursmobile.services.GroupUpdateService;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class GroupController {
 
     @Autowired
     GroupService service;
+
+    @Autowired
+    GroupUpdateService groupUpdateService;
 
     @GetMapping("/groups")
     @ResponseBody
@@ -47,9 +52,35 @@ public class GroupController {
 
     @PutMapping("/groups")
     @ResponseBody
-    public ArtGroup UpdateGroup(@ModelAttribute @Valid GroupChangeDTO group) throws IOException {
+    public GroupUpdate UpdateGroup(@ModelAttribute @Valid GroupChangeDTO group) throws IOException {
 
-        return service.update(group);
+        return groupUpdateService.requestUpdate(group);
+    }
+
+    @GetMapping("/groups/moderations/all")
+    @ResponseBody
+    public Page<GroupUpdate> GetAllGroupsByModeration(@PageableDefault(size = 30)Pageable pageable){
+        return groupUpdateService.all(pageable);
+    }
+
+    @GetMapping("/groups/moderations/{idGroupUpdate}")
+    @ResponseBody
+    public GroupUpdate GetGroupByModeration(@PathVariable Integer idGroupUpdate){
+        return groupUpdateService.getById(idGroupUpdate);
+    }
+
+    @PutMapping("/groups/moderations/passed/{idGroupUpdate}")
+    @ResponseBody
+    public GroupUpdate PassedModeration(@PathVariable Integer idGroupUpdate) throws IOException {
+
+        return groupUpdateService.passedUpdate(idGroupUpdate);
+    }
+
+    @PutMapping("/groups/moderations/notpassed/{idGroupUpdate}")
+    @ResponseBody
+    public GroupUpdate NotPassedModeration(@PathVariable Integer idGroupUpdate) throws IOException {
+
+        return groupUpdateService.notPassedUpdate(idGroupUpdate);
     }
 
     @GetMapping("/mygroups/{userId}")

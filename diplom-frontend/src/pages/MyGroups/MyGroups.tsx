@@ -106,12 +106,14 @@ export const MyGroups: FC<MyGroupsProps> = ({ url }) => {
           />
         )}
       />
-      <DeleteModal
-        isOpen={isOpenDeleteModal}
-        text="Вы действительно хотите удалить коллектив?"
-        toggleModal={toggleDeleteModal}
-        onConfirm={onDeleteGroup}
-      />
+      {user?.role === ERole.DIRECTOR && (
+        <DeleteModal
+          isOpen={isOpenDeleteModal}
+          text="Вы действительно хотите удалить коллектив?"
+          toggleModal={toggleDeleteModal}
+          onConfirm={onDeleteGroup}
+        />
+      )}
       <ErrorModal
         isOpen={isOpenErrorModal}
         text={errorMessage}

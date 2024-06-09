@@ -68,12 +68,12 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
         ["group", { id: group.idGroup.toString() }],
         data
       );
-      queryClient.invalidateQueries(["mygroups"]);
+      queryClient.refetchQueries(["mygroups"]);
       navigate(`/mygroups/${group.director.idUser}`);
     },
-    onError: (error) => {
-      console.log(error);
-      // setMainError(error.message);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      setMainError(error.message);
     },
   });
 

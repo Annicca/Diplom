@@ -343,6 +343,11 @@ export const changeStatusInvitation = async (status: string, id: number) => {
     });
 };
 
+/**
+ * Получить участника
+ * @param idCompetition - id конкурса
+ * @param idGroup - id коллектива
+ */
 const getParticipant = async (idCompetition: number, idGroup?: number) => {
   if (!idGroup) throw new Error("Произошла ошибка");
   return instance
@@ -357,8 +362,34 @@ const getParticipant = async (idCompetition: number, idGroup?: number) => {
     });
 };
 
+/**
+ * Хук для получения участника
+ * @param idCompetition - id конкурса
+ * @param idGroup - id коллектива
+ */
 export const useParticipant = (idCompetition: number, idGroup?: number) =>
   useQuery<TParticipant, AxiosError>({
     queryKey: ["participant", idCompetition, idGroup],
     queryFn: () => getParticipant(idCompetition, idGroup),
   });
+
+/**
+ * Изменить статус запроса на изменения коллектива
+ * @param status - статус
+ * @param idGroupUpdate - id запроса на изменение
+ */
+export const moderationGroup = async (
+  status: string,
+  idGroupUpdate: number
+) => {
+  return instance
+    .put(`/groups/moderations/${status}/${idGroupUpdate}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};

@@ -1,5 +1,6 @@
 package com.ru.mykonkursmobile.models;
 
+import com.ru.mykonkursmobile.dto.GroupChangeDTO;
 import com.ru.mykonkursmobile.enums.StatusModeration;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -34,7 +35,7 @@ public class GroupUpdate {
     private StatusModeration statusModeration;
 
     private String img;
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
     private ArtGroup artGroup;
 
     public int getId() {
@@ -122,4 +123,11 @@ public class GroupUpdate {
     }
 
     public GroupUpdate() {}
+
+    public void update(GroupChangeDTO groupChangeDTO){
+        this.nameGroup = groupChangeDTO.getNameGroup();
+        this.descriptionGroup  = groupChangeDTO.getDescriptionGroup();
+        this.addressGroup = groupChangeDTO.getAddressGroup();
+        this.category = groupChangeDTO.getCategory();
+    }
 }

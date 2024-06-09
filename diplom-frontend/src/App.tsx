@@ -36,6 +36,8 @@ import { CompetitiosParticipant } from "./pages/CompetitionParticipants/Competit
 import { participantsLoader } from "./pages/CompetitionParticipants/loader";
 import { Invitations } from "./pages/Invitations/Invitations";
 import { invitationsLoader } from "./pages/Invitations/loader";
+import { AdminGroups } from "./pages/AdminGroups/AdminGroups";
+import { adminLoader } from "./pages/AdminGroups/loader";
 
 const router = createBrowserRouter([
   {
@@ -158,8 +160,8 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/groups",
-        element: <MyGroups url="groups" />,
-        loader: myGroupsLoader(queryClient, "groups"),
+        element: <AdminGroups />,
+        loader: adminLoader(queryClient),
       },
       {
         path: "admin/users",

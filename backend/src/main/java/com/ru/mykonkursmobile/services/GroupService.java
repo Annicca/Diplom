@@ -1,9 +1,11 @@
 package com.ru.mykonkursmobile.services;
 
 import com.ru.mykonkursmobile.dto.GroupChangeDTO;
+import com.ru.mykonkursmobile.enums.StatusModeration;
 import com.ru.mykonkursmobile.exceptions.NotFoundEntityException;
 import com.ru.mykonkursmobile.interfaces.IArtGroupService;
 import com.ru.mykonkursmobile.models.ArtGroup;
+import com.ru.mykonkursmobile.models.GroupUpdate;
 import com.ru.mykonkursmobile.models.User;
 import com.ru.mykonkursmobile.repositoryes.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,6 @@ public class GroupService implements IArtGroupService {
     private UserService userService;
 
     @Autowired
-    private CompetitionService competitionService;
-
-    @Autowired
     CityService cityService;
 
     @Autowired
@@ -49,7 +48,6 @@ public class GroupService implements IArtGroupService {
 //        ArtGroup artGroup = repository.findById(group.getIdGroup()).orElseThrow(
 //                () -> new NotFoundEntityException(HttpStatus.NOT_FOUND, "Вы не можете изменить не существующий коллектив")
 //        );
-////        group.setCompetitions(artGroup.getCompetitions());
 //        return repository.save(group);
 //    }
 
@@ -63,6 +61,16 @@ public class GroupService implements IArtGroupService {
         groupChange.setCityGroup(cityService.getById(group.getIdCity()));
         groupChange.update(group);
         return repository.save(groupChange);
+    }
+
+    public ArtGroup updateFromRequest(GroupUpdate groupUpdate) throws NotFoundEntityException, IOException {
+        ArtGroup group = getById(groupUpdate.getArtGroup().getIdGroup());
+        if( groupUpdate.getImg() != null){
+            group.setImg(groupUpdate.getImg());
+        }
+        group.updateFromRequest(groupUpdate);
+        group.setStatusModeration(StatusModeration.PASSED);
+        return repository.save(group);
     }
 
     @Override
