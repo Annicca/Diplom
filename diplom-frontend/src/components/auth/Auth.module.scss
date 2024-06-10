@@ -1,79 +1,78 @@
-@import 'utils/const.scss';
+@import "utils/const.scss";
 
-.container{
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    justify-content: center;
-    background: linear-gradient(114.22deg, $yellow74 16.81%, $orange 90.11%);
+.container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  background: linear-gradient(114.22deg, $yellow74 16.81%, $orange 90.11%);
 }
 
-.form{
-    width: 450px;
-    max-height: 750px;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    border-radius: 25px;
-    background-color: $white;
-    text-align: center;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    scrollbar-color: unset;
+.form {
+  width: 450px;
+  max-height: 800px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  border-radius: 25px;
+  background-color: $white;
+  text-align: center;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  scrollbar-color: unset;
 
-    @media (max-width: map-get($breackpoints, tablet)) {
-        max-width: 280px;
-        max-height: 500px;
-        padding: 20px;
-        border-radius: 10px;
-    }
+  @media (max-width: map-get($breackpoints, tablet)) {
+    max-width: 280px;
+    max-height: 500px;
+    padding: 20px;
+    border-radius: 10px;
+  }
 
-    @media (max-width: map-get($breackpoints, laptop)) {
-        
-        padding: 20px;
-    }
+  @media (max-width: map-get($breackpoints, laptop)) {
+    padding: 20px;
+  }
 }
 
 .radioContainer {
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: flex-start;
 }
 
 .stage_btn {
-    padding: 10px 15px;
+  padding: 10px 15px;
 }
 
 .buttonContainer {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 
-    &__two {
-        justify-content: space-between;
-        column-gap: 10px;
-    }
+  &__two {
+    justify-content: space-between;
+    column-gap: 10px;
+  }
 }
 
 .toMain {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 40px 50px;
-    padding: 10px 15px;
-    background-color: $white;
-    border-radius: 10px;
-    color: $orange;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 40px 50px;
+  padding: 10px 15px;
+  background-color: $white;
+  border-radius: 10px;
+  color: $orange;
 
-    @media (max-width: map-get($breackpoints, laptop)) {
-        margin: 20px;
-    }
+  @media (max-width: map-get($breackpoints, laptop)) {
+    margin: 20px;
+  }
 }
