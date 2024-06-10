@@ -43,7 +43,7 @@ public class SecurityConfig{
                         .requestMatchers(HttpMethod.POST, "/api/statementsparticipant/**").hasAuthority(Role.DIRECTOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/statementsparticipant/**").hasAuthority(Role.ORGANIZER.name())
 
-                        .requestMatchers(HttpMethod.GET, "/api/participant/**").hasAuthority(Role.ORGANIZER.name())
+                        .requestMatchers(HttpMethod.GET, "/api/participant/**").hasAnyAuthority(Role.ORGANIZER.name(), Role.DIRECTOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/perfomance/**").hasAuthority(Role.ORGANIZER.name())
 
                         .requestMatchers(HttpMethod.GET, "/api/mystatements/**").authenticated()
@@ -59,6 +59,7 @@ public class SecurityConfig{
                         .requestMatchers(HttpMethod.PUT, "/api/competitions/img/**").hasAnyAuthority(Role.ADMIN.name(), Role.ORGANIZER.name())
                         .requestMatchers(HttpMethod.GET, "/api/mycompetitions/**").hasAuthority(Role.ORGANIZER.name())
                         .requestMatchers(HttpMethod.GET, "/api/mycompetitions/started/**").hasAuthority(Role.ORGANIZER.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/competitions/moderations/**").hasAuthority(Role.ADMIN.name())
 
                         .requestMatchers(HttpMethod.GET, "/api/mygroups/**", "/api/usergroups/**").hasAuthority(Role.DIRECTOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/groups").hasAnyAuthority(Role.DIRECTOR.name(), Role.ADMIN.name())

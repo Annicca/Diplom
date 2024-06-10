@@ -19,9 +19,9 @@ import { DeleteModal } from "src/components/deleteModal/DeleteModal";
 import { ErrorModal } from "src/components/errorModal/ErrorModal";
 import { cancelCompetition } from "src/utils/api";
 import { ETypeLoding } from "src/types/ETypeLoading";
+import { AddLink } from "src/uikit/addLink/AddLink";
 
 import style from "../../components/list/List.module.scss";
-import { AddLink } from "src/uikit/addLink/AddLink";
 
 interface MyCompetitionsProps {
   url: string;
@@ -66,7 +66,6 @@ export const MyCompetitions: FC<MyCompetitionsProps> = ({ url }) => {
         queryClient.refetchQueries({ queryKey: [url, id] });
       })
       .catch((error) => {
-        console.log(error.message);
         setErrorMessage(error.message);
         toggleDeleteModal();
         toggleErrorModal();
@@ -74,7 +73,7 @@ export const MyCompetitions: FC<MyCompetitionsProps> = ({ url }) => {
   };
 
   const onChange = (id: number) => {
-    navigate("/competitions/change/" + id);
+    navigate("/mycompetitions/edit/" + id);
   };
 
   return (

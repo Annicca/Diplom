@@ -1,4 +1,6 @@
 import { FC } from "react";
+import { useUserContext } from "src/context/user-context/useUserContext";
+import { ERole } from "src/types/ERole";
 import { Image } from "src/components/image/Image";
 import { Info } from "src/uikit/info/Info";
 import { Button } from "src/uikit/button/Button";
@@ -54,6 +56,7 @@ const Detail: FC<DetailProps> = ({
   onClick,
   isDisabled,
 }) => {
+  const { user } = useUserContext();
   return (
     <section className={style.detail}>
       <MainTite>Конкурс</MainTite>
@@ -107,15 +110,18 @@ const Detail: FC<DetailProps> = ({
         )}
       </div>
       <p className={style.detail__description}>{description}</p>
-      <Button
-        disabled={isDisabled}
-        onClick={onClick}
-        isGradient
-        isYellow={false}
-        className={style.detail__button}
-      >
-        {buttonText}
-      </Button>
+      {onClick &&
+        (user?.role === ERole.ORGANIZER || user?.role === ERole.DIRECTOR) && (
+          <Button
+            disabled={isDisabled}
+            onClick={onClick}
+            isGradient
+            isYellow={false}
+            className={style.detail__button}
+          >
+            {buttonText}
+          </Button>
+        )}
     </section>
   );
 };

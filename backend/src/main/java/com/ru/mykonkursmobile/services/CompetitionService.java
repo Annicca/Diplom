@@ -2,6 +2,7 @@ package com.ru.mykonkursmobile.services;
 
 import com.ru.mykonkursmobile.dto.CompetitionChangeDTO;
 import com.ru.mykonkursmobile.enums.StatusCompetition;
+import com.ru.mykonkursmobile.enums.StatusModeration;
 import com.ru.mykonkursmobile.exceptions.ChangeStatusException;
 import com.ru.mykonkursmobile.exceptions.NotFoundEntityException;
 import com.ru.mykonkursmobile.exceptions.TakePartException;
@@ -9,6 +10,7 @@ import com.ru.mykonkursmobile.filter.CompetitionFilter;
 import com.ru.mykonkursmobile.interfaces.ICompetitionService;
 import com.ru.mykonkursmobile.models.ArtGroup;
 import com.ru.mykonkursmobile.models.Competition;
+import com.ru.mykonkursmobile.models.CompetitionUpdate;
 import com.ru.mykonkursmobile.models.User;
 import com.ru.mykonkursmobile.repositoryes.CompetitionRepository;
 import com.ru.mykonkursmobile.repositoryes.GroupRepository;
@@ -63,17 +65,19 @@ public class CompetitionService implements ICompetitionService {
         if( competition.getImg() != null){
             competitionChange.setImg(fileServise.saveImg(competition.getImg()));
         }
-        competitionChange.setCityCompetition(cityService.getById(competition.getIdCity()));
         competitionChange.update(competition);
         return updateStatusCompetition(competitionChange);
     }
 
-//    public Competition change(Competition competition) throws NotFoundEntityException{
-//        if(!repository.existsById(competition.getIdCompetition())){
-//            throw new NotFoundEntityException(HttpStatus.NOT_FOUND, "Такого конкурса не существует");
-//        }
-//        return repository.save(competition);
-//    }
+   public Competition updateFromRequest(CompetitionUpdate competitionUpdate) throws NotFoundEntityException {
+        Competition competition = getById(competitionUpdate.getCompetition().getIdCompetition());
+        if( competitionUpdate.getImg() != null){
+            competition.setImg(competitionUpdate.getImg());
+        }
+        competition.updateFromRequest(competitionUpdate);
+        competition.setStatusModeration(StatusModeration.PASSED);
+        return repository.save(competition);
+    }
 
 
     @Override
@@ -87,7 +91,6 @@ public class CompetitionService implements ICompetitionService {
         Competition competition = repository.findById(id).orElseThrow(
                 () -> new NotFoundEntityException(HttpStatus.NOT_FOUND, "Такого конкурса не существует")
         );
-//        competition.setGroups(null);
         return competition;
     }
 

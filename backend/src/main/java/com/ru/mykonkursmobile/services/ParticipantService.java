@@ -2,6 +2,7 @@ package com.ru.mykonkursmobile.services;
 
 import com.ru.mykonkursmobile.exceptions.NotFoundEntityException;
 import com.ru.mykonkursmobile.interfaces.IParticipantService;
+import com.ru.mykonkursmobile.models.ArtGroup;
 import com.ru.mykonkursmobile.models.Competition;
 import com.ru.mykonkursmobile.models.Participant;
 import com.ru.mykonkursmobile.repositoryes.ParticipantRepository;
@@ -20,6 +21,9 @@ public class ParticipantService implements IParticipantService {
     @Autowired
     CompetitionService competitionService;
 
+    @Autowired
+    GroupService groupService;
+
     @Override
     public Page<Participant> allByCompetition(Pageable pageable, Integer idCompetition) {
         Competition competition = competitionService.getById(idCompetition);
@@ -37,5 +41,9 @@ public class ParticipantService implements IParticipantService {
                 () -> new NotFoundEntityException(HttpStatus.NOT_FOUND, "Такого участника не существует")
         );
         return repository.save(participant);
+    }
+
+    public Participant getById(Integer idCompetition, Integer idGroup) throws NotFoundEntityException {
+        return repository.findFirstByCompetitionAndByGroup(idCompetition, idGroup);
     }
 }

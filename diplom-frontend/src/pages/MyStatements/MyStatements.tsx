@@ -1,4 +1,6 @@
 import { FC } from "react";
+import { useCheckRole } from "src/hooks/useCheckRole";
+import { ERole } from "src/types/ERole";
 import { myStatementsLoader as loader } from "./loader";
 import { statementsQuery as query } from "./statementsQuery";
 import { useLoaderData, useParams } from "react-router-dom";
@@ -20,6 +22,7 @@ const PaginationListConditional = withConditional(PaginationList<TStatement>);
 
 export const MyStatements: FC = () => {
   const { idUser } = useParams();
+  useCheckRole([ERole.ORGANIZER, ERole.CLIENT, ERole.DIRECTOR], Number(idUser));
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;

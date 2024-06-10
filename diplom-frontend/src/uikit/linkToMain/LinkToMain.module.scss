@@ -1,0 +1,19 @@
+@import "utils/const.scss";
+
+.toMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 40px 50px;
+  padding: 10px 15px;
+  background-color: $white;
+  border-radius: 10px;
+  color: $orange;
+
+  @media (max-width: map-get($breackpoints, laptop)) {
+    margin: 20px;
+  }
+}

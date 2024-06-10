@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useUserContext } from "src/context/user-context/useUserContext";
 import { useNavigate } from "react-router-dom";
 import { Image } from "src/components/image/Image";
+import { chooseStatusModeration } from "src/utils/choose";
 import { TGroup } from "src/types/TGroup";
 import { ERole } from "src/types/ERole";
 import { Button } from "../button/Button";
@@ -13,7 +14,7 @@ import HouseIcon from "assets/icons/city.svg?react";
 import PlaceIcon from "assets/icons/place.svg?react";
 import CompetitionIcon from "assets/icons/competitions.svg?react";
 import InvitIcon from "assets/icons/invitation.svg?react";
-
+import { EStatusModeration } from "src/types/EStatusModeration";
 import style from "./MyGroup.module.scss";
 
 interface MyGroupProps {
@@ -35,10 +36,24 @@ export const MyGroup: FC<MyGroupProps> = ({
         <TitleContainerItem
           name={group.nameGroup}
           onTrash={onDeleteItem}
-          onChange={onChangeItem}
+          onChange={
+            group.statusModeration !== EStatusModeration.ON_MODERATION
+              ? onChangeItem
+              : undefined
+          }
         />
       ) : (
         <div className={style.myGroup__title}>{group.nameGroup}</div>
+      )}
+      {user?.role === ERole.DIRECTOR && (
+        <div className="text-orange" key={group.statusModeration}>
+          Статус модерации: {chooseStatusModeration(group.statusModeration)}
+          {group.statusModeration === EStatusModeration.ON_MODERATION && (
+            <div>
+              Пока коллектив не пройдет модерацию вы не можете его изменить
+            </div>
+          )}
+        </div>
       )}
       <div className={style.myGroup__inner}>
         <Image

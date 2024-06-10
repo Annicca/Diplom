@@ -53,6 +53,7 @@
   background-color: transparent;
   color: $yellow;
   font-size: 16px;
+  font-weight: 700;
 
   @media (max-width: map-get($breackpoints, laptop)) {
     font-size: 12px;
@@ -61,5 +62,11 @@
   &:hover {
     background-color: $light-yellow;
     transition: background-color 0.3s ease-in-out;
+  }
+
+  &:disabled {
+    background-color: $border-gray;
+    color: $white;
+    border: none;
   }
 }

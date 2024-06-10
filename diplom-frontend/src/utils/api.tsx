@@ -15,6 +15,7 @@ import { useUserContext } from "src/context/user-context/useUserContext";
 import { TAct } from "src/types/TAct";
 import { TPage } from "src/types/TPage";
 import { TInvitation } from "src/types/TInvitation";
+import { TParticipant } from "src/types/TParticipant";
 
 export interface ILoginRequest {
   login: string;
@@ -104,6 +105,20 @@ export const editGroup = async (groupData: FormData) => {
     if (error.response) throw new Error(error.response.data.message);
     else throw new Error(error.message);
   });
+};
+
+/**
+ * Редактирование конкурса
+ * @param competitionData - данные для редактирования
+ * @returns
+ */
+export const editCompetition = async (competitionData: FormData) => {
+  return instance
+    .put("competitions", competitionData, getFileConfig())
+    .catch((error) => {
+      if (error.response) throw new Error(error.response.data.message);
+      else throw new Error(error.message);
+    });
 };
 
 /**
@@ -333,6 +348,82 @@ export const addInvitation = async (invitation: TInvitation) => {
 export const changeStatusInvitation = async (status: string, id: number) => {
   return instance
     .put(`invitations/${status}/${id}`, {}, getRequestConfig())
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};
+
+/**
+ * Получить участника
+ * @param idCompetition - id конкурса
+ * @param idGroup - id коллектива
+ */
+const getParticipant = async (idCompetition: number, idGroup?: number) => {
+  if (!idGroup) throw new Error("Произошла ошибка");
+  return instance
+    .get(`participant/${idCompetition}/${idGroup}`, getRequestConfig())
+    .then((response) => response.data)
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};
+
+/**
+ * Хук для получения участника
+ * @param idCompetition - id конкурса
+ * @param idGroup - id коллектива
+ */
+export const useParticipant = (idCompetition: number, idGroup?: number) =>
+  useQuery<TParticipant, AxiosError>({
+    queryKey: ["participant", idCompetition, idGroup],
+    queryFn: () => getParticipant(idCompetition, idGroup),
+  });
+
+/**
+ * Изменить статус запроса на изменения коллектива
+ * @param status - статус
+ * @param idGroupUpdate - id запроса на изменение
+ */
+export const moderationGroup = async (
+  status: string,
+  idGroupUpdate: number
+) => {
+  return instance
+    .put(`/groups/moderations/${status}/${idGroupUpdate}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};
+
+/**
+ * Изменить статус запроса на изменения конкурса
+ * @param status - статус
+ * @param idCompetitionUpdate - id запроса на изменение
+ */
+export const moderationCompetition = async (
+  status: string,
+  idCompetitionUpdate: number
+) => {
+  return instance
+    .put(
+      `/competitions/moderations/${status}/${idCompetitionUpdate}`,
+      {},
+      getRequestConfig()
+    )
+    .then((response) => response.data)
     .catch((error) => {
       if (error.response) {
         if (error.response.data.errors)

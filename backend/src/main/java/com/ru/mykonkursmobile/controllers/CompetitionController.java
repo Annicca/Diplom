@@ -4,7 +4,10 @@ import com.ru.mykonkursmobile.dto.CompetitionChangeDTO;
 import com.ru.mykonkursmobile.filter.CompetitionFilter;
 import com.ru.mykonkursmobile.models.ArtGroup;
 import com.ru.mykonkursmobile.models.Competition;
+import com.ru.mykonkursmobile.models.CompetitionUpdate;
+import com.ru.mykonkursmobile.models.GroupUpdate;
 import com.ru.mykonkursmobile.services.CompetitionService;
+import com.ru.mykonkursmobile.services.CompetitionUpdateService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +30,9 @@ public class CompetitionController {
     @Autowired
     private CompetitionService service;
 
+    @Autowired
+    CompetitionUpdateService competitionUpdateService;
+
     @GetMapping("/competitions")
     @ResponseBody
     public Page<Competition> GetAllCompetitions(CompetitionFilter filter, @PageableDefault(size = 30)Pageable pageable){
@@ -39,6 +45,32 @@ public class CompetitionController {
     public Page<Competition> GetAdminAllCompetitions(CompetitionFilter filter, @PageableDefault(size = 30)Pageable pageable){
         return service.getAll(pageable);
 
+    }
+
+    @GetMapping("/competitions/moderations/all")
+    @ResponseBody
+    public Page<CompetitionUpdate> GetAllCompetitionsByModeration(@PageableDefault(size = 30)Pageable pageable){
+        return competitionUpdateService.all(pageable);
+    }
+
+    @GetMapping("/competitions/moderations/{idCompetitionUpdate}")
+    @ResponseBody
+    public CompetitionUpdate GetGroupByModeration(@PathVariable Integer idCompetitionUpdate){
+        return competitionUpdateService.getById(idCompetitionUpdate);
+    }
+
+    @PutMapping("/competitions/moderations/passed/{idCompetitionUpdate}")
+    @ResponseBody
+    public CompetitionUpdate PassedModeration(@PathVariable Integer idCompetitionUpdate) throws IOException {
+
+        return competitionUpdateService.passedUpdate(idCompetitionUpdate);
+    }
+
+    @PutMapping("/competitions/moderations/notpassed/{idCompetitionUpdate}")
+    @ResponseBody
+    public CompetitionUpdate NotPassedModeration(@PathVariable Integer idCompetitionUpdate) {
+
+        return competitionUpdateService.notPassedUpdate(idCompetitionUpdate);
     }
 
     @GetMapping("/competitions/{id}")
@@ -64,25 +96,10 @@ public class CompetitionController {
 
     @PutMapping("/competitions")
     @ResponseBody
-    public ResponseEntity UpdateCompetition(@ModelAttribute @Valid CompetitionChangeDTO competition) throws IOException {
+    public CompetitionUpdate UpdateCompetition(@ModelAttribute @Valid CompetitionChangeDTO competition) throws IOException {
 
-        try {
-            return ResponseEntity.ok(service.update(competition));
-        }catch(IOException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        return competitionUpdateService.requestUpdate(competition);
     }
-
-//    @PutMapping("/competitions")
-//    @ResponseBody
-//    public ResponseEntity UpdateCompetitionJson(@RequestBody @Valid CompetitionChangeDTO competition) throws IOException {
-//
-//        try {
-//            return ResponseEntity.ok(service.update(competition));
-//        }catch(IOException e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        }
-//    }
 
     @PutMapping("/competitions/cancel/{id}")
     @ResponseBody

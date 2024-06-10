@@ -37,6 +37,12 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, ex.getStatusCode());
     }
 
+    @ExceptionHandler(ChangeStatusException.class)
+    protected ResponseEntity<ResponseException> handleChangeStatusException(ChangeStatusException ex) {
+        ResponseException response = new ResponseException(ex.getReason());
+        return new ResponseEntity<>(response, ex.getStatusCode());
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,

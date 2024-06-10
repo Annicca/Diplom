@@ -14,6 +14,8 @@ import { ImagePreview } from "../image/ImagePreview";
 import { editGroup } from "src/utils/api";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
+import { ACCEPTED_FORMATS } from "src/Constants";
+
 import style from "../../pages/CreateStatement/CreateStatement.module.scss";
 
 interface EditGroupFormProps {
@@ -32,8 +34,6 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
   const [image, setImage] = useState<File>();
   const [mainError, setMainError] = useState<string | string[] | null>(null);
 
-  const acceptedFormats = [".jpg", ".jpeg", ".png", ".webp"];
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeImage = (event: any) => {
     if (!event.target.files[0]) return;
@@ -45,7 +45,6 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
     formState: { errors, isValid },
     handleSubmit,
     control,
-    // reset,
     setError,
   } = useForm<EditGroupForm>({
     mode: "onChange",
@@ -68,19 +67,19 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
         ["group", { id: group.idGroup.toString() }],
         data
       );
-      queryClient.invalidateQueries(["mygroups"]);
+      queryClient.refetchQueries(["mygroups"]);
       navigate(`/mygroups/${group.director.idUser}`);
     },
-    onError: (error) => {
-      console.log(error);
-      // setMainError(error.message);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      setMainError(error.message);
     },
   });
 
   const onSubmit = handleSubmit(async (data) => {
     if (image) {
       const fileExtension = image.name?.split(".").pop()?.toLowerCase();
-      if (!acceptedFormats.includes(`.${fileExtension}`)) {
+      if (!ACCEPTED_FORMATS.includes(`.${fileExtension}`)) {
         setError("img", {
           message:
             "Неверный формат файла. \n Формат файла может быть: .jpg, .jpeg, .png, .webp",
@@ -104,7 +103,7 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
       formData.append("descriptionGroup", data.descriptionGroup);
     image && formData.append("img", image);
 
-    updateGroup.mutate(formData);
+    await updateGroup.mutateAsync(formData);
   });
 
   return (

@@ -1,5 +1,8 @@
 import { FC, useState } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { useUserContext } from "src/context/user-context/useUserContext";
+import { ERole } from "src/types/ERole";
+import { useCheckRole } from "src/hooks/useCheckRole";
 import { invitationsQuery as query } from "./invitationsQuery";
 import { invitationsLoader as loader } from "./loader";
 import { PageLayout } from "src/components/layout/PageLayout";
@@ -18,8 +21,6 @@ import { queryClient } from "src/utils/queryClient";
 import { ErrorModal } from "src/components/errorModal/ErrorModal";
 
 import style from "../../components/list/List.module.scss";
-import { useUserContext } from "src/context/user-context/useUserContext";
-import { ERole } from "src/types/ERole";
 
 const PaginationListConditional = withConditional(PaginationList<TInvitation>);
 
@@ -28,6 +29,7 @@ interface InvitationsProps {
 }
 
 export const Invitations: FC<InvitationsProps> = ({ url }) => {
+  useCheckRole([ERole.DIRECTOR, ERole.ORGANIZER]);
   const { id } = useParams();
   const { user } = useUserContext();
   const navigate = useNavigate();

@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { ERole } from "src/types/ERole";
 import { useQuery } from "@tanstack/react-query";
 import { useLoaderData, useParams } from "react-router-dom";
 import { AxiosError } from "axios";
@@ -9,9 +10,11 @@ import { PageLayout } from "src/components/layout/PageLayout";
 import Detail from "src/uikit/detail/Detail";
 import { DetailSkeleton } from "src/uikit/detail/components/DetailSkeleton";
 import { ModalForInvitation } from "src/uikit/modalForInvitation/ModalForInvitation";
+import { useUserContext } from "src/context/user-context/useUserContext";
 
 export const GroupDetail: FC = () => {
   const { id } = useParams();
+  const { user } = useUserContext();
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
@@ -42,7 +45,9 @@ export const GroupDetail: FC = () => {
           number={group.director.phoneUser}
           mail={group.director.mailUser}
           description={group.descriptionGroup}
-          onClick={toggleInvitattion}
+          onClick={
+            user?.role === ERole.ORGANIZER ? toggleInvitattion : undefined
+          }
           buttonText="Пригласить"
         />
       )}

@@ -150,4 +150,12 @@ public class ArtGroup {
         this.addressGroup = groupChangeDTO.getAddressGroup();
         this.category = groupChangeDTO.getCategory();
     }
+
+    public void updateFromRequest(GroupUpdate groupUpdate){
+        this.nameGroup = groupUpdate.getNameGroup();
+        this.descriptionGroup  = groupUpdate.getDescriptionGroup();
+        this.addressGroup = groupUpdate.getAddressGroup();
+        this.category = groupUpdate.getCategory();
+        this.cityGroup = groupUpdate.getCityGroup();
+    }
 }

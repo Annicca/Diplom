@@ -21,6 +21,7 @@ import { ErrorModal } from "src/components/errorModal/ErrorModal";
 import { ETypeLoding } from "src/types/ETypeLoading";
 
 import style from "../../components/list/List.module.scss";
+import { useCheckRole } from "src/hooks/useCheckRole";
 
 interface MyGroupsProps {
   url: string;
@@ -31,6 +32,7 @@ const PaginationListConditional = withConditional(PaginationList<TGroup>);
 export const MyGroups: FC<MyGroupsProps> = ({ url }) => {
   const { user } = useUserContext();
   const { id } = useParams();
+  useCheckRole([ERole.DIRECTOR], Number(id));
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
@@ -106,12 +108,14 @@ export const MyGroups: FC<MyGroupsProps> = ({ url }) => {
           />
         )}
       />
-      <DeleteModal
-        isOpen={isOpenDeleteModal}
-        text="Вы действительно хотите удалить коллектив?"
-        toggleModal={toggleDeleteModal}
-        onConfirm={onDeleteGroup}
-      />
+      {user?.role === ERole.DIRECTOR && (
+        <DeleteModal
+          isOpen={isOpenDeleteModal}
+          text="Вы действительно хотите удалить коллектив?"
+          toggleModal={toggleDeleteModal}
+          onConfirm={onDeleteGroup}
+        />
+      )}
       <ErrorModal
         isOpen={isOpenErrorModal}
         text={errorMessage}

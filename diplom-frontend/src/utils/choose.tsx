@@ -1,4 +1,5 @@
 import { EStatus } from "src/types/EStatus";
+import { EStatusModeration } from "src/types/EStatusModeration";
 
 export const chooseStatusCompetition = (status: string): string => {
   switch (status) {
@@ -17,10 +18,25 @@ export const chooseStatusCompetition = (status: string): string => {
 
 export const chooseStatus = (status?: EStatus | null): string => {
   switch (status) {
-    case "ACCEPTED":
+    case EStatus.ACCEPTED:
       return "Принято";
-    case "REJECTED":
+    case EStatus.REJECTED:
       return "Отлконено";
+    default:
+      return "-";
+  }
+};
+
+export const chooseStatusModeration = (
+  status?: EStatusModeration | null
+): string => {
+  switch (status) {
+    case EStatusModeration.ON_MODERATION:
+      return "На модерации";
+    case EStatusModeration.PASSED:
+      return "Принято";
+    case EStatusModeration.NOT_PASSED:
+      return "Отклонено";
     default:
       return "-";
   }

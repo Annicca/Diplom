@@ -24,6 +24,7 @@ import { CreateGroupCategories } from "src/components/createStatement/CreateGrou
 import { StatementPreview } from "src/components/createStatement/StatementPreview";
 import style from "./CreateStatement.module.scss";
 import { ETypeUser } from "src/types/ETypeUser";
+import { NeedAuth } from "src/uikit/needAuth/NeedAuth";
 
 export type CreateStatementForm = Exclude<TStatement, TCIty> & {
   city: {
@@ -131,6 +132,10 @@ export const CreateStatement: FC = () => {
     }
     getValues().type;
   }, []);
+
+  if (!user) {
+    return <NeedAuth />;
+  }
 
   return (
     <PageLayout>

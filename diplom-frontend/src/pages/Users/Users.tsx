@@ -1,4 +1,6 @@
 import { FC, useEffect, useState } from "react";
+import { useCheckRole } from "src/hooks/useCheckRole";
+import { ERole } from "src/types/ERole";
 import { useSearchContext } from "src/context/search-context/useSearchContext";
 import { useLoaderData } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -24,6 +26,7 @@ import pageStyle from "./Users.module.scss";
 const PaginationListConditional = withConditional(PaginationList<TUser>);
 
 export const Users: FC = () => {
+  useCheckRole([ERole.ADMIN]);
   const { value: serachValue } = useSearchContext();
   const [login, setLogin] = useState("");
   const initialData = useLoaderData() as Awaited<

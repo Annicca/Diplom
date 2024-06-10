@@ -1,4 +1,6 @@
 import { FC } from "react";
+import { ERole } from "src/types/ERole";
+import { useCheckRole } from "src/hooks/useCheckRole";
 import { useQuery } from "@tanstack/react-query";
 import { groupLoader as loader } from "../GroupDetail/loader";
 import { groupQuery as query } from "../GroupDetail/groupQuery";
@@ -15,6 +17,7 @@ const EditGroupCondiitonal = withConditional(EditGroupForm);
 
 export const EditGroup: FC = () => {
   const { id } = useParams();
+  useCheckRole([ERole.DIRECTOR]);
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
@@ -25,6 +28,8 @@ export const EditGroup: FC = () => {
     isFetching,
     error,
   } = useQuery<TGroup, AxiosError>({ ...query(id), initialData: initialData });
+
+  useCheckRole([ERole.DIRECTOR], group.director.idUser);
 
   return (
     <PageLayout>

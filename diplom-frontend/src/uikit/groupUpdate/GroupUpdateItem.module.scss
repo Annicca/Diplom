@@ -1,0 +1,21 @@
+@import "utils/const.scss";
+
+.groupUpdate {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid $border-gray;
+  overflow: hidden;
+}
+
+.buttons {
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__btn {
+    flex: 0 1 calc(50% - 10px);
+  }
+}
