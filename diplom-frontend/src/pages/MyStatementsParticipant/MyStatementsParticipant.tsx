@@ -1,4 +1,6 @@
 import { FC, useState } from "react";
+import { useCheckRole } from "src/hooks/useCheckRole";
+import { ERole } from "src/types/ERole";
 import { useLoaderData, useParams } from "react-router-dom";
 import { myStatementsParticipantLoader as loader } from "./loader";
 import { myStatementsParticipantQuery as query } from "./statementsParticipantQuery";
@@ -30,6 +32,7 @@ interface TMyStatementsParticipantProps {
 export const MyStatementsParticipant: FC<TMyStatementsParticipantProps> = ({
   url,
 }) => {
+  useCheckRole([ERole.ORGANIZER, ERole.DIRECTOR]);
   const { id } = useParams();
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>

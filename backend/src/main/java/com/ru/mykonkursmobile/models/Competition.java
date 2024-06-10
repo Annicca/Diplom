@@ -288,9 +288,15 @@ public class Competition {
     public Competition() {
     }
     public void update(CompetitionChangeDTO competitionChangeDTO){
-        this.nameCompetition = competitionChangeDTO.getNameCompetition();
+//        this.nameCompetition = competitionChangeDTO.getNameCompetition();
         this.descriptionCompetition = competitionChangeDTO.getDescriptionCompetition();
         this.dateStart = competitionChangeDTO.getDateStart();
         this.dateFinish = competitionChangeDTO.getDateFinish();
+    }
+
+    public void updateFromRequest(CompetitionUpdate competitionUpdate){
+        this.descriptionCompetition = competitionUpdate.getDescriptionCompetition();
+        this.dateStart = competitionUpdate.getDateStart();
+        this.dateFinish = competitionUpdate.getDateFinish();
     }
 }

@@ -11,9 +11,9 @@ public class CompetitionChangeDTO {
     @NotNull
     private Integer idCompetition;
 
-    @NotBlank
-    @Size(max = 25, message = "Максимальная длина названия 25 символов")
-    private String nameCompetition;
+//    @NotBlank
+//    @Size(max = 25, message = "Максимальная длина названия 25 символов")
+//    private String nameCompetition;
 
     private String descriptionCompetition;
 
@@ -23,8 +23,8 @@ public class CompetitionChangeDTO {
     @NotNull
     private Date dateFinish;
 
-    @NotNull
-    private Integer idCity;
+//    @NotNull
+//    private Integer idCity;
 
     private MultipartFile img;
 
@@ -36,14 +36,14 @@ public class CompetitionChangeDTO {
     public void setIdCompetition(Integer idCompetition) {
         this.idCompetition = idCompetition;
     }
-
-    public String getNameCompetition() {
-        return nameCompetition;
-    }
-
-    public void setNameCompetition(String nameCompetition) {
-        this.nameCompetition = nameCompetition;
-    }
+//
+//    public String getNameCompetition() {
+//        return nameCompetition;
+//    }
+//
+//    public void setNameCompetition(String nameCompetition) {
+//        this.nameCompetition = nameCompetition;
+//    }
 
     public String getDescriptionCompetition() {
         return descriptionCompetition;
@@ -69,13 +69,13 @@ public class CompetitionChangeDTO {
         this.dateFinish = dateFinish;
     }
 
-    public Integer getIdCity() {
-        return idCity;
-    }
-
-    public void setIdCity(Integer idCity) {
-        this.idCity = idCity;
-    }
+//    public Integer getIdCity() {
+//        return idCity;
+//    }
+//
+//    public void setIdCity(Integer idCity) {
+//        this.idCity = idCity;
+//    }
 
     public MultipartFile getImg() {
         return img;

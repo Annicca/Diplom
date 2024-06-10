@@ -1,40 +1,39 @@
 import { FC, useMemo, useState } from "react";
-import { AxiosError } from "axios";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLoaderData } from "react-router-dom";
-import { adminLoader as loader } from "./loader";
-import {
-  adminGroupsQuery as query,
-  moderationGroupsQuery as moderationQuery,
-} from "./adminGroupsQuery";
+import { withConditional } from "src/hoc/withConditionalRender";
+import { TCompetition, TCompetitionUpdate } from "src/types/TCompetition";
+import { moderationCompetition } from "src/utils/api";
 import { queryClient } from "src/utils/queryClient";
-import { TGroup, TGroupUpdate } from "src/types/TGroup";
+import { PaginationList } from "src/components/list/PaginationList";
+import { useLoaderData } from "react-router-dom";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { adminCompetitionsLoader as loader } from "./loader";
+import { adminCompetitionsQuery as query } from "./adminCompetitionsQuery";
+import { moderationCompetitionsQuery as moderationQuery } from "./adminCompetitionsQuery";
 import { TPage } from "src/types/TPage";
+import { AxiosError } from "axios";
 import { PageLayout } from "src/components/layout/PageLayout";
 import { MainTite } from "src/components/mainTitle/MainTitle";
-import { withConditional } from "src/hoc/withConditionalRender";
-import { Loading } from "src/components/loading/Loading";
-import { PaginationList } from "src/components/list/PaginationList";
-import { MyGroup } from "src/uikit/myGroup/MyGroup";
-import { ErrorModal } from "src/components/errorModal/ErrorModal";
-import { ETypeLoding } from "src/types/ETypeLoading";
 import { CustomSelect } from "src/uikit/dropDown/Select";
+import { MyCompetition } from "src/uikit/myCompetition/MyCompetition";
+import { Loading } from "src/components/loading/Loading";
+import { ETypeLoding } from "src/types/ETypeLoading";
 import { SingleValue } from "react-windowed-select";
-import { GroupUpdateItem } from "src/uikit/groupUpdate/GroupUpdateItem";
-import { moderationGroup } from "src/utils/api";
+import { ErrorModal } from "src/components/errorModal/ErrorModal";
+import style from "../../components/list/List.module.scss";
+import { CompetitionUpdateItem } from "src/uikit/competitionUpdateItem/CompetitionUpdateItem";
 import { useCheckRole } from "src/hooks/useCheckRole";
 import { ERole } from "src/types/ERole";
 
-import style from "../../components/list/List.module.scss";
-
-const PaginationListConditional = withConditional(PaginationList<TGroup>);
+const PaginationListConditional = withConditional(PaginationList<TCompetition>);
 
 const PaginationListUpdateConditional = withConditional(
-  PaginationList<TGroupUpdate>
+  PaginationList<TCompetitionUpdate>
 );
 
-export const AdminGroups: FC = () => {
+export const AdminCompetitions: FC = () => {
   const [mode, setMode] = useState<"moderations" | null>("moderations");
+  const [isOpenErrorModal, setOpenErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>("");
 
   useCheckRole([ERole.ADMIN]);
 
@@ -42,17 +41,17 @@ export const AdminGroups: FC = () => {
     ReturnType<ReturnType<typeof loader>>
   >;
 
-  const moderationdata = useInfiniteQuery<TPage<TGroupUpdate[]>, AxiosError>({
+  const moderationdata = useInfiniteQuery<
+    TPage<TCompetitionUpdate[]>,
+    AxiosError
+  >({
     ...moderationQuery(),
     initialData: initialData,
   });
 
-  const groupsdata = useInfiniteQuery<TPage<TGroup[]>, AxiosError>({
+  const competitionsdata = useInfiniteQuery<TPage<TCompetition[]>, AxiosError>({
     ...query(),
   });
-
-  const [isOpenErrorModal, setOpenErrorModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>("");
 
   const handleError = (message: string | string[] | null) => {
     if (Array.isArray(message)) {
@@ -72,7 +71,7 @@ export const AdminGroups: FC = () => {
         value: "moderations",
       },
       {
-        label: "Все коллективы",
+        label: "Все конкурсы",
         value: null,
       },
     ];
@@ -92,11 +91,11 @@ export const AdminGroups: FC = () => {
     setOpenErrorModal(!isOpenErrorModal);
   };
 
-  const moderation = async (status: string, idGroupUpdate: number) => {
-    await moderationGroup(status, idGroupUpdate)
+  const moderation = async (status: string, idCompetitionUpdate: number) => {
+    await moderationCompetition(status, idCompetitionUpdate)
       .then(() => {
-        queryClient.refetchQueries({ queryKey: ["moderation/group"] });
-        queryClient.refetchQueries({ queryKey: ["groups/all"] });
+        queryClient.refetchQueries({ queryKey: ["moderation/competition"] });
+        queryClient.refetchQueries({ queryKey: ["competitions/all"] });
       })
       .catch((error) => {
         handleError(error.message);
@@ -106,7 +105,7 @@ export const AdminGroups: FC = () => {
 
   return (
     <PageLayout>
-      <MainTite>Коллективы</MainTite>
+      <MainTite>Конкурсы</MainTite>
       <CustomSelect
         options={modeOptions}
         defaultValue={modeOptions[0]}
@@ -127,19 +126,19 @@ export const AdminGroups: FC = () => {
           classNameList={style.list}
           classNameInnerList={style.list_statements}
           infiniteData={moderationdata}
-          renderItem={(item: TGroupUpdate) => (
-            <GroupUpdateItem
+          renderItem={(item: TCompetitionUpdate) => (
+            <CompetitionUpdateItem
               key={item.id}
-              groupUpdate={item}
               onModeration={moderation}
+              competitionUpdate={item}
             />
           )}
         />
       ) : (
         <PaginationListConditional
-          isLoading={groupsdata.isLoading || groupsdata.isFetching}
-          isError={groupsdata.isError}
-          error={groupsdata.error}
+          isLoading={competitionsdata.isLoading || competitionsdata.isFetching}
+          isError={competitionsdata.isError}
+          error={competitionsdata.error}
           loadingElement={
             <Loading
               type={ETypeLoding.SKELETON}
@@ -149,13 +148,12 @@ export const AdminGroups: FC = () => {
           }
           classNameList={style.list}
           classNameInnerList={style.list_statements}
-          infiniteData={groupsdata}
-          renderItem={(item: TGroup) => (
-            <MyGroup key={item.idGroup} group={item} />
+          infiniteData={competitionsdata}
+          renderItem={(item: TCompetition) => (
+            <MyCompetition key={item.idCompetition} competition={item} />
           )}
         />
       )}
-
       <ErrorModal
         isOpen={isOpenErrorModal}
         text={errorMessage}

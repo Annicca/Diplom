@@ -108,6 +108,20 @@ export const editGroup = async (groupData: FormData) => {
 };
 
 /**
+ * Редактирование конкурса
+ * @param competitionData - данные для редактирования
+ * @returns
+ */
+export const editCompetition = async (competitionData: FormData) => {
+  return instance
+    .put("competitions", competitionData, getFileConfig())
+    .catch((error) => {
+      if (error.response) throw new Error(error.response.data.message);
+      else throw new Error(error.message);
+    });
+};
+
+/**
  * Удаление коллектива
  * @param idGroup - идентификатор группы
  * @returns ничего
@@ -384,6 +398,31 @@ export const moderationGroup = async (
 ) => {
   return instance
     .put(`/groups/moderations/${status}/${idGroupUpdate}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.data.errors)
+          throw new Error(error.response.data.errors);
+        throw new Error(error.response.data.message);
+      } else throw new Error(error.message);
+    });
+};
+
+/**
+ * Изменить статус запроса на изменения конкурса
+ * @param status - статус
+ * @param idCompetitionUpdate - id запроса на изменение
+ */
+export const moderationCompetition = async (
+  status: string,
+  idCompetitionUpdate: number
+) => {
+  return instance
+    .put(
+      `/competitions/moderations/${status}/${idCompetitionUpdate}`,
+      {},
+      getRequestConfig()
+    )
     .then((response) => response.data)
     .catch((error) => {
       if (error.response) {

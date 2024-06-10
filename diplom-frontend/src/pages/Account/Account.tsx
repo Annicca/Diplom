@@ -3,6 +3,7 @@ import StatementIcon from "assets/icons/statement1.svg?react";
 import GroupIcon from "assets/icons/scene.svg?react";
 import CompetitionIcon from "assets/icons/competitions.svg?react";
 import LkIcon from "assets/icons/lk.svg?react";
+import { NeedAuth } from "src/uikit/needAuth/NeedAuth";
 import { PageLayout } from "src/components/layout/PageLayout";
 import { ERole } from "src/types/ERole";
 import { UserInfo } from "src/components/userInfo/UserInfo";
@@ -16,16 +17,7 @@ export const Account: FC = () => {
   const { user } = useUserContext();
 
   if (!user) {
-    return (
-      <div className={style.auth_wrapper}>
-        <Link to={"/login"} className={style.auth_btn}>
-          Войти
-        </Link>
-        <Link to={"/signin"} className={style.auth_btn}>
-          Регистрация
-        </Link>
-      </div>
-    );
+    return <NeedAuth />;
   }
   return (
     <PageLayout>

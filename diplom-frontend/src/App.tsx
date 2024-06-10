@@ -38,11 +38,16 @@ import { Invitations } from "./pages/Invitations/Invitations";
 import { invitationsLoader } from "./pages/Invitations/loader";
 import { AdminGroups } from "./pages/AdminGroups/AdminGroups";
 import { adminLoader } from "./pages/AdminGroups/loader";
+import { AdminCompetitions } from "./pages/AdminCompetitions/AdminCompetitions";
+import { adminCompetitionsLoader } from "./pages/AdminCompetitions/loader";
+import { EditCompetition } from "./pages/EditCompetition/EditCompetition";
+import { NotFound } from "./pages/NotFound/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <NotFound />,
     children: [
       {
         path: "",
@@ -122,6 +127,11 @@ const router = createBrowserRouter([
           myCompetitionsLoader(queryClient, "mycompetitions", params.id),
       },
       {
+        path: "mycompetitions/edit/:id",
+        element: <EditCompetition />,
+        loader: ({ params }) => competitionDetailLoader(queryClient, params.id),
+      },
+      {
         path: "mycompetitions/participants/:id",
         element: <CompetitiosParticipant />,
         loader: ({ params }) => participantsLoader(queryClient, params.id),
@@ -155,8 +165,8 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/competitions",
-        element: <MyCompetitions url="competitions/all" />,
-        loader: myCompetitionsLoader(queryClient, "competitions/all"),
+        element: <AdminCompetitions />,
+        loader: adminCompetitionsLoader(queryClient),
       },
       {
         path: "admin/groups",

@@ -10,9 +10,12 @@ import { PageLayout } from "src/components/layout/PageLayout";
 import { DetailSkeleton } from "../../uikit/detail/components/DetailSkeleton";
 import { EStatusCompetition } from "src/types/EStatusCompetition";
 import Detail from "src/uikit/detail/Detail";
+import { useUserContext } from "src/context/user-context/useUserContext";
+import { ERole } from "src/types/ERole";
 
 export const CompetitionDetail: FC = () => {
   const { id } = useParams();
+  const { user } = useUserContext();
   const navigate = useNavigate();
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
@@ -50,7 +53,11 @@ export const CompetitionDetail: FC = () => {
           isDisabled={
             competition.statusCompetition !== EStatusCompetition.CREATED
           }
-          onClick={() => navigate(`/participants/${competition.idCompetition}`)}
+          onClick={
+            user?.role === ERole.DIRECTOR
+              ? () => navigate(`/participants/${competition.idCompetition}`)
+              : undefined
+          }
           rules={competition.rules}
           regulation={competition.regulation}
           buttonText="Принять участие"

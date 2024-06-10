@@ -1,5 +1,7 @@
-import { AxiosError } from "axios";
 import { FC } from "react";
+import { AxiosError } from "axios";
+import { useCheckRole } from "src/hooks/useCheckRole";
+import { ERole } from "src/types/ERole";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLoaderData, useParams } from "react-router-dom";
 import { participantsLoader as loader } from "./loader";
@@ -20,6 +22,7 @@ const PaginationListConditional = withConditional(PaginationList<TParticipant>);
 
 export const CompetitiosParticipant: FC = () => {
   const { id } = useParams();
+  useCheckRole([ERole.ORGANIZER]);
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;

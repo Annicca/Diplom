@@ -2,19 +2,14 @@ import { FC } from "react";
 import { TGroupUpdate } from "src/types/TGroup";
 import { CompareItem } from "../compareItem/CompareItem";
 import { Button } from "../button/Button";
+import { CompareImg } from "../compareImg/CompareImg";
+import { EStatusModeration, StatusUpdate } from "src/types/EStatusModeration";
 
 import style from "./GroupUpdateItem.module.scss";
-import { CompareImg } from "../compareImg/CompareImg";
-import { EStatusModeration } from "src/types/EStatusModeration";
 
 interface GroupUpdateItemProps {
   groupUpdate: TGroupUpdate;
   onModeration: (status: string, idGroupUpdate: number) => void;
-}
-
-enum StatusUpdate {
-  PASSED = "passed",
-  NOTPASSED = "notpassed",
 }
 
 export const GroupUpdateItem: FC<GroupUpdateItemProps> = ({

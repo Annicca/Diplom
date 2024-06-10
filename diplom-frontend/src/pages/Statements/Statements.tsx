@@ -1,4 +1,6 @@
 import { FC, useEffect, useState } from "react";
+import { useCheckRole } from "src/hooks/useCheckRole";
+import { ERole } from "src/types/ERole";
 import { queryClient } from "src/utils/queryClient";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { statementsQuery as query } from "./statementsQuery";
@@ -25,6 +27,7 @@ import pageStyle from "./Statements.module.scss";
 const PaginationListConditional = withConditional(PaginationList<TStatement>);
 
 export const Statements: FC = () => {
+  useCheckRole([ERole.ADMIN]);
   const { value: serachValue } = useSearchContext();
   const [number, setNumber] = useState("");
   const [isOpenErrorModal, setOpenErrorModal] = useState(false);

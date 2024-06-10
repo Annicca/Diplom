@@ -17,11 +17,10 @@ import java.util.List;
 @Repository
 public interface CompetitionRepository extends JpaRepository<Competition,Integer>, JpaSpecificationExecutor<Competition> {
 
-//    Page<Competition> findAllByOrderByIdCompetitionDesc(Pageable pageable);
     @Query(value = "select * from competition where status_competition != 'CANCELLED' ", nativeQuery = true)
     List<Competition> findAllNotCancel();
 
-    @Query(value = "select * from competition where id_user = :id ", nativeQuery = true)
+    @Query(value = "select * from competition where id_user = :id order by id_competition desc", nativeQuery = true)
     Page<Competition> findByOrganizerId(@Param("id") Integer id, Pageable pageable);
 
     @Query(value = "select * from competition where id_user = :id and status_competition = 'CREATED'", nativeQuery = true)

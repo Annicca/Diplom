@@ -14,9 +14,8 @@ import HouseIcon from "assets/icons/city.svg?react";
 import PlaceIcon from "assets/icons/place.svg?react";
 import CompetitionIcon from "assets/icons/competitions.svg?react";
 import InvitIcon from "assets/icons/invitation.svg?react";
-
-import style from "./MyGroup.module.scss";
 import { EStatusModeration } from "src/types/EStatusModeration";
+import style from "./MyGroup.module.scss";
 
 interface MyGroupProps {
   group: TGroup;

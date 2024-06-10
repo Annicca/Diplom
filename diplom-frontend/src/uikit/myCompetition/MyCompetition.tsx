@@ -5,7 +5,10 @@ import { Button } from "../button/Button";
 import { useNavigate } from "react-router-dom";
 import { TitleContainerItem } from "src/components/titleContainerItem/TitleContainerItem";
 import { Image } from "src/components/image/Image";
-import { chooseStatusCompetition } from "src/utils/choose";
+import {
+  chooseStatusCompetition,
+  chooseStatusModeration,
+} from "src/utils/choose";
 import { TCompetition } from "src/types/TCompetition";
 import { TextIcon } from "src/components/textIcon/TextIcon";
 import { Contact } from "../contact/Contact";
@@ -21,9 +24,10 @@ import { NestedList } from "src/components/nominationsList/NestedList";
 import classNames from "classnames";
 import ArrowIcon from "assets/icons/arrowRight.svg?react";
 import InvitIcon from "assets/icons/invitation.svg?react";
+import { GroupParticipant } from "../groupParticipant/GroupParticipant";
+import { EStatusModeration } from "src/types/EStatusModeration";
 
 import style from "../myGroup/MyGroup.module.scss";
-import { GroupParticipant } from "../groupParticipant/GroupParticipant";
 
 interface MyCompetitionProps {
   competition: TCompetition;
@@ -57,7 +61,11 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
         <TitleContainerItem
           name={competition.nameCompetition}
           onCancel={onCancelItem}
-          onChange={onChangeItem}
+          onChange={
+            competition.statusModeration !== EStatusModeration.ON_MODERATION
+              ? onChangeItem
+              : undefined
+          }
         />
       ) : (
         <div className={style.myGroup__title}>
@@ -75,6 +83,18 @@ export const MyCompetition: FC<MyCompetitionProps> = ({
           <div className="text-orange">
             Статус: {chooseStatusCompetition(competition.statusCompetition)}
           </div>
+          {user?.role === ERole.ORGANIZER && (
+            <div className="text-orange" key={competition.statusModeration}>
+              Статус модерации:{" "}
+              {chooseStatusModeration(competition.statusModeration)}
+              {competition.statusModeration ===
+                EStatusModeration.ON_MODERATION && (
+                <div>
+                  Пока коллектив не пройдет модерацию вы не можете его изменить
+                </div>
+              )}
+            </div>
+          )}
           <TextIcon
             icon={<HouseIcon width={20} height={20} />}
             text={competition.cityCompetition.city}

@@ -1,4 +1,7 @@
 import { FC, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useCheckRole } from "src/hooks/useCheckRole";
+import { ERole } from "src/types/ERole";
 import { takePart, useCompetition, useUserGroupList } from "src/utils/api";
 import {
   IStatementParticipantRequest,
@@ -17,10 +20,10 @@ import { InputControl } from "src/uikit/input/InputControl";
 import { CreateAct } from "src/components/createAct/CreateAct";
 
 import style from "./CreateStatementParticipants.module.scss";
-import { useParams } from "react-router-dom";
 
 export const CreateStatementParticipants: FC = () => {
   const { idGroup } = useParams();
+  useCheckRole([ERole.DIRECTOR]);
   const { data: myGroups, isLoading: isLoadingGroup } = useUserGroupList();
   const { data: competition, isLoading } = useCompetition();
 

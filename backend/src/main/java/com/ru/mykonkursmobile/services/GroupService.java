@@ -43,14 +43,6 @@ public class GroupService implements IArtGroupService {
         return repository.save(artGroup);
     }
 
-
-//    public ArtGroup update(ArtGroup group) throws NotFoundEntityException, DataIntegrityViolationException{
-//        ArtGroup artGroup = repository.findById(group.getIdGroup()).orElseThrow(
-//                () -> new NotFoundEntityException(HttpStatus.NOT_FOUND, "Вы не можете изменить не существующий коллектив")
-//        );
-//        return repository.save(group);
-//    }
-
     @Override
     public ArtGroup update(GroupChangeDTO group) throws NotFoundEntityException, IOException {
 

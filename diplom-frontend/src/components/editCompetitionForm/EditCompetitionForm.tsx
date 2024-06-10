@@ -1,35 +1,33 @@
 import { FC, useState } from "react";
-import { queryClient } from "src/utils/queryClient";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { TCIty } from "src/types/TCity";
-import { TGroup } from "src/types/TGroup";
-import { CitySelect } from "src/uikit/citySelect/CitySelect";
-import { InputControl } from "src/uikit/input/InputControl";
-import { TextareaControl } from "src/uikit/textarea/TextareaControl";
-import { Button } from "src/uikit/button/Button";
-import { FileUpload } from "src/uikit/fileUpload/FileUpload";
-import { Image } from "../image/Image";
-import { ImagePreview } from "../image/ImagePreview";
-import { editGroup } from "src/utils/api";
 import { useNavigate } from "react-router-dom";
-import classNames from "classnames";
+import { TCompetition, TCompetitionUpdate } from "src/types/TCompetition";
+import { ImagePreview } from "../image/ImagePreview";
+import { Image } from "../image/Image";
+import { FileUpload } from "src/uikit/fileUpload/FileUpload";
 import { ACCEPTED_FORMATS } from "src/Constants";
+import { TextareaControl } from "src/uikit/textarea/TextareaControl";
+import { InputControl } from "src/uikit/input/InputControl";
+import { Button } from "src/uikit/button/Button";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "src/utils/queryClient";
+import { editCompetition } from "src/utils/api";
+import classNames from "classnames";
 
 import style from "../../pages/CreateStatement/CreateStatement.module.scss";
 
-interface EditGroupFormProps {
-  group: TGroup;
+interface EditCompetitionFormProps {
+  competition: TCompetition;
 }
 
-export type EditGroupForm = Exclude<TGroup, TCIty> & {
-  cityGroup: {
-    label: string;
-    value: number;
-  };
-};
+export type EditCompetitionForm = Omit<
+  TCompetitionUpdate,
+  "statusModeration" | "id" | "competition"
+>;
 
-export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
+export const EditCompetitionForm: FC<EditCompetitionFormProps> = ({
+  competition,
+}) => {
   const navigate = useNavigate();
   const [image, setImage] = useState<File>();
   const [mainError, setMainError] = useState<string | string[] | null>(null);
@@ -44,31 +42,25 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    control,
     setError,
-  } = useForm<EditGroupForm>({
+  } = useForm<EditCompetitionForm>({
     mode: "onChange",
     defaultValues: {
-      nameGroup: group.nameGroup,
-      addressGroup: group.addressGroup,
-      descriptionGroup: group.descriptionGroup,
-      category: group.category,
-      cityGroup: group.cityGroup && {
-        label: group.cityGroup.city,
-        value: group.cityGroup.idCity,
-      },
+      descriptionCompetition: competition.descriptionCompetition,
+      dateStart: competition.dateStart,
+      dateFinish: competition.dateFinish,
     },
   });
 
-  const updateGroup = useMutation(editGroup, {
+  const updateCompetition = useMutation(editCompetition, {
     onSuccess: (data) => {
       setMainError(null);
       queryClient.setQueryData(
-        ["group", { id: group.idGroup.toString() }],
+        ["competition", { id: competition.idCompetition.toString() }],
         data
       );
-      queryClient.refetchQueries(["mygroups"]);
-      navigate(`/mygroups/${group.director.idUser}`);
+      queryClient.refetchQueries(["mycompetitionы"]);
+      navigate(`/mycompetitions/${competition.organizer.idUser}`);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
@@ -94,16 +86,14 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
     }
 
     const formData = new FormData();
-    formData.append("idGroup", group.idGroup.toString());
-    formData.append("nameGroup", data.nameGroup);
-    data.category && formData.append("category", data.category);
-    data.addressGroup && formData.append("addressGroup", data.addressGroup);
-    formData.append("idCity", data.cityGroup.value.toString());
-    data.descriptionGroup &&
-      formData.append("descriptionGroup", data.descriptionGroup);
+    formData.append("idCompetition", competition.idCompetition.toString());
+    formData.append("dateStart", data.dateStart);
+    formData.append("dateFinish", data.dateFinish);
+    data.descriptionCompetition &&
+      formData.append("descriptionCompetition", data.descriptionCompetition);
     image && formData.append("img", image);
 
-    await updateGroup.mutateAsync(formData);
+    await updateCompetition.mutateAsync(formData);
   });
 
   return (
@@ -114,14 +104,18 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
       {image ? (
         <ImagePreview file={image} classNameContainer={style.image} />
       ) : (
-        <Image src={group.img} alt={group.nameGroup} className={style.image} />
+        <Image
+          src={competition.img}
+          alt={competition.nameCompetition}
+          className={style.image}
+        />
       )}
       <div className={style.radioContainer}>
         <FileUpload
           id="img"
           label="Загрузите изображения"
           file={image}
-          accept=".jpg, .jpeg, .png, .webp"
+          accept={ACCEPTED_FORMATS.join(",")}
           {...register("img", {
             onChange: changeImage,
           })}
@@ -129,40 +123,25 @@ export const EditGroupForm: FC<EditGroupFormProps> = ({ group }) => {
         />
       </div>
       <InputControl
-        type="text"
-        {...register("nameGroup", {
+        type="date"
+        {...register("dateStart", {
           required: "Поле обязательно",
         })}
         placeholder=" "
-        label="Название"
-        error={errors?.nameGroup && errors?.nameGroup?.message}
+        label="Дата начала *"
+        error={errors?.dateStart && errors?.dateStart?.message}
       />
       <InputControl
-        type="text"
-        {...register("category")}
-        placeholder=" "
-        label="Категория"
-        error={errors?.category && errors?.category?.message}
-      />
-      {group.cityGroup && (
-        <CitySelect
-          name="cityGroup"
-          control={control}
-          defaultValue={group.cityGroup.idCity}
-          error={errors?.cityGroup && errors?.cityGroup?.message}
-        />
-      )}
-      <InputControl
-        type="text"
-        {...register("addressGroup", {
+        type="date"
+        {...register("dateFinish", {
           required: "Поле обязательно",
         })}
         placeholder=" "
-        label="Адрес"
-        error={errors?.addressGroup && errors?.addressGroup?.message}
+        label="Дата окончания *"
+        error={errors?.dateFinish && errors?.dateFinish?.message}
       />
       <TextareaControl
-        {...register("descriptionGroup")}
+        {...register("descriptionCompetition")}
         placeholder=" "
         label="Описание"
       />

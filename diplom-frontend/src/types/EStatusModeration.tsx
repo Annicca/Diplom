@@ -3,3 +3,8 @@ export enum EStatusModeration {
   PASSED = "PASSED",
   NOT_PASSED = "NOT_PASSED",
 }
+
+export enum StatusUpdate {
+  PASSED = "passed",
+  NOTPASSED = "notpassed",
+}

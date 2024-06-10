@@ -1,8 +1,8 @@
 import { FC } from "react";
+import classNames from "classnames";
 import CompareArrow from "assets/icons/compareArrow.svg?react";
 
 import style from "./CompareItem.module.scss";
-import classNames from "classnames";
 
 interface CompareItemProps {
   newValue: number | string | null;
