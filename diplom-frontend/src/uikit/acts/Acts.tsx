@@ -10,9 +10,15 @@ import style from "./Acts.module.scss";
 
 interface TActsProps {
   acts: TAct[];
+  isParticipant?: boolean;
+  isEndCompetition?: boolean;
 }
 
-export const Acts: FC<TActsProps> = ({ acts }) => {
+export const Acts: FC<TActsProps> = ({
+  acts,
+  isParticipant = false,
+  isEndCompetition = false,
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisible = () => {
     setIsVisible((isVisible) => !isVisible);
@@ -37,7 +43,14 @@ export const Acts: FC<TActsProps> = ({ acts }) => {
       {isVisible && (
         <List
           items={acts}
-          renderItem={(act) => <Act key={act.id} act={act} />}
+          renderItem={(act) => (
+            <Act
+              key={act.id}
+              act={act}
+              isParticipant={isParticipant}
+              isEndCompetition={isEndCompetition}
+            />
+          )}
         />
       )}
     </div>

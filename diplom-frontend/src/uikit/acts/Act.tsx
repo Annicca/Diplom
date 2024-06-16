@@ -13,12 +13,21 @@ import MedalIcon from "assets/icons/medal.svg?react";
 
 import style from "./Acts.module.scss";
 import { Input } from "../input/Input";
+import { useUserContext } from "src/context/user-context/useUserContext";
+import { ERole } from "src/types/ERole";
 
 interface TACtProps {
   act: TAct;
+  isParticipant?: boolean;
+  isEndCompetition?: boolean;
 }
 
-export const Act: FC<TACtProps> = ({ act }) => {
+export const Act: FC<TACtProps> = ({
+  act,
+  isParticipant = false,
+  isEndCompetition = false,
+}) => {
+  const { user } = useUserContext();
   const awardRef = useRef<HTMLInputElement>(null);
 
   const onSetAward = async () => {
@@ -51,22 +60,29 @@ export const Act: FC<TACtProps> = ({ act }) => {
         icon={<GroupCategoryIcon width={30} height={30} />}
         text={act.groupCategory.name}
       />
-      {act.award !== undefined && act.award !== null ? (
+      {act.award !== undefined && act.award !== null && isParticipant && (
         <TextIcon
           icon={<AwardIcon width={30} height={30} />}
           text={act.award}
         />
-      ) : (
-        <div className={style.act__award}>
-          <Input
-            inputRef={awardRef}
-            type="text"
-            placeholder="Укажите награду"
-            className={style.act__input}
-          />
-          <ButtonSave onClick={onSetAward} />
-        </div>
       )}
+      {!act.award && isParticipant && !isEndCompetition && (
+        <TextIcon icon={<AwardIcon width={30} height={30} />} text="-" />
+      )}
+      {!act.award &&
+        user?.role === ERole.ORGANIZER &&
+        isParticipant &&
+        isEndCompetition && (
+          <div className={style.act__award}>
+            <Input
+              inputRef={awardRef}
+              type="text"
+              placeholder="Укажите награду"
+              className={style.act__input}
+            />
+            <ButtonSave onClick={onSetAward} />
+          </div>
+        )}
     </div>
   );
 };

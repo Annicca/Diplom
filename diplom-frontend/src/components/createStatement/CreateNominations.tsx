@@ -28,7 +28,13 @@ export const CreateNominations: FC<CreateNominationsProps> = ({
     fields: nominationFields,
     append,
     remove,
-  } = useFieldArray({ control, name: "nominations", rules: { minLength: 1 } });
+  } = useFieldArray({
+    control,
+    name: "nominations",
+    rules: {
+      minLength: { value: 1, message: "Укажите хотя бы одну номинацию" },
+    },
+  });
 
   useEffect(() => {
     if (nominationFields.length === 0) {

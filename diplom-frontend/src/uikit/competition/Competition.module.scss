@@ -1,90 +1,99 @@
-@import 'utils/const.scss';
+@import "utils/const.scss";
 
 .competition {
-    display: flex;
-    padding: 25px;
-    gap: 5%;
+  display: flex;
+  padding: 25px;
+  gap: 5%;
+  border: 1px solid $border-gray;
+  border-radius: 10px;
+  color: $black;
+  text-decoration: none;
+
+  &_smal {
+    border: none;
+    padding: 0;
+  }
+
+  @media (max-width: map-get($breackpoints, laptop)) {
+    flex-direction: column;
+    padding: 15px;
+    gap: 0;
+  }
+
+  &__imgcontainer,
+  &__info,
+  &__topcontainer,
+  &__date {
+    flex: 1 1 50%;
+  }
+
+  &__imgcontainer {
+    @media (max-width: map-get($breackpoints, laptop)) {
+      text-align: center;
+    }
+  }
+
+  &__img {
+    height: 180px;
+    width: auto;
+    max-width: 100%;
+    margin-bottom: 5px;
     border: 1px solid $border-gray;
     border-radius: 10px;
-    color: $black;
-    text-decoration: none;
-    
-    @media (max-width: map-get($breackpoints, laptop)){
-        flex-direction: column;
-        padding: 15px;
-        gap: 0;
+    object-fit: cover;
+
+    @media (max-width: map-get($breackpoints, laptop)) {
+      height: auto;
+      max-height: 250px;
     }
+  }
 
-    &__imgcontainer, &__info, &__topcontainer, &__date {
-        flex: 1 1 50%;
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media (max-width: map-get($breackpoints, laptop)) {
+      gap: 10px;
     }
+  }
 
-    &__imgcontainer {
-        @media (max-width: map-get($breackpoints, laptop)){
-            text-align: center;
-        }
+  &__topcontainer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-bottom: 1px solid $border-gray;
+
+    @media (max-width: map-get($breackpoints, laptop)) {
+      margin-top: 10px;
+      text-align: left;
+      border-bottom: none;
     }
+  }
 
-    &__img {
-        height: 180px;
-        width: auto;
-        max-width: 100%;
-        margin-bottom: 5px;
-        border: 1px solid $border-gray;
-        border-radius: 10px;
-        object-fit: cover;
+  &__name {
+    font-size: 18px;
+    font-weight: 500;
 
-        @media (max-width: map-get($breackpoints, laptop)){
-            height: auto;
-            max-height: 250px;
-        }
+    @media (max-width: map-get($breackpoints, laptop)) {
+      font-size: 16px;
     }
+  }
 
-    &__info {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+  &__date,
+  &__place {
+    justify-content: center;
 
-        @media (max-width: map-get($breackpoints, laptop)){
-            gap: 10px;
-        }
+    @media (max-width: map-get($breackpoints, laptop)) {
+      justify-content: flex-start;
     }
+  }
 
-    &__topcontainer {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        border-bottom: 1px solid $border-gray;
-
-        @media (max-width: map-get($breackpoints, laptop)){
-            margin-top: 10px;
-            text-align: left;
-            border-bottom: none;
-        }
+  &__place {
+    color: $orange;
+    path {
+      fill: $orange;
     }
-
-    &__name {
-        font-size: 18px;
-        font-weight: 500;
-
-        @media (max-width: map-get($breackpoints, laptop)){
-            font-size: 16px;
-        }
-    }
-
-    &__date, &__place {
-        justify-content: center;
-
-        @media (max-width: map-get($breackpoints, laptop)){
-            justify-content: flex-start;
-        }
-    }
-
-    &__place {
-        color: $orange;
-        path {
-            fill: $orange;
-        }
-    }
+  }
 }

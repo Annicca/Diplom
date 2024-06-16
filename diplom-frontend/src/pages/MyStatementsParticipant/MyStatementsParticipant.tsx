@@ -49,10 +49,12 @@ export const MyStatementsParticipant: FC<TMyStatementsParticipantProps> = ({
     setOpenErrorModal(!isOpenErrorModal);
   };
 
-  const onReject = async (id: number) => {
-    await changeStatusStatementParticipant("reject", id)
+  const onReject = async (idStatement: number) => {
+    await changeStatusStatementParticipant("reject", idStatement)
       .then(() => {
-        queryClient.refetchQueries({ queryKey: [url, id] });
+        queryClient.refetchQueries({
+          queryKey: ["statementsparticipant/competition", id],
+        });
       })
       .catch((error) => {
         setErrorMessage(error.message);
@@ -60,10 +62,12 @@ export const MyStatementsParticipant: FC<TMyStatementsParticipantProps> = ({
       });
   };
 
-  const onAccept = async (id: number) => {
-    await changeStatusStatementParticipant("accept", id)
+  const onAccept = async (idStatement: number) => {
+    await changeStatusStatementParticipant("accept", idStatement)
       .then(() => {
-        queryClient.refetchQueries({ queryKey: [url, id] });
+        queryClient.refetchQueries({
+          queryKey: ["statementsparticipant/competition", id],
+        });
       })
       .catch((error) => {
         setErrorMessage(error.message);
@@ -71,11 +75,12 @@ export const MyStatementsParticipant: FC<TMyStatementsParticipantProps> = ({
       });
   };
 
-  const onPayment = async (id: number) => {
-    console.log(id);
-    await checkPayment(id)
+  const onPayment = async (idStatement: number) => {
+    await checkPayment(idStatement)
       .then(() => {
-        queryClient.refetchQueries({ queryKey: [url, id] });
+        queryClient.refetchQueries({
+          queryKey: ["statementsparticipant/competition", id],
+        });
       })
       .catch((error) => {
         setErrorMessage(error.message);

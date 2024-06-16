@@ -33,6 +33,7 @@ export const Invitations: FC<InvitationsProps> = ({ url }) => {
   const { id } = useParams();
   const { user } = useUserContext();
   const navigate = useNavigate();
+  useCheckRole([ERole.DIRECTOR, ERole.ORGANIZER]);
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
@@ -52,7 +53,7 @@ export const Invitations: FC<InvitationsProps> = ({ url }) => {
       .then(() => {
         queryClient.refetchQueries({ queryKey: [url, id] });
         navigate(`/participants/${idCompetition}/${idGroup}`, {
-          state: { idGroup: idGroup },
+          state: { idGroup: idGroup, as: "/participants" },
         });
       })
       .catch((error) => {

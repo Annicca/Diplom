@@ -1,7 +1,7 @@
 import { FC, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useCheckRole } from "src/hooks/useCheckRole";
-import { ERole } from "src/types/ERole";
+import { useNavigate, useParams } from "react-router-dom";
+// import { useCheckRole } from "src/hooks/useCheckRole";
+// import { ERole } from "src/types/ERole";
 import { takePart, useCompetition, useUserGroupList } from "src/utils/api";
 import {
   IStatementParticipantRequest,
@@ -20,10 +20,11 @@ import { InputControl } from "src/uikit/input/InputControl";
 import { CreateAct } from "src/components/createAct/CreateAct";
 
 import style from "./CreateStatementParticipants.module.scss";
+import { useCheckRole } from "src/hooks/useCheckRole";
+import { ERole } from "src/types/ERole";
 
 export const CreateStatementParticipants: FC = () => {
   const { idGroup } = useParams();
-  useCheckRole([ERole.DIRECTOR]);
   const { data: myGroups, isLoading: isLoadingGroup } = useUserGroupList();
   const { data: competition, isLoading } = useCompetition();
 
@@ -40,7 +41,9 @@ export const CreateStatementParticipants: FC = () => {
 
   const selectedGroup = useMemo(() => {
     if (idGroup) {
-      return groups?.filter((group) => group.value.idGroup === Number(idGroup));
+      return groups?.filter(
+        (group) => group.value.idGroup === Number(idGroup)
+      )[0];
     }
   }, [idGroup, groups]);
 
@@ -81,6 +84,7 @@ export const CreateStatementParticipants: FC = () => {
     mode: "onChange",
     defaultValues: {
       competition: competition,
+      group: selectedGroup,
     },
   });
 
@@ -88,13 +92,32 @@ export const CreateStatementParticipants: FC = () => {
     fields: actsFields,
     append,
     remove,
-  } = useFieldArray({ control, name: "perfomances", rules: { minLength: 1 } });
+  } = useFieldArray({
+    control,
+    name: "perfomances",
+    rules: { minLength: { value: 1, message: "Укажите хотябы один номер" } },
+  });
+
+  const navigation = useNavigate();
+
+  useCheckRole(
+    [ERole.DIRECTOR],
+    selectedGroup ? selectedGroup.value.director.idUser : null
+  );
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
     setMainError(null);
+    if (!data.group) {
+      setMainError("Выберете коллектив");
+      return;
+    }
+    if (data.perfomances.length === 0) {
+      setMainError("Укажите хотябы один номер");
+      return;
+    }
+    console.log(data.group.value || selectedGroup?.value);
     const statement: IStatementParticipantRequest = {
-      group: data.group.value,
+      group: data.group.value || selectedGroup?.value,
       competition: competition as TCompetition,
       countParticipants: data.countParticipants,
       countAccompanying: data.countAccompanying,
@@ -112,6 +135,9 @@ export const CreateStatementParticipants: FC = () => {
     await takePart(statement)
       .then(() => {
         console.log("Заявка на участие отправлена");
+        navigation(
+          `/mygroups/statements-participant/${data.group.value.idGroup}`
+        );
       })
       .catch((error) => {
         setMainError(error.message);

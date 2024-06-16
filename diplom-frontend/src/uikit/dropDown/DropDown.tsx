@@ -9,7 +9,7 @@ import {
   RegisterOptions,
 } from "react-hook-form";
 import Select, { GroupBase, OptionsOrGroups } from "react-select";
-import { DropDownSkeleton } from "./components/DropDownSkeleton";
+// import { DropDownSkeleton } from "./components/DropDownSkeleton";
 
 interface DropDownProps<T extends FieldValues> {
   rules?:
@@ -40,7 +40,6 @@ export const DropDown = <T extends FieldValues>({
   placeholder,
   classNameContainer,
 }: DropDownProps<T>) => {
-  if (!options || options.length === 0) return <DropDownSkeleton />;
   return (
     <div className={classNameContainer}>
       <Controller

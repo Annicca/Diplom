@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { TCompetition } from "src/types/TCompetition";
+import classNames from "classnames";
 import { Image } from "src/components/image/Image";
 import { Contact } from "../contact/Contact";
 import { chooseStatusCompetition } from "src/utils/choose";
@@ -13,9 +14,13 @@ import style from "./Competition.module.scss";
 
 interface CompetitionProps {
   competition: TCompetition;
+  isInvitation?: boolean;
 }
 
-export const Competition: FC<CompetitionProps> = ({ competition }) => {
+export const Competition: FC<CompetitionProps> = ({
+  competition,
+  isInvitation = false,
+}) => {
   const status = (
     <p className="text-orange">
       {"Статус: " + chooseStatusCompetition(competition.statusCompetition)}
@@ -25,7 +30,9 @@ export const Competition: FC<CompetitionProps> = ({ competition }) => {
   return (
     <Link
       to={`/competitions/${competition.idCompetition}`}
-      className={style.competition}
+      className={classNames(style.competition, {
+        [style.competition_smal]: isInvitation,
+      })}
     >
       <div className={style.competition__imgcontainer}>
         <Image

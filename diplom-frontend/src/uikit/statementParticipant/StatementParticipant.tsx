@@ -9,6 +9,7 @@ import { TStatementParticipant } from "src/types/TStatementParicipant";
 import { Image } from "src/components/image/Image";
 import { TextIcon } from "src/components/textIcon/TextIcon";
 import { Contact } from "../contact/Contact";
+import { EStatus } from "src/types/EStatus";
 import HouseIcon from "assets/icons/city.svg?react";
 import CalendarIcon from "assets/icons/calendar.svg?react";
 import PlaceIcon from "assets/icons/place.svg?react";
@@ -153,14 +154,16 @@ export const StatementParticipant: FC<TStatementParticipantProps> = ({
         </div>
       )}
 
-      {statement.status && !statement.payment && (
-        <Button
-          onClick={() => payment(statement.id)}
-          className={style.statement__btn}
-        >
-          Оплачено
-        </Button>
-      )}
+      {statement.status === EStatus.ACCEPTED &&
+        !statement.payment &&
+        user?.role === ERole.ORGANIZER && (
+          <Button
+            onClick={() => payment(statement.id)}
+            className={style.statement__btn}
+          >
+            Оплачено
+          </Button>
+        )}
     </div>
   );
 };

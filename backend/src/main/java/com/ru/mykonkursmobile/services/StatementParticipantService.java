@@ -42,7 +42,7 @@ public class StatementParticipantService implements IStatementParticipant {
         ArtGroup group = groupService.getById(statementParticipant.getGroup().getIdGroup());
 
         if(competition.getStatusCompetition() != StatusCompetition.CREATED) {
-            throw new TakePartException(HttpStatus.BAD_REQUEST, "К сожадению, вы не можете принять участие в конкурсе");
+            throw new TakePartException(HttpStatus.BAD_REQUEST, "К сожалению, вы не можете принять участие в конкурсе");
         }
 
         StatementParticipant existStatement = repository.findFirstByCompetitionAndGroup(competition, group);

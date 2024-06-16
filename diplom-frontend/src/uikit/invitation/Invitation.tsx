@@ -5,6 +5,7 @@ import { Group } from "../group/Group";
 
 import style from "./Invitation.module.scss";
 import { Button } from "../button/Button";
+import { Competition } from "../competition/Competition";
 
 interface InvitationProps {
   invitation: TInvitation;
@@ -24,7 +25,11 @@ export const Invitation: FC<InvitationProps> = ({
       <div className="text-orange">
         Статус: {chooseStatus(invitation.status)}
       </div>
-      <Group group={invitation.group} isSmal />
+      {isDirector ? (
+        <Competition competition={invitation.competition} isInvitation />
+      ) : (
+        <Group group={invitation.group} isSmal />
+      )}
       {isDirector && (
         <div className={style.buttonContainer} key={invitation.status}>
           <Button

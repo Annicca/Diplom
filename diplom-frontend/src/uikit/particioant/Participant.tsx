@@ -12,6 +12,7 @@ import PeopleIcon from "assets/icons/people.svg?react";
 import GroupIcon from "assets/icons/scene.svg?react";
 import PeopleAccompaning from "assets/icons/accompaning.svg?react";
 import style from "../statementParticipant/StatementParticipant.module.scss";
+import { EStatusCompetition } from "src/types/EStatusCompetition";
 
 interface TParticipantProps {
   participant?: TParticipant;
@@ -67,7 +68,14 @@ export const Participant: FC<TParticipantProps> = ({ participant }) => {
           />
         </div>
       </div>
-      <Acts acts={participant.perfomances} />
+      <Acts
+        acts={participant.perfomances}
+        isParticipant
+        isEndCompetition={
+          participant.competition.statusCompetition ===
+          EStatusCompetition.FINISHED
+        }
+      />
     </div>
   );
 };
